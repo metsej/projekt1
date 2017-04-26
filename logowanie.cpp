@@ -6,7 +6,7 @@
 #include<fstream>
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Suites
-//#include <boost/test/unit_test.hpp>
+#include <boost/test/unit_test.hpp>
 
 using namespace std;
 
