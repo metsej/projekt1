@@ -6,7 +6,7 @@
 #include<fstream>
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Suites
-#include <boost/test/unit_test.hpp>
+//#include <boost/test/unit_test.hpp>
 
 using namespace std;
 
@@ -65,18 +65,18 @@ void admin()
     cout<<"Podaj haslo : ";
     cin>>adminpass;
 
-BOOST_AUTO_TEST_SUITE(AdminSuite)
-BOOST_AUTO_TEST_CASE(testloginu)
+//BOOST_AUTO_TEST_SUITE(AdminSuite)
+//BOOST_AUTO_TEST_CASE(testloginu)
 {
     string adminlogin = "admin";
-    BOOST_CHECK(adminlogin="admin");
+//    BOOST_CHECK(adminlogin="admin");
 }
-BOOST_AUTO_TEST_CASE(testhasla)
+//BOOST_AUTO_TEST_CASE(testhasla)
 {
     string adminpass = "admin";
-    BOOST_CHECK(adminpass="admin");
+//    BOOST_CHECK(adminpass="admin");
 }
-BOOST_AUTO_TEST_SUITE_END()
+//BOOST_AUTO_TEST_SUITE_END()
 
 if((adminlogin=="admin")&&(adminpass=="admin"))
 {
@@ -138,18 +138,18 @@ void user()
     cout<<"Podaj haslo : ";
     cin>>userpass;
 
-BOOST_AUTO_TEST_SUITE(UserSuite)
-BOOST_AUTO_TEST_CASE(testloginu)
+//BOOST_AUTO_TEST_SUITE(UserSuite)
+//BOOST_AUTO_TEST_CASE(testloginu)
 {
     string userlogin = "pracownik";
-    BOOST_CHECK(userlogin="pracownik");
+//    BOOST_CHECK(userlogin="pracownik");
 }
-BOOST_AUTO_TEST_CASE(testhasla)
+//BOOST_AUTO_TEST_CASE(testhasla)
 {
     string userpass = "pracownik";
-    BOOST_CHECK(userpass="pracownik");
+//    BOOST_CHECK(userpass="pracownik");
 }
-BOOST_AUTO_TEST_SUITE_END()
+//BOOST_AUTO_TEST_SUITE_END()
 
 if((userlogin=="pracownik")&&(userpass=="pracownik"))
 {

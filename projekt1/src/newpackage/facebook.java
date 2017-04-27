@@ -5,18 +5,27 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 
 public class facebook {
 
 	public static void main(String args[]) throws InterruptedException {
-		System.setProperty("webdriver.chrome.driver", "C://seleniumdrivers//chromedriver.exe");
+	
+
+		System.setProperty("webdriver.firefox.driver", "C://seleniumdrivers//chromedriver.exe");
+		
 		
 		WebDriver driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		
+
+		
 		
 		driver.get("https://www.facebook.com");
+		
 		
 		driver.findElement(By.xpath("//input[@name='email']")).sendKeys("testinio987@gmail.com");
 		driver.findElement(By.xpath("//input[@name='pass']")).sendKeys("testinio789");

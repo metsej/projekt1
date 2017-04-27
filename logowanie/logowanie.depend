@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1493289197 source:c:\users\yabuz\desktop\git_repo\repo_clone\logowanie\main.cpp
+	<iostream>
+	<stdlib.h>
+	<cstdlib>
+	<stdio.h>
+	<conio.h>
+	<fstream>
+
