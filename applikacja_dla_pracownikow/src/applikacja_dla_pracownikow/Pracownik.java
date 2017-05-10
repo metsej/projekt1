@@ -8,7 +8,7 @@ public class Pracownik {
 		
 		Jedis jedis = new Jedis("127.0.0.1");
 		
-		boolean result = jedis.exists(login) && (jedis.hget(login, "pass") == Haslo); 
+		boolean result =  jedis.exists(login)   &&  jedis.hget(login, "pass").equals(Haslo); 
 		jedis.close();
 		return result;
 	}
