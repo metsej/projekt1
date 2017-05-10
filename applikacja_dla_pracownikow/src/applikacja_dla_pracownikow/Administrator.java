@@ -1,5 +1,9 @@
 package applikacja_dla_pracownikow;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 import redis.clients.jedis.Jedis;
 
 public class Administrator {
@@ -8,14 +12,15 @@ public class Administrator {
 	
 	public static void logowanie (String login, String password ) {System.out.println("administrtor i logged");}	
 	
-	public static void dodajPracownika (String imie, String nazwisko, String haslo ) {
-		String login = imie.substring(0, 1) + nazwisko.substring(1, nazwisko.length()) ;
+	public static void dodajPracownika (String imie, String nazwisko) {
+		String login = imie.substring(0, 1) + nazwisko.substring(0, nazwisko.length()) ;
 		login = login.toLowerCase();
 		
 		Jedis jedis = new Jedis("127.0.0.1");
 		String new_login = zwrocDostepnyLogin (login);
-		System.out.println("login for " + imie + " " + nazwisko + " = " + login);
-		System.out.println("new login for " + imie + " " + nazwisko + " = " + new_login);
+		String haslo = generujHaslo ();
+		
+		
 		
 		
 		jedis.hset(new_login, "name", imie);
@@ -26,13 +31,35 @@ public class Administrator {
 			
 		}
 	
-	
 	public static String generujHaslo () {
+		int randomNum = ThreadLocalRandom.current().nextInt(0, 15 );
+		String alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String insert = alfabet.substring(randomNum, (randomNum + 4));
 		
+		SecureRandom random = new SecureRandom();
+		 String random_pass =  new BigInteger(  100 , random).toString(32);
+		 String potencjalneHaslo = (random_pass.substring(0, randomNum) + insert + random_pass.substring(randomNum, random_pass.length()) );
+		 
+		 while (!czyHasloPoprawne(potencjalneHaslo)) {
+			 potencjalneHaslo = generujHaslo ();
+			}
+		 
+		 return potencjalneHaslo;
 		
-		return "haslo";
 	} 
 	
+	public static  Set <String> zwrocPracownikow () {
+		 
+		Jedis jedis = new Jedis("127.0.0.1");
+		
+		Set <String> result = jedis.keys("*");
+		
+		jedis.close();
+		
+		return result;
+		
+		
+	}
 	
 	private static String zwrocDostepnyLogin (String login ) {
 		String potLogin = login;
@@ -54,10 +81,36 @@ public class Administrator {
 		}
 		jedis.close();
 		
-
+		
 		
 		return potLogin;	
 	}
+	
+	private static boolean czyHasloPoprawne (String haslo) {
+		boolean czyMaMalaLitere = false;
+		boolean czyMaDuzaLitere = false;
+		boolean czyMaLiczbe = false;
 		
-
+		for (int i = 0; i < haslo.length(); i++ ) {
+			char c = haslo.charAt(i);
+			
+			if (Character.isUpperCase(c) ) {
+				czyMaDuzaLitere = true;
+			}
+			
+			if (Character.isLowerCase(c) ) {
+				czyMaMalaLitere = true;
+			}
+			
+			if (Character.isDigit(c) ) {
+				czyMaLiczbe = true;
+			}
+			
+			if (czyMaMalaLitere && czyMaDuzaLitere &&  czyMaLiczbe) {
+				return true;
+			}
+			
+		}
+			return false;
+	}
 }
