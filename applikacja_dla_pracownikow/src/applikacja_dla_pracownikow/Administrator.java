@@ -10,7 +10,11 @@ public class Administrator {
 		
 	Administrator()  { System.out.println("Administrator is created");}
 	
-	public static void logowanie (String login, String password ) {System.out.println("administrtor i logged");}	
+	public static void logowanie (String login, String password ) {System.out.println("administrtor i logged");}
+	
+	public static boolean czyAdmin (String login, String password) {
+		return (login == "admin" && password == "admin");
+	}
 	
 	public static void dodajPracownika (String imie, String nazwisko) {
 		String login = imie.substring(0, 1) + nazwisko.substring(0, nazwisko.length()) ;
@@ -31,6 +35,7 @@ public class Administrator {
 			
 		}
 	
+	
 	public static String generujHaslo () {
 		int randomNum = ThreadLocalRandom.current().nextInt(0, 15 );
 		String alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -47,6 +52,17 @@ public class Administrator {
 		 return potencjalneHaslo;
 		
 	} 
+	
+	public static void zmienHaslo (String login) {
+		
+		Jedis jedis = new Jedis("127.0.0.1");
+		
+		String noweHaslo = generujHaslo();
+		
+		jedis.hset(login, "pass", noweHaslo);
+		
+		jedis.close();
+	}
 	
 	public static  Set <String> zwrocPracownikow () {
 		 

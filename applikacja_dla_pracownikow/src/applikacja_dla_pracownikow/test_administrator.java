@@ -23,7 +23,7 @@ public class test_administrator {
 		    System.out.println("haslo: " + jedis.hget(s, "pass"));
 		    System.out.println(" ");
 		}
-		
+	
 		//jedis.flushAll();
 
 		jedis.close();
