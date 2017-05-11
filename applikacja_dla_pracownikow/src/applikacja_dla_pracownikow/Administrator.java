@@ -35,7 +35,6 @@ public class Administrator {
 			
 		}
 	
-	
 	public static String generujHaslo () {
 		int randomNum = ThreadLocalRandom.current().nextInt(0, 15 );
 		String alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
