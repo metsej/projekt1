@@ -1,7 +1,7 @@
-package applikacja_dla_pracownikow;
+package org.wwsis.worker;
 
 
-public class main_class {
+public class Runner {
 	
 	public static void main(String[] args) {
         // Prints "Hello, World" to the terminal window.
