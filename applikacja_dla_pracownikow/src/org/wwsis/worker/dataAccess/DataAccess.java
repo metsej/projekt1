@@ -13,5 +13,9 @@ public interface DataAccess {
 	public void zapiszPracownika(Pracownik p);
 
 	public List<Pracownik> listaPracownikow();
+	
+	public void close();
+	
+	public void erase();
 
 }

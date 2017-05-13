@@ -3,6 +3,7 @@ package org.wwsis.worker.controller;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -29,7 +30,15 @@ public class AppController {
 
 	}
 
-	public Pracownik wczytajPracowniks(Pracownik p) {
+	public Pracownik wczytajPracownika (String login) {
+		
+		Pracownik p = new Pracownik();
+		p.setLogin(login);
+		
+		return wczytajPracowniks(p);
+	}
+	
+	private Pracownik wczytajPracowniks(Pracownik p) {
 		return dao.wczytajPracownika(p);
 	}
 	
@@ -38,14 +47,21 @@ public class AppController {
 		return dao.listaPracownikow();
 	}
 
-	public void zapiszPoczatekPracy(String login) {
-		Pracownik p = getDao().wczytajPracownika(Pracownik.zLoginem(login));
-		p.setCzasRozpoczecia(LocalDateTime.now());
+	public void zapiszPoczatekPracy(Pracownik p) {
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		String str_now = dtf.format(now);
+		p.setCzasRozpoczecia(str_now);
 		getDao().zapiszPracownika(p);
 	}
 
 	public void wyloguj(Pracownik p) {
-		p.setCzasZakonczenia(LocalDateTime.now());
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		String str_now = dtf.format(now);
+		p.setCzasZakonczenia(str_now);
 		p.setZalogowany(false);
 		getDao().zapiszPracownika(p);
 	}
@@ -79,7 +95,7 @@ public class AppController {
 
 		Pracownik p = new Pracownik();
 		p.setLogin(potLogin);
-		int numer = 0;
+		int numer = 1;
 
 		while (getDao().czyPracownikIstnieje(p)) {
 			p.setLogin(login + numer);
@@ -120,7 +136,7 @@ public class AppController {
 		return (login == "admin" && password == "admin");
 	}
 
-	public static String generujHaslo() {
+	private static String generujHaslo() {
 		int randomNum = ThreadLocalRandom.current().nextInt(0, 15);
 		String alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		String insert = alfabet.substring(randomNum, (randomNum + 4));
@@ -144,6 +160,14 @@ public class AppController {
 
 	public void setDao(DataAccess dao) {
 		this.dao = dao;
+	}
+	
+	public void closeDataBase(){
+		dao.close();
+	}
+	
+	public void eraseDataBase(){
+		dao.erase();
 	}
 
 }

@@ -14,12 +14,16 @@ public class AppControllerTest {
 
 		AppController pc = new AppController();
 		pc.setDao(dao);
+		
+		pc.eraseDataBase();
 
 		pc.dodajPracownika("Grzegorz", "Klimek");
 		pc.dodajPracownika("Grzegorz", "Klimek");
 		pc.dodajPracownika("Edwin", "Langaj");
 		pc.dodajPracownika("Lukasz", "Ciesielski");
 		pc.dodajPracownika("Bartłomiej ", "Świerzyński");
+		pc.dodajPracownika("Bartłomiej ", "Świerzyński");
+
 
 		for (Pracownik s : pc.listaPracownikow()) {
 			System.out.println("login: " + s.getLogin());
@@ -29,7 +33,7 @@ public class AppControllerTest {
 			System.out.println(" ");
 		}
 
-		dao.close();
+		pc.closeDataBase();
 
 	}
 
@@ -42,20 +46,22 @@ public class AppControllerTest {
 		pc.setDao(dao);
 
 		System.out.print("Test na poprawnosc logowania = ");
-		System.out.println(pc.czyPoprawneHasloiLogin("6luhb3r5fl5ijNOPQa7k9ue0", "bświerzyński") == true);
+		System.out.println(pc.czyPoprawneHasloiLogin("ABCDn8gnaukfhnlgocoaecup", "bświerzyński") == true);
 
 		// przy stworzeniu nowego pracownika
 		// zapisywany jest do bazy danych czas zaczecia pracy
-		Pracownik nowy_pracownik = Pracownik.zLoginem("gklimek");
+		Pracownik nowy_pracownik = pc.wczytajPracownika("gklimek");
+	
+		pc.zapiszPoczatekPracy(nowy_pracownik);
 
 		Thread.sleep(1000);
 
 		// przy wylogowaniu zapisywany jest do bazy danych czas koniec pracy
+		
 		pc.wyloguj(nowy_pracownik);
-		Pracownik np = pc.wczytajPracowniks(nowy_pracownik);
 
-		System.out.println(np.getCzasRozpoczecia());
-		System.out.println(np.getCzasZakonczenia());
+		System.out.println("czas rozpoczecia pracy to: " + nowy_pracownik.getCzasRozpoczecia());
+		System.out.println("czas zakonczenia pracy to: " + nowy_pracownik.getCzasZakonczenia());
 		dao.close();
 	}
 

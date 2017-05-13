@@ -1,7 +1,6 @@
 package org.wwsis.worker.dataAccess.impl;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -16,8 +15,6 @@ public class JadisDataAccess implements DataAccess {
 	public String hostName;
 
 	private Jedis connection;
-
-	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 	public JadisDataAccess(String hostName) {
 		this.hostName = hostName;
@@ -46,21 +43,21 @@ public class JadisDataAccess implements DataAccess {
 
 		String strCzasRozpoczecia = connection.hget(klucz, "start");
 		if (strCzasRozpoczecia != null) {
-			LocalDateTime czasRozpoczecia = LocalDateTime.parse(strCzasRozpoczecia, formatter);
-			p.setCzasRozpoczecia(czasRozpoczecia);
+			p.setCzasZakonczenia(strCzasRozpoczecia);
 		}
 		String strCzasZakonczenia = connection.hget(klucz, "stop");
 		if (strCzasZakonczenia != null) {
-			LocalDateTime czasZakonczenia = LocalDateTime.parse(strCzasZakonczenia, formatter);
-			p.setCzasZakonczenia(czasZakonczenia);
+			
+			p.setCzasZakonczenia(strCzasZakonczenia);
 		}
+		
 		return p;
 	}
 
 	@Override
 	public void zapiszPracownika(Pracownik p) {
 		String klucz = p.getLogin();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/ddHH:mm:ss");
 
 		if (p.getImie() != null) {
 			connection.hset(klucz, "name", p.getImie());
@@ -75,10 +72,10 @@ public class JadisDataAccess implements DataAccess {
 			connection.hset(klucz, "czyZalogowany", Boolean.toString(p.getZalogowany()));
 		}
 		if (p.getCzasRozpoczecia() != null) {
-			connection.hset(klucz, "start", p.getCzasRozpoczecia().format(formatter));
+			connection.hset(klucz, "start", p.getCzasRozpoczecia());
 		}
 		if (p.getCzasZakonczenia() != null) {
-			connection.hset(klucz, "stop", p.getCzasZakonczenia().format(formatter));
+			connection.hset(klucz, "stop", p.getCzasZakonczenia());
 		}
 	}
 
@@ -91,10 +88,16 @@ public class JadisDataAccess implements DataAccess {
 		}
 		return wynik;
 	}
-
+	
+	@Override
 	public void close() {
 		connection.close();
 
+	}
+	
+	@Override
+	public void erase() {
+		connection.flushAll();
 	}
 
 }

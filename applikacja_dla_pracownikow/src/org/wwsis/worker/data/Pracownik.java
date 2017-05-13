@@ -1,6 +1,5 @@
 package org.wwsis.worker.data;
 
-import java.time.LocalDateTime;
 
 public class Pracownik {
 
@@ -9,8 +8,9 @@ public class Pracownik {
 	private String nazwisko;
 	private String haslo;
 	private Boolean zalogowany;
-	private LocalDateTime czasRozpoczecia;
-	private LocalDateTime czasZakonczenia;
+	private String czasRozpoczecia;
+	private String czasZakonczenia;
+
 
 	public static Pracownik zLoginem(String login){
 		Pracownik p = new Pracownik();
@@ -50,19 +50,19 @@ public class Pracownik {
 		this.haslo = haslo;
 	}
 
-	public LocalDateTime getCzasRozpoczecia() {
+	public String getCzasRozpoczecia() {
 		return czasRozpoczecia;
 	}
 
-	public void setCzasRozpoczecia(LocalDateTime czasRozpoczecia) {
+	public void setCzasRozpoczecia(String czasRozpoczecia) {
 		this.czasRozpoczecia = czasRozpoczecia;
 	}
 
-	public LocalDateTime getCzasZakonczenia() {
+	public String getCzasZakonczenia() {
 		return czasZakonczenia;
 	}
 
-	public void setCzasZakonczenia(LocalDateTime czasZakonczenia) {
+	public void setCzasZakonczenia(String czasZakonczenia) {
 		this.czasZakonczenia = czasZakonczenia;
 	}
 
