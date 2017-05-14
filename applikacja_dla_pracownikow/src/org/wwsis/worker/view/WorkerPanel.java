@@ -90,8 +90,6 @@ public class WorkerPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				controller.zapiszPoczatekPracy(loggedWorker);
 				sWorkTimeLabbelDisplay.setText(loggedWorker.getCzasRozpoczecia());
-			
-
 			}
 		});
 		btnNewButton.setBounds(48, 306, 117, 25);
@@ -100,6 +98,7 @@ public class WorkerPanel extends JFrame {
 		JButton btnLogOut = new JButton("Log out");
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				controller.wyloguj(loggedWorker);
 				MainMenu window = new MainMenu(controller);
 				window.frame.setVisible(true);
 				setVisible(false);

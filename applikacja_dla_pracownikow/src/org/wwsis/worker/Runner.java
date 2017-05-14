@@ -56,12 +56,12 @@ public static void printDBTest (AppController controller) {
 		
 		controller.eraseDataBase();
 
-		controller.dodajPracownika("Grzegorz", "Klimek");
-		controller.dodajPracownika("Grzegorz", "Klimek");
-		controller.dodajPracownika("Edwin", "Langaj");
-		controller.dodajPracownika("Lukasz", "Ciesielski");
-		controller.dodajPracownika("Bartłomiej ", "Świerzyński");
-		controller.dodajPracownika("Bartłomiej ", "Świerzyński");
+		controller.dodajPracownikadoDBiZwroc("Grzegorz", "Klimek");
+		controller.dodajPracownikadoDBiZwroc("Grzegorz", "Klimek");
+		controller.dodajPracownikadoDBiZwroc("Edwin", "Langaj");
+		controller.dodajPracownikadoDBiZwroc("Lukasz", "Ciesielski");
+		controller.dodajPracownikadoDBiZwroc("Bartłomiej ", "Świerzyński");
+		controller.dodajPracownikadoDBiZwroc("Bartłomiej ", "Świerzyński");
 
 
 		for (Pracownik s : controller.listaPracownikow()) {

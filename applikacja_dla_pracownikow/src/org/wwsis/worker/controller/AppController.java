@@ -14,7 +14,7 @@ public class AppController {
 
 	private DataAccess dao;
 
-	public void dodajPracownika(String imie, String nazwisko) {
+	public Pracownik  dodajPracownikadoDBiZwroc(String imie, String nazwisko) {
 		String login = imie.substring(0, 1) + nazwisko.substring(0, nazwisko.length());
 		login = login.toLowerCase();
 		login = zwrocDostepnyLogin(login);
@@ -27,6 +27,7 @@ public class AppController {
 		p.setImie(imie);
 		p.setNazwisko(nazwisko);
 		getDao().zapiszPracownika(p);
+		return p;
 
 	}
 
@@ -134,6 +135,10 @@ public class AppController {
 
 	public boolean czyAdmin(String login, String password) {
 		return (login.equals("admin") && password.equals("admin"));
+	}
+	
+	public boolean czyPracownikIstnieje(Pracownik p) {
+		return dao.czyPracownikIstnieje(p);
 	}
 
 	private static String generujHaslo() {

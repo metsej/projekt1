@@ -23,12 +23,12 @@ public class AppControllerTest {
 		
 		pc.eraseDataBase();
 
-		pc.dodajPracownika("Grzegorz", "Klimek");
-		pc.dodajPracownika("Grzegorz", "Klimek");
-		pc.dodajPracownika("Edwin", "Langaj");
-		pc.dodajPracownika("Lukasz", "Ciesielski");
-		pc.dodajPracownika("Bartłomiej ", "Świerzyński");
-		pc.dodajPracownika("Bartłomiej ", "Świerzyński");
+		pc.dodajPracownikadoDBiZwroc("Grzegorz", "Klimek");
+		pc.dodajPracownikadoDBiZwroc("Grzegorz", "Klimek");
+		pc.dodajPracownikadoDBiZwroc("Edwin", "Langaj");
+		pc.dodajPracownikadoDBiZwroc("Lukasz", "Ciesielski");
+		pc.dodajPracownikadoDBiZwroc("Bartłomiej ", "Świerzyński");
+		pc.dodajPracownikadoDBiZwroc("Bartłomiej ", "Świerzyński");
 
 
 		for (Pracownik s : pc.listaPracownikow()) {

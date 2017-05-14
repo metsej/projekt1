@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import org.wwsis.worker.controller.AppController;
+import org.wwsis.worker.data.Pracownik;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -27,6 +29,7 @@ public class AdministratorPanel extends JFrame {
 	private AppController controller;
 	private JTextField nameTextField;
 	private JTextField lastNameTextField;
+	private JTextField loginInput;
 
 	/**
 	 * Launch the application.
@@ -60,7 +63,7 @@ public class AdministratorPanel extends JFrame {
 		
 		JLabel lblAdministratorPanel = new JLabel("  Administrator Panel");
 		lblAdministratorPanel.setFont(new Font("Dialog", Font.BOLD, 19));
-		lblAdministratorPanel.setBounds(139, -49, 276, 118);
+		lblAdministratorPanel.setBounds(149, -14, 248, 50);
 		contentPane.add(lblAdministratorPanel);
 		
 		JButton addNewEmployeeButton = new JButton("Add");
@@ -73,7 +76,9 @@ public class AdministratorPanel extends JFrame {
 				if (name.equals("") || lastname.equals("")) {
 					JOptionPane.showMessageDialog(null, "You must insert name and lastname");
 				} else {
-					controller.dodajPracownika(name, lastname);
+					
+					Pracownik newWorker = controller.dodajPracownikadoDBiZwroc(name, lastname);
+					JOptionPane.showMessageDialog(null, "You created user with login " + newWorker.getLogin()+ " and password: " + newWorker.getHaslo());
 				}
 				
 			}
@@ -103,12 +108,12 @@ public class AdministratorPanel extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel("Add new employee");
 		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 16));
-		lblNewLabel.setBounds(172, 38, 202, 31);
+		lblNewLabel.setBounds(91, 31, 180, 31);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblListAllEmployee = new JLabel("List all employee");
 		lblListAllEmployee.setFont(new Font("Dialog", Font.BOLD, 16));
-		lblListAllEmployee.setBounds(192, 175, 202, 31);
+		lblListAllEmployee.setBounds(91, 189, 165, 31);
 		contentPane.add(lblListAllEmployee);
 		
 		JButton listAllButton = new JButton("List all");
@@ -117,7 +122,7 @@ public class AdministratorPanel extends JFrame {
 				
 			}
 		});
-		listAllButton.setBounds(364, 218, 117, 25);
+		listAllButton.setBounds(364, 193, 117, 25);
 		contentPane.add(listAllButton);
 		
 		JButton logOutButton = new JButton("Log out");
@@ -131,8 +136,43 @@ public class AdministratorPanel extends JFrame {
 				
 			}
 		});
-		logOutButton.setBounds(210, 305, 117, 25);
+		logOutButton.setBounds(217, 353, 117, 25);
 		contentPane.add(logOutButton);
+		
+		JLabel lblChangePassword = new JLabel("Change password");
+		lblChangePassword.setFont(new Font("Dialog", Font.BOLD, 16));
+		lblChangePassword.setBounds(91, 265, 202, 31);
+		contentPane.add(lblChangePassword);
+		
+		loginInput = new JTextField();
+		loginInput.setColumns(10);
+		loginInput.setBounds(373, 269, 117, 26);
+		contentPane.add(loginInput);
+		
+		JLabel lblInsertLogin = new JLabel("insert login: ");
+		lblInsertLogin.setFont(new Font("DejaVu Serif", Font.BOLD, 14));
+		lblInsertLogin.setBounds(270, 274, 101, 15);
+		contentPane.add(lblInsertLogin);
+		
+		JButton btnChange = new JButton("Change");
+		btnChange.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String login = loginInput.getText();
+				Pracownik potencialWorker = Pracownik.zLoginem(login);
+				
+				
+				if(controller.czyPracownikIstnieje(potencialWorker)) {
+					
+					controller.zmienHaslo(login);
+					Pracownik actualWorker = controller.wczytajPracownika(login);
+					JOptionPane.showMessageDialog(null, "New paswword for user with login " + login + " is : " + actualWorker.getHaslo() );
+				} else {
+					JOptionPane.showMessageDialog(null, "Incorrect login" );
+				}
+			}
+		});
+		btnChange.setBounds(364, 307, 125, 25);
+		contentPane.add(btnChange);
 	}
 	
 	
