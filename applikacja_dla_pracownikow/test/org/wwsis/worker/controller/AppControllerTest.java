@@ -36,6 +36,16 @@ public class AppControllerTest {
 		pc.closeDataBase();
 
 	}
+	
+	@Test
+	public boolean isAdminTest() {
+		JadisDataAccess dao = new JadisDataAccess("localhost");
+
+		AppController pc = new AppController();
+		pc.setDao(dao);
+		
+		return pc.czyAdmin("admin", "admin");
+	}
 
 	@Test
 	public void pracownikTest() throws InterruptedException {

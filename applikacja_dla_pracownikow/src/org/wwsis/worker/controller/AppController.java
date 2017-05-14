@@ -133,7 +133,7 @@ public class AppController {
 	}
 
 	public boolean czyAdmin(String login, String password) {
-		return (login == "admin" && password == "admin");
+		return (login.equals("admin") && password.equals("admin"));
 	}
 
 	private static String generujHaslo() {
