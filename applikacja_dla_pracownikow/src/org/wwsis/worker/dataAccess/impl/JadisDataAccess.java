@@ -43,7 +43,7 @@ public class JadisDataAccess implements DataAccess {
 
 		String strCzasRozpoczecia = connection.hget(klucz, "start");
 		if (strCzasRozpoczecia != null) {
-			p.setCzasZakonczenia(strCzasRozpoczecia);
+			p.setCzasRozpoczecia(strCzasRozpoczecia);
 		}
 		String strCzasZakonczenia = connection.hget(klucz, "stop");
 		if (strCzasZakonczenia != null) {

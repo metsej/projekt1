@@ -27,7 +27,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JPasswordField;
 import java.awt.Font;
 
-public class SwingView {
+public class MainMenu {
 
 	public JFrame frame;
 	private JTextField loginTextField;
@@ -44,7 +44,7 @@ public class SwingView {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					SwingView window = new SwingView();
+					MainMenu window = new MainMenu();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,12 +57,12 @@ public class SwingView {
 	 * Create the application.
 	 */
 	
-	public SwingView(AppController contr) {
+	public MainMenu(AppController contr) {
 		this.controller = contr;
 		initialize();
 	}
 	
-	public SwingView() {
+	public MainMenu() {
 		initialize();
 	}
 
@@ -105,7 +105,9 @@ public class SwingView {
 						adminPanel.setVisible(true);
 						
 					} else if (controller.czyPoprawneHasloiLogin(pass, login)) {
-						JOptionPane.showMessageDialog(null, "witaj w panelu użytkownika");
+						frame.dispose();
+						WorkerPanel workerPanel = new WorkerPanel(login, controller);
+						workerPanel.setVisible(true);
 					} else {
 						JOptionPane.showMessageDialog(null, "wrong password or login");
 					}

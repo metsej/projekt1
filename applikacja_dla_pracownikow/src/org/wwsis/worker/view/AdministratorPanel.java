@@ -112,6 +112,11 @@ public class AdministratorPanel extends JFrame {
 		contentPane.add(lblListAllEmployee);
 		
 		JButton listAllButton = new JButton("List all");
+		listAllButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		listAllButton.setBounds(364, 218, 117, 25);
 		contentPane.add(listAllButton);
 		
@@ -120,9 +125,9 @@ public class AdministratorPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				
-				SwingView window = new SwingView(controller);
+				MainMenu window = new MainMenu(controller);
 				window.frame.setVisible(true);
-				//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				setVisible(false);
 				
 			}
 		});

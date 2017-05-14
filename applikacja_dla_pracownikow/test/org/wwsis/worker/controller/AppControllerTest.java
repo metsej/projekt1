@@ -6,8 +6,14 @@ import org.wwsis.worker.data.Pracownik;
 import org.wwsis.worker.dataAccess.impl.JadisDataAccess;
 
 public class AppControllerTest {
+	
+	
+	public static void main(String[] args) {
+		
+		pracownikWczytywanieTest();
+	}
 
-	@Test
+	
 	public void populateDB() {
 
 		JadisDataAccess dao = new JadisDataAccess("localhost");
@@ -37,7 +43,7 @@ public class AppControllerTest {
 
 	}
 	
-	@Test
+	
 	public boolean isAdminTest() {
 		JadisDataAccess dao = new JadisDataAccess("localhost");
 
@@ -47,7 +53,7 @@ public class AppControllerTest {
 		return pc.czyAdmin("admin", "admin");
 	}
 
-	@Test
+	
 	public void pracownikTest() throws InterruptedException {
 
 		JadisDataAccess dao = new JadisDataAccess("localhost");
@@ -74,5 +80,24 @@ public class AppControllerTest {
 		System.out.println("czas zakonczenia pracy to: " + nowy_pracownik.getCzasZakonczenia());
 		dao.close();
 	}
+	
+    public static void pracownikWczytywanieTest() {
+    	JadisDataAccess dao = new JadisDataAccess("localhost");
+
+		AppController pc = new AppController();
+		pc.setDao(dao);
+		
+		Pracownik s = pc.wczytajPracownika("rkubica");
+		System.out.println("login: " + s.getLogin());
+		System.out.println("imie: " + s.getImie());
+		System.out.println("naziwsko: " + s.getNazwisko());
+		System.out.println("haslo: " + s.getHaslo());
+		
+		System.out.println("czas rozpoczęcia to " + s.getCzasRozpoczecia());
+		System.out.println("czas zakonczenia to " + s.getCzasZakonczenia());
+		
+	 }
 
 }
+
+	
