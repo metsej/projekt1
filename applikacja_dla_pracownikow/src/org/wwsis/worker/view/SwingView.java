@@ -100,7 +100,9 @@ public class SwingView {
 					
 					if (controller.czyAdmin(login, pass)) {
 
-						JOptionPane.showMessageDialog(null, "witaj w panelu administratora");
+						frame.dispose();
+						AdministratorPanel adminPanel = new AdministratorPanel(controller);
+						adminPanel.setVisible(true);
 						
 					} else if (controller.czyPoprawneHasloiLogin(pass, login)) {
 						JOptionPane.showMessageDialog(null, "witaj w panelu użytkownika");
@@ -120,9 +122,9 @@ public class SwingView {
 		passwordField.setBounds(149, 185, 261, 46);
 		frame.getContentPane().add(passwordField);
 		
-		JLabel Banner = new JLabel(" Application for employee");
-		Banner.setFont(new Font("Dialog", Font.BOLD, 17));
-		Banner.setBounds(142, 39, 268, 37);
+		JLabel Banner = new JLabel("Main menu");
+		Banner.setFont(new Font("Dialog", Font.BOLD, 19));
+		Banner.setBounds(209, 35, 143, 37);
 		frame.getContentPane().add(Banner);
 	}
 	private class SwingAction extends AbstractAction {

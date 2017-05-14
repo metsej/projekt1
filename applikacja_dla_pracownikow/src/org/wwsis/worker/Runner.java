@@ -16,7 +16,7 @@ public class Runner {
 		AppController controller = new AppController ();
 		controller.setDao(dao);
 		
-		populateDB(controller);	
+		//populateDB(controller);	
 	
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
