@@ -56,34 +56,34 @@ public class ViewAllWorkrers extends JFrame {
 		
 		this.controller = contr;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 850, 600);
+		setBounds(100, 100, 950, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		 namesList = new JList();
-		namesList.setBounds(19, 25, 108, 472);
+		namesList.setBounds(19, 25, 128, 472);
 		contentPane.add(namesList);
 		
 		latNamesList = new JList();
-		latNamesList.setBounds(139, 25, 108, 472);
+		latNamesList.setBounds(159, 25, 164, 472);
 		contentPane.add(latNamesList);
 		
 		loginList = new JList();
-		loginList.setBounds(259, 25, 108, 472);
+		loginList.setBounds(335, 25, 167, 472);
 		contentPane.add(loginList);
 		
 		passwordList = new JList();
-		passwordList.setBounds(379, 25, 108, 472);
+		passwordList.setBounds(514, 25, 101, 472);
 		contentPane.add(passwordList);
 		
 		startList = new JList();
-		startList.setBounds(499, 25, 154, 472);
+		startList.setBounds(624, 25, 150, 472);
 		contentPane.add(startList);
 		
 		endList = new JList();
-		endList.setBounds(665, 25, 154, 472);
+		endList.setBounds(786, 25, 150, 472);
 		contentPane.add(endList);
 		
 		updateLists();
@@ -95,22 +95,22 @@ public class ViewAllWorkrers extends JFrame {
 		
 		JLabel lblLastName = new JLabel("Last name");
 		lblLastName.setFont(new Font("Dialog", Font.BOLD, 10));
-		lblLastName.setBounds(139, -2, 84, 15);
+		lblLastName.setBounds(159, -2, 84, 15);
 		contentPane.add(lblLastName);
 		
 		JLabel lblPassword = new JLabel("password");
 		lblPassword.setFont(new Font("Dialog", Font.BOLD, 10));
-		lblPassword.setBounds(379, -2, 84, 15);
+		lblPassword.setBounds(514, -2, 84, 15);
 		contentPane.add(lblPassword);
 		
 		JLabel lblLstTimeStatret = new JLabel("start work at");
 		lblLstTimeStatret.setFont(new Font("Dialog", Font.BOLD, 10));
-		lblLstTimeStatret.setBounds(499, 1, 84, 12);
+		lblLstTimeStatret.setBounds(624, -1, 84, 12);
 		contentPane.add(lblLstTimeStatret);
 		
 		JLabel lblEndWorkAt = new JLabel("end work at");
 		lblEndWorkAt.setFont(new Font("Dialog", Font.BOLD, 10));
-		lblEndWorkAt.setBounds(665, 0, 84, 15);
+		lblEndWorkAt.setBounds(786, -2, 84, 15);
 		contentPane.add(lblEndWorkAt);
 		
 		JButton btnNewButton = new JButton("New button");
@@ -123,14 +123,14 @@ public class ViewAllWorkrers extends JFrame {
 				updateLists();
 			}
 		});
-		updateButton.setBounds(702, 538, 117, 25);
+		updateButton.setBounds(819, 538, 117, 25);
 		contentPane.add(updateButton);
 		
 	
 		
 		JLabel lblLogin = new JLabel("login");
 		lblLogin.setFont(new Font("Dialog", Font.BOLD, 10));
-		lblLogin.setBounds(259, -2, 84, 15);
+		lblLogin.setBounds(335, -2, 84, 15);
 		contentPane.add(lblLogin);
 	}
 	

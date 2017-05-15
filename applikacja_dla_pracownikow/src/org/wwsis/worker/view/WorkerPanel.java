@@ -61,7 +61,7 @@ public class WorkerPanel extends JFrame {
 		contentPane.add(lblLoggedAs);
 		
 		JLabel loginDisplay = new JLabel(login);
-		loginDisplay.setBounds(100, 35, 89, 33);
+		loginDisplay.setBounds(100, 35, 269, 33);
 		contentPane.add(loginDisplay);
 		
 	
@@ -77,7 +77,7 @@ public class WorkerPanel extends JFrame {
 		}
 		
 		JLabel sWorkTimeLabbelDisplay = new JLabel(timeStart);
-		sWorkTimeLabbelDisplay.setBounds(204, 80, 177, 33);
+		sWorkTimeLabbelDisplay.setBounds(204, 80, 231, 33);
 		contentPane.add(sWorkTimeLabbelDisplay);
 		
 		JLabel lblWorkerPanel = new JLabel("  Worker Panel");
