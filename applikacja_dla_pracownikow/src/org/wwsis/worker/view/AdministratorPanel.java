@@ -121,7 +121,7 @@ public class AdministratorPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JFrame newFrame = new ViewAllWorkrers(controller);
 				newFrame.setVisible(true);
-				setVisible(false);
+			
 				
 			}
 		});

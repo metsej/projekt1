@@ -16,6 +16,7 @@ public class Runner {
 		AppController controller = new AppController ();
 		controller.setDao(dao);
 		
+		printDBTest(controller);
 	
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -39,6 +40,8 @@ public class Runner {
 			System.out.println("imie: " + s.getImie());
 			System.out.println("naziwsko: " + s.getNazwisko());
 			System.out.println("haslo: " + s.getHaslo());
+			System.out.println("czas rozpoczecia: " + s.getCzasRozpoczecia());
+			System.out.println("czas zakończenia: " + s.getCzasZakonczenia());
 			System.out.println(" ");
 		}
 		controller.closeDataBase();

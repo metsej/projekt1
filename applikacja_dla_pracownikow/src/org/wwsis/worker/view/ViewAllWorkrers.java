@@ -26,6 +26,12 @@ public class ViewAllWorkrers extends JFrame {
 
 	private JPanel contentPane;
 	private AppController controller;
+	private JList namesList;
+	private JList latNamesList;
+	private JList loginList; 
+	private JList passwordList;
+	private JList startList;
+	private JList endList;
 
 	/**
 	 * Launch the application.
@@ -56,35 +62,31 @@ public class ViewAllWorkrers extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JList namesList = new JList();
+		 namesList = new JList();
 		namesList.setBounds(19, 25, 108, 472);
 		contentPane.add(namesList);
-		namesList.setModel(getListModel("name"));
 		
-		JList latNamesList = new JList();
+		latNamesList = new JList();
 		latNamesList.setBounds(139, 25, 108, 472);
 		contentPane.add(latNamesList);
-		latNamesList.setModel(getListModel("last_name"));
 		
-		JList loginList = new JList();
+		loginList = new JList();
 		loginList.setBounds(259, 25, 108, 472);
 		contentPane.add(loginList);
-		loginList.setModel(getListModel("login"));
 		
-		JList passwordList = new JList();
+		passwordList = new JList();
 		passwordList.setBounds(379, 25, 108, 472);
 		contentPane.add(passwordList);
-		passwordList.setModel(getListModel("pass"));
 		
-		JList startList = new JList();
+		startList = new JList();
 		startList.setBounds(499, 25, 154, 472);
 		contentPane.add(startList);
-		startList.setModel(getListModel("start"));
 		
-		JList endList = new JList();
+		endList = new JList();
 		endList.setBounds(665, 25, 154, 472);
 		contentPane.add(endList);
-		endList.setModel(getListModel("stop"));
+		
+		updateLists();
 		
 		JLabel lblNewLabel = new JLabel("Name");
 		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 10));
@@ -115,16 +117,14 @@ public class ViewAllWorkrers extends JFrame {
 		btnNewButton.setBounds(492, 376, 58, -17);
 		contentPane.add(btnNewButton);
 		
-		JButton goBackButton = new JButton("Go back");
-		goBackButton.addActionListener(new ActionListener() {
+		JButton updateButton = new JButton("Update");
+		updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AdministratorPanel adminPanel = new AdministratorPanel(controller);
-				adminPanel.setVisible(true);
-				setVisible(false);
+				updateLists();
 			}
 		});
-		goBackButton.setBounds(702, 538, 117, 25);
-		contentPane.add(goBackButton);
+		updateButton.setBounds(702, 538, 117, 25);
+		contentPane.add(updateButton);
 		
 	
 		
@@ -132,6 +132,15 @@ public class ViewAllWorkrers extends JFrame {
 		lblLogin.setFont(new Font("Dialog", Font.BOLD, 10));
 		lblLogin.setBounds(259, -2, 84, 15);
 		contentPane.add(lblLogin);
+	}
+	
+	private void updateLists() {
+		namesList.setModel(getListModel("name"));
+		latNamesList.setModel(getListModel("last_name"));
+		loginList.setModel(getListModel("login"));
+		passwordList.setModel(getListModel("pass"));
+		startList.setModel(getListModel("start"));
+		endList.setModel(getListModel("stop"));
 	}
 	
 	private DefaultListModel<String> getListModel (String fieldName) {
@@ -164,13 +173,22 @@ public class ViewAllWorkrers extends JFrame {
 			
 			if (fieldName.equals("start")) {
 				for (Pracownik s : controller.listaPracownikow())  {
-					listModel.addElement(s.getCzasRozpoczecia());
+					if (s.getCzasRozpoczecia() != null) {
+						listModel.addElement(s.getCzasRozpoczecia());
+					} else {
+						listModel.addElement("    ");
+					}
+					
 				}	
 			}
 			
 			if (fieldName.equals("stop")) {
 				for (Pracownik s : controller.listaPracownikow())  {
+					if (s.getCzasZakonczenia() != null) {
 					listModel.addElement(s.getCzasZakonczenia());
+					} else {
+						listModel.addElement("    ");
+					}
 					
 				}	
 			}
