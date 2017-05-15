@@ -16,8 +16,6 @@ public class Runner {
 		AppController controller = new AppController ();
 		controller.setDao(dao);
 		
-		printDBTest(controller);
-		
 	
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -34,7 +32,7 @@ public class Runner {
     }
 	
 	
-public static void printDBTest (AppController controller) {
+    public static void printDBTest (AppController controller) {
 		
 		for (Pracownik s : controller.listaPracownikow()) {
 			System.out.println("login: " + s.getLogin());
@@ -43,14 +41,8 @@ public static void printDBTest (AppController controller) {
 			System.out.println("haslo: " + s.getHaslo());
 			System.out.println(" ");
 		}
-		
 		controller.closeDataBase();
-		
 	}
-	
-	
-	
-	
 	
 	public static void populateDBTest (AppController controller) {
 		

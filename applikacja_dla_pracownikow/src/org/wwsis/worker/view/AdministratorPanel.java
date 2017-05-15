@@ -119,6 +119,9 @@ public class AdministratorPanel extends JFrame {
 		JButton listAllButton = new JButton("List all");
 		listAllButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JFrame newFrame = new ViewAllWorkrers(controller);
+				newFrame.setVisible(true);
+				setVisible(false);
 				
 			}
 		});

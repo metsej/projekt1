@@ -142,12 +142,12 @@ public class AppController {
 	}
 
 	private static String generujHaslo() {
-		int randomNum = ThreadLocalRandom.current().nextInt(0, 15);
+		int randomNum = ThreadLocalRandom.current().nextInt(0, 3);
 		String alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		String insert = alfabet.substring(randomNum, (randomNum + 4));
+		String insert = alfabet.substring(randomNum, (randomNum + 3));
 
 		SecureRandom random = new SecureRandom();
-		String random_pass = new BigInteger(100, random).toString(32);
+		String random_pass = new BigInteger(30, random).toString(32);
 		String potencjalneHaslo = (random_pass.substring(0, randomNum) + insert
 				+ random_pass.substring(randomNum, random_pass.length()));
 
