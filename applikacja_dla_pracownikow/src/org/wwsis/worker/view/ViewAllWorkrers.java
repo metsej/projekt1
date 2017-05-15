@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import org.wwsis.worker.controller.AppController;
-import org.wwsis.worker.data.Pracownik;
+import org.wwsis.worker.data.Worker;
 
 import javax.swing.JList;
 import javax.swing.JTable;
@@ -148,33 +148,33 @@ public class ViewAllWorkrers extends JFrame {
 		
 		
 			if (fieldName.equals("name")) {
-				for (Pracownik s : controller.listaPracownikow())  {
-					listModel.addElement(s.getImie());
+				for (Worker s : controller.getAllWorkers())  {
+					listModel.addElement(s.getName());
 				}	
 			}
 			
 			if (fieldName.equals("last_name")) {
-				for (Pracownik s : controller.listaPracownikow())  {
-					listModel.addElement(s.getNazwisko());
+				for (Worker s : controller.getAllWorkers())  {
+					listModel.addElement(s.getLastName());
 				}	
 			}
 			
 			if (fieldName.equals("login")) {
-				for (Pracownik s : controller.listaPracownikow())  {
+				for (Worker s : controller.getAllWorkers())  {
 					listModel.addElement(s.getLogin());
 				}	
 			}
 			
 			if (fieldName.equals("pass")) {
-				for (Pracownik s : controller.listaPracownikow())  {
-					listModel.addElement(s.getHaslo());
+				for (Worker s : controller.getAllWorkers())  {
+					listModel.addElement(s.getPassword());
 				}	
 			}
 			
 			if (fieldName.equals("start")) {
-				for (Pracownik s : controller.listaPracownikow())  {
-					if (s.getCzasRozpoczecia() != null) {
-						listModel.addElement(s.getCzasRozpoczecia());
+				for (Worker s : controller.getAllWorkers())  {
+					if (s.getStartTime() != null) {
+						listModel.addElement(s.getStartTime());
 					} else {
 						listModel.addElement("    ");
 					}
@@ -183,9 +183,9 @@ public class ViewAllWorkrers extends JFrame {
 			}
 			
 			if (fieldName.equals("stop")) {
-				for (Pracownik s : controller.listaPracownikow())  {
-					if (s.getCzasZakonczenia() != null) {
-					listModel.addElement(s.getCzasZakonczenia());
+				for (Worker s : controller.getAllWorkers())  {
+					if (s.getEndTime() != null) {
+					listModel.addElement(s.getEndTime());
 					} else {
 						listModel.addElement("    ");
 					}

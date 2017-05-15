@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import org.wwsis.worker.controller.AppController;
-import org.wwsis.worker.data.Pracownik;
+import org.wwsis.worker.data.Worker;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -21,7 +21,7 @@ public class WorkerPanel extends JFrame {
 	private JPanel contentPane;
 	private String login;
 	private AppController controller;
-	private Pracownik loggedWorker;
+	private Worker loggedWorker;
 
 	/**
 	 * Launch the application.
@@ -46,7 +46,7 @@ public class WorkerPanel extends JFrame {
 		this.login = log;
 		this.controller = contr;
 		
-		loggedWorker = controller.wczytajPracownika(login);
+		loggedWorker = controller.loadWorker(login);
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,10 +70,10 @@ public class WorkerPanel extends JFrame {
 		contentPane.add(lblLastTimeStart);
 		
 		String timeStart;
-		if (loggedWorker.getCzasRozpoczecia() == null) {
+		if (loggedWorker.getStartTime() == null) {
 			timeStart = " Haven't worked yet";
 		} else {
-			timeStart = loggedWorker.getCzasRozpoczecia();
+			timeStart = loggedWorker.getStartTime();
 		}
 		
 		JLabel sWorkTimeLabbelDisplay = new JLabel(timeStart);
@@ -88,8 +88,8 @@ public class WorkerPanel extends JFrame {
 		JButton btnNewButton = new JButton("Start Work");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.zapiszPoczatekPracy(loggedWorker);
-				sWorkTimeLabbelDisplay.setText(loggedWorker.getCzasRozpoczecia());
+				controller.saveStartTime(loggedWorker);
+				sWorkTimeLabbelDisplay.setText(loggedWorker.getStartTime());
 			}
 		});
 		btnNewButton.setBounds(48, 306, 117, 25);
@@ -98,7 +98,7 @@ public class WorkerPanel extends JFrame {
 		JButton btnLogOut = new JButton("Log out");
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.wyloguj(loggedWorker);
+				controller.logOut(loggedWorker);
 				MainMenu window = new MainMenu(controller);
 				window.frame.setVisible(true);
 				setVisible(false);

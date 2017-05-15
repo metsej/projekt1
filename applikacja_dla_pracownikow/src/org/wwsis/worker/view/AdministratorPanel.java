@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import org.wwsis.worker.controller.AppController;
-import org.wwsis.worker.data.Pracownik;
+import org.wwsis.worker.data.Worker;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -77,8 +77,8 @@ public class AdministratorPanel extends JFrame {
 					JOptionPane.showMessageDialog(null, "You must insert name and lastname");
 				} else {
 					
-					Pracownik newWorker = controller.dodajPracownikadoDBiZwroc(name, lastname);
-					JOptionPane.showMessageDialog(null, "You created user with login " + newWorker.getLogin()+ " and password: " + newWorker.getHaslo());
+					Worker newWorker = controller.addAndGetNewWorker(name, lastname);
+					JOptionPane.showMessageDialog(null, "You created user with login " + newWorker.getLogin()+ " and password: " + newWorker.getPassword());
 				}
 				
 			}
@@ -161,14 +161,14 @@ public class AdministratorPanel extends JFrame {
 		btnChange.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String login = loginInput.getText();
-				Pracownik potencialWorker = Pracownik.zLoginem(login);
+				Worker potencialWorker = Worker.withLogin(login);
 				
 				
-				if(controller.czyPracownikIstnieje(potencialWorker)) {
+				if(controller.doWorkerExists(potencialWorker)) {
 					
-					controller.zmienHaslo(login);
-					Pracownik actualWorker = controller.wczytajPracownika(login);
-					JOptionPane.showMessageDialog(null, "New paswword for user with login " + login + " is : " + actualWorker.getHaslo() );
+					controller.changePass(login);
+					Worker actualWorker = controller.loadWorker(login);
+					JOptionPane.showMessageDialog(null, "New paswword for user with login " + login + " is : " + actualWorker.getPassword() );
 				} else {
 					JOptionPane.showMessageDialog(null, "Incorrect login" );
 				}

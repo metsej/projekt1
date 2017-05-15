@@ -2,17 +2,17 @@ package org.wwsis.worker.dataAccess;
 
 import java.util.List;
 
-import org.wwsis.worker.data.Pracownik;
+import org.wwsis.worker.data.Worker;
 
 public interface DataAccess {
 
-	public boolean czyPracownikIstnieje(Pracownik p);
+	public boolean doWorkerExists(Worker p);
 
-	public Pracownik wczytajPracownika(Pracownik p);
+	public Worker loadWorker(Worker p);
 
-	public void zapiszPracownika(Pracownik p);
+	public void saveWorker(Worker p);
 
-	public List<Pracownik> listaPracownikow();
+	public List<Worker> getAllWorkers();
 	
 	public void close();
 	

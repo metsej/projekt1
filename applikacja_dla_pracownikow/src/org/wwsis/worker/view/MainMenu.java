@@ -34,9 +34,6 @@ public class MainMenu {
 	private AppController controller;
 	private final Action action = new SwingAction();
 	private JPasswordField passwordField;
-
-
-
 	/**
 	 * Launch the application.
 	 */
@@ -52,11 +49,9 @@ public class MainMenu {
 			}
 		});
 	}
-
 	/**
 	 * Create the application.
 	 */
-	
 	public MainMenu(AppController contr) {
 		this.controller = contr;
 		initialize();
@@ -65,11 +60,9 @@ public class MainMenu {
 	public MainMenu() {
 		initialize();
 	}
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 564, 415);
@@ -98,13 +91,13 @@ public class MainMenu {
 					@SuppressWarnings("deprecation")
 					String pass = passwordField.getText();
 					
-					if (controller.czyAdmin(login, pass)) {
+					if (controller.isAdmin(login, pass)) {
 
 						frame.dispose();
 						AdministratorPanel adminPanel = new AdministratorPanel(controller);
 						adminPanel.setVisible(true);
 						
-					} else if (controller.czyPoprawneHasloiLogin(pass, login)) {
+					} else if (controller.isValidLogNPass(pass, login)) {
 						frame.dispose();
 						WorkerPanel workerPanel = new WorkerPanel(login, controller);
 						workerPanel.setVisible(true);

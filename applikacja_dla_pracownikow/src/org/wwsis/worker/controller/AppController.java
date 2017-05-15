@@ -7,156 +7,90 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.wwsis.worker.data.Pracownik;
+import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
 
 public class AppController {
 
 	private DataAccess dao;
 
-	public Pracownik  dodajPracownikadoDBiZwroc(String imie, String nazwisko) {
-		String login = imie.substring(0, 1) + nazwisko.substring(0, nazwisko.length());
+	public Worker  addAndGetNewWorker(String name, String lastName) {
+		String login = name.substring(0, 1) + lastName.substring(0, lastName.length());
 		login = login.toLowerCase();
-		login = zwrocDostepnyLogin(login);
+		login = getAvalibleLog(login);
 
-		String haslo = generujHaslo();
+		String haslo = getNewPass();
 
-		Pracownik p = new Pracownik();
+		Worker p = new Worker();
 		p.setLogin(login);
-		p.setHaslo(haslo);
-		p.setImie(imie);
-		p.setNazwisko(nazwisko);
-		getDao().zapiszPracownika(p);
+		p.setPassword(haslo);
+		p.setImsetName(name);
+		p.setLatName(lastName);
+		getDao().saveWorker(p);
 		return p;
 
 	}
 
-	public Pracownik wczytajPracownika (String login) {
+	public Worker loadWorker (String login) {
 		
-		Pracownik p = new Pracownik();
+		Worker p = new Worker();
 		p.setLogin(login);
 		
-		return wczytajPracowniks(p);
-	}
-	
-	private Pracownik wczytajPracowniks(Pracownik p) {
-		return dao.wczytajPracownika(p);
-	}
-	
-
-	public List<Pracownik> listaPracownikow() {
-		return dao.listaPracownikow();
+		return loadWorkerHelper(p);
 	}
 
-	public void zapiszPoczatekPracy(Pracownik p) {
+	public List<Worker> getAllWorkers() {
+		return dao.getAllWorkers();
+	}
+
+	public void saveStartTime(Worker p) {
 		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		String str_now = dtf.format(now);
-		p.setCzasRozpoczecia(str_now);
-		getDao().zapiszPracownika(p);
+		p.setStartTime(str_now);
+		getDao().saveWorker(p);
 	}
 
-	public void wyloguj(Pracownik p) {
+	public void logOut(Worker p) {
 		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		String str_now = dtf.format(now);
-		p.setCzasZakonczenia(str_now);
-		p.setZalogowany(false);
-		getDao().zapiszPracownika(p);
+		p.setEndTime(str_now);
+		p.setIsLogged(false);
+		getDao().saveWorker(p);
 	}
 
-	public boolean czyPoprawneHasloiLogin(String haslo, String login) {
-		Pracownik klucz = Pracownik.zLoginem(login);
-		if (getDao().czyPracownikIstnieje(klucz)) {
-			Pracownik p = getDao().wczytajPracownika(klucz);
-			return haslo.equals(p.getHaslo());
+	public boolean isValidLogNPass(String password, String login) {
+		Worker key = Worker.withLogin(login);
+		if (getDao().doWorkerExists(key)) {
+			Worker p = getDao().loadWorker(key);
+			return password.equals(p.getPassword());
 		}
 		return false;
 	}
 
-	public void zmienHaslo(String login) {
-		String noweHaslo = generujHaslo();
-		Pracownik p1 = new Pracownik();
+	public void changePass(String login) {
+		String noweHaslo = getNewPass();
+		Worker p1 = new Worker();
 		p1.setLogin(login);
-		Pracownik p2 = getDao().wczytajPracownika(p1);
-		p2.setHaslo(noweHaslo);
-		getDao().zapiszPracownika(p2);
+		Worker p2 = getDao().loadWorker(p1);
+		p2.setPassword(noweHaslo);
+		getDao().saveWorker(p2);
 	}
 
-	public List<Pracownik> zwrocPracownikow() {
+	public List<Worker> gettAllWorker() {
 
-		return getDao().listaPracownikow();
-
+		return getDao().getAllWorkers();
 	}
 
-	private String zwrocDostepnyLogin(String login) {
-		String potLogin = login;
-
-		Pracownik p = new Pracownik();
-		p.setLogin(potLogin);
-		int numer = 1;
-
-		while (getDao().czyPracownikIstnieje(p)) {
-			p.setLogin(login + numer);
-			numer++;
-		}
-		return p.getLogin();
-	}
-
-	private static boolean czyHasloPoprawne(String haslo) {
-		boolean czyMaMalaLitere = false;
-		boolean czyMaDuzaLitere = false;
-		boolean czyMaLiczbe = false;
-
-		for (int i = 0; i < haslo.length(); i++) {
-			char c = haslo.charAt(i);
-
-			if (Character.isUpperCase(c)) {
-				czyMaDuzaLitere = true;
-			}
-
-			if (Character.isLowerCase(c)) {
-				czyMaMalaLitere = true;
-			}
-
-			if (Character.isDigit(c)) {
-				czyMaLiczbe = true;
-			}
-
-			if (czyMaMalaLitere && czyMaDuzaLitere && czyMaLiczbe) {
-				return true;
-			}
-
-		}
-		return false;
-	}
-
-	public boolean czyAdmin(String login, String password) {
+	public boolean isAdmin(String login, String password) {
 		return (login.equals("admin") && password.equals("admin"));
 	}
 	
-	public boolean czyPracownikIstnieje(Pracownik p) {
-		return dao.czyPracownikIstnieje(p);
-	}
-
-	private static String generujHaslo() {
-		int randomNum = ThreadLocalRandom.current().nextInt(0, 3);
-		String alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		String insert = alfabet.substring(randomNum, (randomNum + 3));
-
-		SecureRandom random = new SecureRandom();
-		String random_pass = new BigInteger(30, random).toString(32);
-		String potencjalneHaslo = (random_pass.substring(0, randomNum) + insert
-				+ random_pass.substring(randomNum, random_pass.length()));
-
-		while (!czyHasloPoprawne(potencjalneHaslo)) {
-			potencjalneHaslo = generujHaslo();
-		}
-
-		return potencjalneHaslo;
-
+	public boolean doWorkerExists(Worker p) {
+		return dao.doWorkerExists(p);
 	}
 
 	public DataAccess getDao() {
@@ -174,5 +108,74 @@ public class AppController {
 	public void eraseDataBase(){
 		dao.erase();
 	}
+	
+	
+	
+	private static String getNewPass() {
+		int randomNum = ThreadLocalRandom.current().nextInt(0, 3);
+		String alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String insert = alfabet.substring(randomNum, (randomNum + 3));
+
+		SecureRandom random = new SecureRandom();
+		String random_pass = new BigInteger(30, random).toString(32);
+		String potencialPass = (random_pass.substring(0, randomNum) + insert
+				+ random_pass.substring(randomNum, random_pass.length()));
+
+		while (!isPassValid(potencialPass)) {
+			potencialPass = getNewPass();
+		}
+
+		return potencialPass;
+
+	}
+	
+	private static boolean isPassValid(String password) {
+		boolean hasLowerCase = false;
+		boolean hasUpperCase = false;
+		boolean hasNum = false;
+
+		for (int i = 0; i < password.length(); i++) {
+			char c = password.charAt(i);
+
+			if (Character.isUpperCase(c)) {
+				hasUpperCase = true;
+			}
+
+			if (Character.isLowerCase(c)) {
+				hasLowerCase = true;
+			}
+
+			if (Character.isDigit(c)) {
+				hasNum = true;
+			}
+
+			if (hasLowerCase && hasUpperCase && hasNum) {
+				return true;
+			}
+
+		}
+		return false;
+	}
+	
+	private String getAvalibleLog(String login) {
+		String potLogin = login;
+
+		Worker p = new Worker();
+		p.setLogin(potLogin);
+		int num = 1;
+
+		while (getDao().doWorkerExists(p)) {
+			p.setLogin(login + num);
+			num++;
+		}
+		return p.getLogin();
+	}
+	
+	private Worker loadWorkerHelper(Worker p) {
+		return dao.loadWorker(p);
+	}
+	
+
+	
 
 }

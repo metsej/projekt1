@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.wwsis.worker.data.Pracownik;
+import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
 
 import redis.clients.jedis.Jedis;
@@ -23,70 +23,70 @@ public class JadisDataAccess implements DataAccess {
 	}
 
 	@Override
-	public boolean czyPracownikIstnieje(Pracownik p) {
+	public boolean doWorkerExists(Worker p) {
 
 		return connection.exists(p.getLogin());
 	}
 
 	@Override
-	public Pracownik wczytajPracownika(Pracownik p) {
-		String klucz = p.getLogin();
+	public Worker loadWorker(Worker p) {
+		String key = p.getLogin();
 
-		p.setImie(connection.hget(klucz, "name"));
-		p.setNazwisko(connection.hget(klucz, "last_name"));
-		p.setHaslo(connection.hget(klucz, "pass"));
+		p.setImsetName(connection.hget(key, "name"));
+		p.setLatName(connection.hget(key, "last_name"));
+		p.setPassword(connection.hget(key, "pass"));
 
-		String czyZalogowany = connection.hget(klucz, "czyZalogowany");
-		if (czyZalogowany != null) {
-			p.setZalogowany(czyZalogowany.equals("true"));
+		String isLogged = connection.hget(key, "czyZalogowany");
+		if (isLogged != null) {
+			p.setIsLogged(isLogged.equals("true"));
 		}
 
-		String strCzasRozpoczecia = connection.hget(klucz, "start");
-		if (strCzasRozpoczecia != null) {
-			p.setCzasRozpoczecia(strCzasRozpoczecia);
+		String strStartTime = connection.hget(key, "start");
+		if (strStartTime != null) {
+			p.setStartTime(strStartTime);
 		}
-		String strCzasZakonczenia = connection.hget(klucz, "stop");
-		if (strCzasZakonczenia != null) {
+		String strEndTime = connection.hget(key, "stop");
+		if (strEndTime != null) {
 			
-			p.setCzasZakonczenia(strCzasZakonczenia);
+			p.setEndTime(strEndTime);
 		}
 		
 		return p;
 	}
 
 	@Override
-	public void zapiszPracownika(Pracownik p) {
-		String klucz = p.getLogin();
+	public void saveWorker(Worker p) {
+		String key = p.getLogin();
 		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/ddHH:mm:ss");
 
-		if (p.getImie() != null) {
-			connection.hset(klucz, "name", p.getImie());
+		if (p.getName() != null) {
+			connection.hset(key, "name", p.getName());
 		}
-		if (p.getNazwisko() != null) {
-			connection.hset(klucz, "last_name", p.getNazwisko());
+		if (p.getLastName() != null) {
+			connection.hset(key, "last_name", p.getLastName());
 		}
-		if (p.getHaslo() != null) {
-			connection.hset(klucz, "pass", p.getHaslo());
+		if (p.getPassword() != null) {
+			connection.hset(key, "pass", p.getPassword());
 		}
-		if (p.getZalogowany() != null) {
-			connection.hset(klucz, "czyZalogowany", Boolean.toString(p.getZalogowany()));
+		if (p.getIsLogged() != null) {
+			connection.hset(key, "czyZalogowany", Boolean.toString(p.getIsLogged()));
 		}
-		if (p.getCzasRozpoczecia() != null) {
-			connection.hset(klucz, "start", p.getCzasRozpoczecia());
+		if (p.getStartTime() != null) {
+			connection.hset(key, "start", p.getStartTime());
 		}
-		if (p.getCzasZakonczenia() != null) {
-			connection.hset(klucz, "stop", p.getCzasZakonczenia());
+		if (p.getEndTime() != null) {
+			connection.hset(key, "stop", p.getEndTime());
 		}
 	}
 
 	@Override
-	public List<Pracownik> listaPracownikow() {
-		Set<String> Loginy = connection.keys("*");
-		List<Pracownik> wynik = new ArrayList<Pracownik>();
-		for (String s : Loginy) {
-			wynik.add(wczytajPracownika(Pracownik.zLoginem(s)));
+	public List<Worker> getAllWorkers() {
+		Set<String> logins = connection.keys("*");
+		List<Worker> result = new ArrayList<Worker>();
+		for (String s : logins) {
+			result.add(loadWorker(Worker.withLogin(s)));
 		}
-		return wynik;
+		return result;
 	}
 	
 	@Override
