@@ -90,6 +90,11 @@ public class JadisDataAccess implements DataAccess {
 	}
 	
 	@Override
+	public void save() {
+		connection.save();
+	}
+	
+	@Override
 	public void close() {
 		connection.close();
 

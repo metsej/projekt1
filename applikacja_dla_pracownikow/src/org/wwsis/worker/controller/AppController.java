@@ -101,6 +101,10 @@ public class AppController {
 		this.dao = dao;
 	}
 	
+	public void saveDataBase() {
+		dao.save();
+	}
+	
 	public void closeDataBase(){
 		dao.close();
 	}

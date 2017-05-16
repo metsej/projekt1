@@ -26,6 +26,8 @@ public class Runner {
 				}
 			}
 		});	
+		
+		controller.saveDataBase();
     }
 	
     public static void printDBTest (AppController controller) {

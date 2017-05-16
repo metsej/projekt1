@@ -14,6 +14,8 @@ public interface DataAccess {
 
 	public List<Worker> getAllWorkers();
 	
+	public void save();
+	
 	public void close();
 	
 	public void erase();
