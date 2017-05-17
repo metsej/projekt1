@@ -11,6 +11,7 @@ import org.wwsis.worker.controller.AppController;
 import org.wwsis.worker.data.Worker;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
@@ -21,6 +22,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowStateListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
 
 public class ViewAllWorkrers extends JFrame {
 
@@ -53,10 +57,18 @@ public class ViewAllWorkrers extends JFrame {
 	 * Create the frame.
 	 */
 	public ViewAllWorkrers( AppController contr) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				AdministratorPanel.setIsViewAllWorkersDispalyed(false);
+			}
+		});
 		
 		this.controller = contr;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 950, 600);
+		setResizable(false);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

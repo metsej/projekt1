@@ -64,10 +64,11 @@ public class MainMenu {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Main menu");
 		frame.setBounds(100, 100, 564, 415);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setResizable(false);
 		
 		loginTextField = new JTextField();
 		loginTextField.setBounds(149, 127, 261, 46);
@@ -117,10 +118,6 @@ public class MainMenu {
 		passwordField.setBounds(149, 185, 261, 46);
 		frame.getContentPane().add(passwordField);
 		
-		JLabel Banner = new JLabel("Main menu");
-		Banner.setFont(new Font("Dialog", Font.BOLD, 19));
-		Banner.setBounds(209, 35, 143, 37);
-		frame.getContentPane().add(Banner);
 	}
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {

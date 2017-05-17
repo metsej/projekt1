@@ -45,12 +45,13 @@ public class WorkerPanel extends JFrame {
 	public WorkerPanel(String log, AppController contr) {
 		this.login = log;
 		this.controller = contr;
-		
 		loggedWorker = controller.loadWorker(login);
 		
-		
+		setTitle("Worker panel");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 564, 415);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -79,11 +80,6 @@ public class WorkerPanel extends JFrame {
 		JLabel sWorkTimeLabbelDisplay = new JLabel(timeStart);
 		sWorkTimeLabbelDisplay.setBounds(204, 80, 231, 33);
 		contentPane.add(sWorkTimeLabbelDisplay);
-		
-		JLabel lblWorkerPanel = new JLabel("  Worker Panel");
-		lblWorkerPanel.setFont(new Font("Dialog", Font.BOLD, 19));
-		lblWorkerPanel.setBounds(182, 0, 177, 33);
-		contentPane.add(lblWorkerPanel);
 		
 		JButton btnNewButton = new JButton("Start Work");
 		btnNewButton.addActionListener(new ActionListener() {

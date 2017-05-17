@@ -30,6 +30,7 @@ public class AdministratorPanel extends JFrame {
 	private JTextField nameTextField;
 	private JTextField lastNameTextField;
 	private JTextField loginInput;
+	private static boolean isViewAllWorkersDispalyed = false; 
 
 	/**
 	 * Launch the application.
@@ -46,6 +47,10 @@ public class AdministratorPanel extends JFrame {
 			}
 		});
 	}
+	
+	public static void setIsViewAllWorkersDispalyed(boolean b) {
+		isViewAllWorkersDispalyed = b;
+	}
 
 	/**
 	 * Create the frame.
@@ -53,18 +58,18 @@ public class AdministratorPanel extends JFrame {
 	public AdministratorPanel(AppController contr) {
 		
 		this.controller = contr;
-	
+		
+		setTitle("Administrator panel");
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 564, 415);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblAdministratorPanel = new JLabel("  Administrator Panel");
-		lblAdministratorPanel.setFont(new Font("Dialog", Font.BOLD, 19));
-		lblAdministratorPanel.setBounds(149, -14, 248, 50);
-		contentPane.add(lblAdministratorPanel);
+		
 		
 		JButton addNewEmployeeButton = new JButton("Add");
 		addNewEmployeeButton.addActionListener(new ActionListener() {
@@ -119,10 +124,11 @@ public class AdministratorPanel extends JFrame {
 		JButton listAllButton = new JButton("List all");
 		listAllButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame newFrame = new ViewAllWorkrers(controller);
-				newFrame.setVisible(true);
-			
-				
+				if (!isViewAllWorkersDispalyed) {
+					JFrame newFrame = new ViewAllWorkrers(controller);
+					newFrame.setVisible(true);
+					setIsViewAllWorkersDispalyed(true);
+				}
 			}
 		});
 		listAllButton.setBounds(364, 193, 117, 25);

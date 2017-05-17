@@ -15,6 +15,8 @@ public class JadisDataAccess implements DataAccess {
 	public String hostName;
 
 	private Jedis connection;
+	
+	private String userKeyPrefix = "id:user:";
 
 	public JadisDataAccess(String hostName) {
 		this.hostName = hostName;
@@ -25,12 +27,12 @@ public class JadisDataAccess implements DataAccess {
 	@Override
 	public boolean doWorkerExists(Worker p) {
 
-		return connection.exists(p.getLogin());
+		return connection.exists(userKeyPrefix + p.getLogin());
 	}
 
 	@Override
 	public Worker loadWorker(Worker p) {
-		String key = p.getLogin();
+		String key = userKeyPrefix + p.getLogin();
 
 		p.setImsetName(connection.hget(key, "name"));
 		p.setLatName(connection.hget(key, "last_name"));
@@ -56,7 +58,7 @@ public class JadisDataAccess implements DataAccess {
 
 	@Override
 	public void saveWorker(Worker p) {
-		String key = p.getLogin();
+		String key = userKeyPrefix + p.getLogin();
 		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/ddHH:mm:ss");
 
 		if (p.getName() != null) {
@@ -81,10 +83,11 @@ public class JadisDataAccess implements DataAccess {
 
 	@Override
 	public List<Worker> getAllWorkers() {
-		Set<String> logins = connection.keys("*");
+		Set<String> logins = connection.keys("*" + userKeyPrefix + "*");
 		List<Worker> result = new ArrayList<Worker>();
 		for (String s : logins) {
-			result.add(loadWorker(Worker.withLogin(s)));
+			String modelObjectLogin = s.substring(userKeyPrefix.length(), s.length());
+			result.add(loadWorker(Worker.withLogin(modelObjectLogin)));
 		}
 		return result;
 	}
