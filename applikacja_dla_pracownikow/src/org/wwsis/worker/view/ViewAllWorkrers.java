@@ -146,7 +146,7 @@ public class ViewAllWorkrers extends JFrame {
 		contentPane.add(lblLogin);
 	}
 	
-	private void updateLists() {
+	public void updateLists() {
 		namesList.setModel(getListModel("name"));
 		latNamesList.setModel(getListModel("last_name"));
 		loginList.setModel(getListModel("login"));

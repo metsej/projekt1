@@ -17,6 +17,8 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class AdministratorPanel extends JFrame {
@@ -30,6 +32,7 @@ public class AdministratorPanel extends JFrame {
 	private JTextField nameTextField;
 	private JTextField lastNameTextField;
 	private JTextField loginInput;
+	private ViewAllWorkrers displayWorkers;
 	private static boolean isViewAllWorkersDispalyed = false; 
 
 	/**
@@ -64,6 +67,15 @@ public class AdministratorPanel extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(MainMenu.getBounds());
 		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+
+				displayWorkers.dispose();
+				
+			}
+		});
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -83,7 +95,10 @@ public class AdministratorPanel extends JFrame {
 				} else {
 					
 					Worker newWorker = controller.addAndGetNewWorker(name, lastname);
+					if (!isViewAllWorkersDispalyed) {
 					JOptionPane.showMessageDialog(null, "You created user with login " + newWorker.getLogin()+ " and password: " + newWorker.getPassword());
+					}
+					displayWorkers.updateLists();
 				}
 				
 			}
@@ -125,8 +140,9 @@ public class AdministratorPanel extends JFrame {
 		listAllButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!isViewAllWorkersDispalyed) {
-					JFrame newFrame = new ViewAllWorkrers(controller);
+					ViewAllWorkrers newFrame = new ViewAllWorkrers(controller);
 					newFrame.setVisible(true);
+					displayWorkers = newFrame;
 					setIsViewAllWorkersDispalyed(true);
 				}
 			}
@@ -141,6 +157,9 @@ public class AdministratorPanel extends JFrame {
 				MainMenu.setBounds(getBounds());
 				MainMenu window = new MainMenu(controller);
 				window.frame.setVisible(true);
+				if (isViewAllWorkersDispalyed){
+				displayWorkers.dispose();
+				}
 				setVisible(false);
 				dispose();
 				
@@ -175,7 +194,10 @@ public class AdministratorPanel extends JFrame {
 					
 					controller.changePass(login);
 					Worker actualWorker = controller.loadWorker(login);
+					if (!isViewAllWorkersDispalyed) {
 					JOptionPane.showMessageDialog(null, "New paswword for user with login " + login + " is : " + actualWorker.getPassword() );
+					}
+					displayWorkers.updateLists();
 				} else {
 					JOptionPane.showMessageDialog(null, "Incorrect login" );
 				}

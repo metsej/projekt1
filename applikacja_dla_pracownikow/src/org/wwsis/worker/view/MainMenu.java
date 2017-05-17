@@ -117,6 +117,7 @@ public class MainMenu {
 					if (controller.isAdmin(login, pass)) {
 
 						MainMenu.setBounds(frame.getBounds());
+						frame.setVisible(false);
 						frame.dispose();
 						AdministratorPanel adminPanel = new AdministratorPanel(controller);
 						adminPanel.setVisible(true);
