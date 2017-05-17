@@ -107,7 +107,7 @@ public class MainMenu {
 						workerPanel.setVisible(true);
 					
 					} else {
-						JOptionPane.showMessageDialog(null, "wrong password or login");
+						JOptionPane.showMessageDialog(null, "wrong password or login", "Alert", JOptionPane.WARNING_MESSAGE);
 					}
 					
 					} catch (Exception exc) {
