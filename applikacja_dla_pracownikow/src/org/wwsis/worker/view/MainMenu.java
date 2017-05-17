@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 
 import org.wwsis.worker.controller.AppController;
+import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
 import org.wwsis.worker.dataAccess.impl.JadisDataAccess;
 
@@ -100,8 +101,11 @@ public class MainMenu {
 						
 					} else if (controller.isValidLogNPass(pass, login)) {
 						frame.dispose();
-						WorkerPanel workerPanel = new WorkerPanel(login, controller);
+						Worker loggedWorker = controller.loadWorker(login);
+						controller.saveStartTime(loggedWorker);
+						WorkerPanel workerPanel = new WorkerPanel(loggedWorker, controller);
 						workerPanel.setVisible(true);
+					
 					} else {
 						JOptionPane.showMessageDialog(null, "wrong password or login");
 					}

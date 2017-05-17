@@ -19,7 +19,6 @@ import java.awt.event.ActionEvent;
 public class WorkerPanel extends JFrame {
 
 	private JPanel contentPane;
-	private String login;
 	private AppController controller;
 	private Worker loggedWorker;
 
@@ -42,10 +41,10 @@ public class WorkerPanel extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public WorkerPanel(String log, AppController contr) {
-		this.login = log;
+	public WorkerPanel(Worker logWor, AppController contr) {
+	
 		this.controller = contr;
-		loggedWorker = controller.loadWorker(login);
+		loggedWorker = logWor;
 		
 		setTitle("Worker panel");
 		setResizable(false);
@@ -61,7 +60,7 @@ public class WorkerPanel extends JFrame {
 		lblLoggedAs.setBounds(12, 35, 89, 33);
 		contentPane.add(lblLoggedAs);
 		
-		JLabel loginDisplay = new JLabel(login);
+		JLabel loginDisplay = new JLabel(loggedWorker.getLogin());
 		loginDisplay.setBounds(100, 35, 269, 33);
 		contentPane.add(loginDisplay);
 		
@@ -82,12 +81,6 @@ public class WorkerPanel extends JFrame {
 		contentPane.add(sWorkTimeLabbelDisplay);
 		
 		JButton btnNewButton = new JButton("Start Work");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				controller.saveStartTime(loggedWorker);
-				sWorkTimeLabbelDisplay.setText(loggedWorker.getStartTime());
-			}
-		});
 		btnNewButton.setBounds(48, 306, 117, 25);
 		contentPane.add(btnNewButton);
 		
