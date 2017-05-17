@@ -61,8 +61,8 @@ public class AdministratorPanel extends JFrame {
 		
 		setTitle("Administrator panel");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 564, 415);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(MainMenu.getBounds());
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -138,10 +138,11 @@ public class AdministratorPanel extends JFrame {
 		logOutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
+				MainMenu.setBounds(getBounds());
 				MainMenu window = new MainMenu(controller);
 				window.frame.setVisible(true);
 				setVisible(false);
+				dispose();
 				
 			}
 		});

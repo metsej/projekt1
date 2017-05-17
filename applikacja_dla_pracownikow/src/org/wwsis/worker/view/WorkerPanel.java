@@ -51,8 +51,9 @@ public class WorkerPanel extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-					System.out.print("aaa");
+
 					controller.logOut(loggedWorker);
+					MainMenu.setBounds(getBounds());
 				
 			}
 		});
@@ -60,7 +61,7 @@ public class WorkerPanel extends JFrame {
 		setTitle("Worker panel");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 564, 415);
+		setBounds(MainMenu.getBounds());
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -99,9 +100,11 @@ public class WorkerPanel extends JFrame {
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				controller.logOut(loggedWorker);
+				MainMenu.setBounds(getBounds());
 				MainMenu window = new MainMenu(controller);
 				window.frame.setVisible(true);
 				setVisible(false);
+				dispose();
 			}
 		});
 		btnLogOut.setBounds(379, 306, 117, 25);

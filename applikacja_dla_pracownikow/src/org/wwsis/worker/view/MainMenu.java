@@ -25,8 +25,12 @@ import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.JPasswordField;
 import java.awt.Font;
+import java.awt.Rectangle;
 
 public class MainMenu {
 
@@ -35,6 +39,8 @@ public class MainMenu {
 	private AppController controller;
 	private final Action action = new SwingAction();
 	private JPasswordField passwordField;
+	private static Rectangle bounds;
+	private static boolean wasSomeWindowDisplayed = false;
 	/**
 	 * Launch the application.
 	 */
@@ -66,10 +72,25 @@ public class MainMenu {
 	 */
 	private void initialize() {
 		frame = new JFrame("Main menu");
-		frame.setBounds(100, 100, 564, 415);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		if (!wasSomeWindowDisplayed){
+			frame.setBounds(100, 100, 564, 415);
+		} else {
+			frame.setBounds(bounds);
+		}
+		
+		frame.getBounds();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
+		wasSomeWindowDisplayed = true;
+		
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+					
+				bounds = frame.getBounds();
+			}
+		});
 		
 		loginTextField = new JTextField();
 		loginTextField.setBounds(149, 127, 261, 46);
@@ -95,11 +116,13 @@ public class MainMenu {
 					
 					if (controller.isAdmin(login, pass)) {
 
+						MainMenu.setBounds(frame.getBounds());
 						frame.dispose();
 						AdministratorPanel adminPanel = new AdministratorPanel(controller);
 						adminPanel.setVisible(true);
 						
 					} else if (controller.isValidLogNPass(pass, login)) {
+						MainMenu.setBounds(frame.getBounds());
 						frame.dispose();
 						Worker loggedWorker = controller.loadWorker(login);
 						controller.saveStartTime(loggedWorker);
@@ -123,6 +146,15 @@ public class MainMenu {
 		frame.getContentPane().add(passwordField);
 		
 	}
+	
+	public static Rectangle getBounds( ) {
+		return bounds;
+	}
+	
+	public static void setBounds (Rectangle b) {
+		bounds = b;
+	}
+	
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "SwingAction");
