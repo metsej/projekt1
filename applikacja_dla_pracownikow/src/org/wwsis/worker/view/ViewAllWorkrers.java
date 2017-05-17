@@ -129,16 +129,6 @@ public class ViewAllWorkrers extends JFrame {
 		btnNewButton.setBounds(492, 376, 58, -17);
 		contentPane.add(btnNewButton);
 		
-		JButton updateButton = new JButton("Update");
-		updateButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				updateLists();
-			}
-		});
-		updateButton.setBounds(819, 538, 117, 25);
-		contentPane.add(updateButton);
-		
-	
 		
 		JLabel lblLogin = new JLabel("login");
 		lblLogin.setFont(new Font("Dialog", Font.BOLD, 10));
