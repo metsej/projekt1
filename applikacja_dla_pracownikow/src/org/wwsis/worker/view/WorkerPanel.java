@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class WorkerPanel extends JFrame {
@@ -46,9 +48,18 @@ public class WorkerPanel extends JFrame {
 		this.controller = contr;
 		loggedWorker = logWor;
 		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+					System.out.print("aaa");
+					controller.logOut(loggedWorker);
+				
+			}
+		});
+		
 		setTitle("Worker panel");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 564, 415);
 		
 		contentPane = new JPanel();
