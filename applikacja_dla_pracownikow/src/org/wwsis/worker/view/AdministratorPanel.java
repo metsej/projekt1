@@ -91,13 +91,13 @@ public class AdministratorPanel extends JFrame {
 				String lastname = lastNameTextField.getText();
 				
 				if (name.equals("") || lastname.equals("")) {
-					JOptionPane.showMessageDialog(null, "You must insert name and lastname");
+					JOptionPane.showMessageDialog(null, "You must insert name and lastname","Alert", JOptionPane.WARNING_MESSAGE);
 				} else {
 					
 					Worker newWorker = controller.addAndGetNewWorker(name, lastname);
-					if (!isViewAllWorkersDispalyed) {
+					
 					JOptionPane.showMessageDialog(null, "You created user with login " + newWorker.getLogin()+ " and password: " + newWorker.getPassword());
-					}
+					
 					displayWorkers.updateLists();
 				}
 				
@@ -194,12 +194,12 @@ public class AdministratorPanel extends JFrame {
 					
 					controller.changePass(login);
 					Worker actualWorker = controller.loadWorker(login);
-					if (!isViewAllWorkersDispalyed) {
+					
 					JOptionPane.showMessageDialog(null, "New paswword for user with login " + login + " is : " + actualWorker.getPassword() );
-					}
+					
 					displayWorkers.updateLists();
 				} else {
-					JOptionPane.showMessageDialog(null, "Incorrect login" );
+					JOptionPane.showMessageDialog(null, "Incorrect login" ,"Alert", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
