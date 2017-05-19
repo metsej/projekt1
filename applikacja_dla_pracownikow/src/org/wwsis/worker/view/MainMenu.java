@@ -34,7 +34,7 @@ import java.awt.Rectangle;
 
 public class MainMenu {
 
-	public JFrame frame;
+	public  JFrame frame;
 	private JTextField loginTextField;
 	private AppController controller;
 	private final Action action = new SwingAction();
@@ -76,6 +76,7 @@ public class MainMenu {
 			frame.setBounds(100, 100, 564, 415);
 		} else {
 			frame.setBounds(bounds);
+			frame.setSize(564, 415);
 		}
 		
 		frame.getBounds();

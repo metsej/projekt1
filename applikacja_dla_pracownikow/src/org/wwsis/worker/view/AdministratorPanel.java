@@ -1,25 +1,26 @@
 package org.wwsis.worker.view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import org.wwsis.worker.controller.AppController;
-import org.wwsis.worker.data.Worker;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JTextField;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import org.wwsis.worker.controller.AppController;
+import org.wwsis.worker.data.Worker;
+import org.wwsis.worker.dataAccess.DataAccess;
+import org.wwsis.worker.dataAccess.impl.JadisDataAccess;
+
+import javax.swing.JTable;
 
 public class AdministratorPanel extends JFrame {
 
@@ -27,13 +28,17 @@ public class AdministratorPanel extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	private JTable table;
+	DefaultTableModel tableModel;
 	private AppController controller;
-	private JTextField nameTextField;
-	private JTextField lastNameTextField;
-	private JTextField loginInput;
-	private ViewAllWorkrers displayWorkers;
-	private static boolean isViewAllWorkersDispalyed = false; 
+	private String[][] data;
+	String column[] = { "LOGIN", "NAME", "LAST NAME", "PASSWORD", "STARTED WORK AT", "END WORK AT" };
+	JMenuBar menuBar;
+	private JMenu user, edit;
+	private JMenuItem addNewWorker;
+	private JMenuItem changePassword;
+	private JMenuItem logOut;
+	private JScrollPane contentPane;
 
 	/**
 	 * Launch the application.
@@ -42,7 +47,10 @@ public class AdministratorPanel extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdministratorPanel frame = new AdministratorPanel(null);
+					DataAccess dao = new JadisDataAccess("localhost");
+					AppController controller = new AppController();
+					controller.setDao(dao);
+					AdministratorPanel frame = new AdministratorPanel(controller);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,163 +58,144 @@ public class AdministratorPanel extends JFrame {
 			}
 		});
 	}
-	
-	public static void setIsViewAllWorkersDispalyed(boolean b) {
-		isViewAllWorkersDispalyed = b;
-	}
 
 	/**
 	 * Create the frame.
 	 */
 	public AdministratorPanel(AppController contr) {
-		
-		this.controller = contr;
-		
-		setTitle("Administrator panel");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(MainMenu.getBounds());
-		
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosed(WindowEvent e) {
 
-				displayWorkers.dispose();
-				
+		this.controller = contr;
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setResizable(true);
+		setTitle("Administrator panel");
+		setMenu();
+
+	}
+
+	private void setMenu() {
+		menuBar = new JMenuBar();
+		edit = new JMenu("Edit");
+		user = new JMenu("User");
+
+		assignAllJMenuItems();
+
+		edit.add(addNewWorker);
+		edit.add(changePassword);
+		user.add(logOut);
+		menuBar.add(edit);
+		menuBar.add(user);
+
+		add(menuBar);
+		setJMenuBar(menuBar);
+
+		table = new JTable();
+		table.setBounds(12, 0, 950, 200);
+		setBounds(MainMenu.getBounds());
+		setSize(950, 200);
+		tableModel = new DefaultTableModel(data, column) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// all cells false
+				return false;
 			}
-		});
-		
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		
-		
-		JButton addNewEmployeeButton = new JButton("Add");
-		addNewEmployeeButton.addActionListener(new ActionListener() {
+		};
+
+		updateTable();
+		table.setModel(tableModel);
+		contentPane = new JScrollPane(table);
+		add(contentPane);
+
+	}
+
+	private void assignAllJMenuItems() {
+		assingAddNewWorker();
+		assingLogOut();
+		assignChangePassword();
+	}
+
+	private void assingAddNewWorker() {
+
+		addNewWorker = new JMenuItem("Add new user");
+		addNewWorker.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				String name = nameTextField.getText();
-				String lastname = lastNameTextField.getText();
-				
+				String name = JOptionPane.showInputDialog(null, "Enter Name");
+				String lastname = JOptionPane.showInputDialog(null, "Enter Last name");
+
 				if (name.equals("") || lastname.equals("")) {
-					JOptionPane.showMessageDialog(null, "You must insert name and lastname","Alert", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "You must insert name and lastname", "Alert",
+							JOptionPane.WARNING_MESSAGE);
 				} else {
-					
+
 					Worker newWorker = controller.addAndGetNewWorker(name, lastname);
-					
-					JOptionPane.showMessageDialog(null, "You created user with login " + newWorker.getLogin()+ " and password: " + newWorker.getPassword());
-					
-					displayWorkers.updateTable();
+
+					JOptionPane.showMessageDialog(null, "You created user with login " + newWorker.getLogin()
+							+ " and password: " + newWorker.getPassword());
+
+					updateTable();
 				}
-				
+
 			}
 		});
-		addNewEmployeeButton.setBounds(364, 138, 117, 25);
-		contentPane.add(addNewEmployeeButton);
-		
-		nameTextField = new JTextField();
-		nameTextField.setColumns(10);
-		nameTextField.setBounds(91, 100, 180, 26);
-		contentPane.add(nameTextField);
-		
-		lastNameTextField = new JTextField();
-		lastNameTextField.setColumns(10);
-		lastNameTextField.setBounds(301, 100, 180, 26);
-		contentPane.add(lastNameTextField);
-		
-		JLabel lblImie = new JLabel("Name");
-		lblImie.setFont(new Font("DejaVu Serif", Font.BOLD, 14));
-		lblImie.setBounds(91, 73, 70, 15);
-		contentPane.add(lblImie);
-		
-		JLabel lblNazwisko = new JLabel("Last name");
-		lblNazwisko.setFont(new Font("DejaVu Serif", Font.BOLD, 14));
-		lblNazwisko.setBounds(301, 73, 96, 15);
-		contentPane.add(lblNazwisko);
-		
-		JLabel lblNewLabel = new JLabel("Add new employee");
-		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 16));
-		lblNewLabel.setBounds(91, 31, 180, 31);
-		contentPane.add(lblNewLabel);
-		
-		JLabel lblListAllEmployee = new JLabel("List all employee");
-		lblListAllEmployee.setFont(new Font("Dialog", Font.BOLD, 16));
-		lblListAllEmployee.setBounds(91, 189, 165, 31);
-		contentPane.add(lblListAllEmployee);
-		
-		JButton listAllButton = new JButton("List all");
-		listAllButton.addActionListener(new ActionListener() {
+	}
+
+	private void assingLogOut() {
+
+		logOut = new JMenuItem("Log out");
+		logOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!isViewAllWorkersDispalyed) {
-					ViewAllWorkrers newFrame = new ViewAllWorkrers(controller);
-					newFrame.setVisible(true);
-					displayWorkers = newFrame;
-					setIsViewAllWorkersDispalyed(true);
-				}
-			}
-		});
-		listAllButton.setBounds(364, 193, 117, 25);
-		contentPane.add(listAllButton);
-		
-		JButton logOutButton = new JButton("Log out");
-		logOutButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
 				MainMenu.setBounds(getBounds());
 				MainMenu window = new MainMenu(controller);
 				window.frame.setVisible(true);
-				if (isViewAllWorkersDispalyed){
-				displayWorkers.dispose();
-				}
 				setVisible(false);
 				dispose();
-				
 			}
 		});
-		logOutButton.setBounds(217, 353, 117, 25);
-		contentPane.add(logOutButton);
-		
-		JLabel lblChangePassword = new JLabel("Change password");
-		lblChangePassword.setFont(new Font("Dialog", Font.BOLD, 16));
-		lblChangePassword.setBounds(91, 265, 202, 31);
-		contentPane.add(lblChangePassword);
-		
-		loginInput = new JTextField();
-		loginInput.setColumns(10);
-		loginInput.setBounds(373, 269, 117, 26);
-		contentPane.add(loginInput);
-		
-		JLabel lblInsertLogin = new JLabel("insert login: ");
-		lblInsertLogin.setFont(new Font("DejaVu Serif", Font.BOLD, 14));
-		lblInsertLogin.setBounds(270, 274, 101, 15);
-		contentPane.add(lblInsertLogin);
-		
-		JButton btnChange = new JButton("Change");
-		btnChange.addActionListener(new ActionListener() {
+
+	}
+
+	private void assignChangePassword() {
+		changePassword = new JMenuItem("Change password of some user");
+		changePassword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String login = loginInput.getText();
+				String login = JOptionPane.showInputDialog(null, "Insert login");
 				Worker potencialWorker = Worker.withLogin(login);
-				
-				
-				if(controller.doWorkerExists(potencialWorker)) {
-					
+
+				if (controller.doWorkerExists(potencialWorker)) {
+
 					controller.changePass(login);
 					Worker actualWorker = controller.loadWorker(login);
-					
-					JOptionPane.showMessageDialog(null, "New paswword for user with login " + login + " is : " + actualWorker.getPassword() );
-					
-					displayWorkers.updateTable();
+
+					JOptionPane.showMessageDialog(null,
+							"New paswword for user with login " + login + " is : " + actualWorker.getPassword());
+
+					updateTable();
 				} else {
-					JOptionPane.showMessageDialog(null, "Incorrect login" ,"Alert", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Incorrect login", "Alert", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
-		btnChange.setBounds(364, 307, 125, 25);
-		contentPane.add(btnChange);
+
 	}
-	
-	
+
+	private void updateTable() {
+		int n = controller.getAllWorkers().size();
+		data = new String[n][6];
+
+		int i = 0;
+		for (Worker curentWorker : controller.getAllWorkers()) {
+			data[i][0] = curentWorker.getLogin();
+			data[i][1] = curentWorker.getName();
+			data[i][2] = curentWorker.getLastName();
+			data[i][3] = curentWorker.getPassword();
+			data[i][4] = curentWorker.getStartTime();
+			data[i][5] = curentWorker.getEndTime();
+			i++;
+		}
+		tableModel.setDataVector(data, column);
+
+	}
 
 }
