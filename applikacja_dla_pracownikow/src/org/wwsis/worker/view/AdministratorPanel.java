@@ -98,7 +98,7 @@ public class AdministratorPanel extends JFrame {
 					
 					JOptionPane.showMessageDialog(null, "You created user with login " + newWorker.getLogin()+ " and password: " + newWorker.getPassword());
 					
-					displayWorkers.updateLists();
+					displayWorkers.updateTable();
 				}
 				
 			}
@@ -197,7 +197,7 @@ public class AdministratorPanel extends JFrame {
 					
 					JOptionPane.showMessageDialog(null, "New paswword for user with login " + login + " is : " + actualWorker.getPassword() );
 					
-					displayWorkers.updateLists();
+					displayWorkers.updateTable();
 				} else {
 					JOptionPane.showMessageDialog(null, "Incorrect login" ,"Alert", JOptionPane.WARNING_MESSAGE);
 				}

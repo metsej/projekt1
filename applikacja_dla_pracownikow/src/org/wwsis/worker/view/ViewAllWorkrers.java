@@ -98,7 +98,7 @@ public class ViewAllWorkrers extends JFrame {
 		endList.setBounds(786, 25, 150, 472);
 		contentPane.add(endList);
 		
-		updateLists();
+		updateTable();
 		
 		JLabel lblNewLabel = new JLabel("Name");
 		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 10));
@@ -136,7 +136,7 @@ public class ViewAllWorkrers extends JFrame {
 		contentPane.add(lblLogin);
 	}
 	
-	public void updateLists() {
+	public void updateTable() {
 		namesList.setModel(getListModel("name"));
 		latNamesList.setModel(getListModel("last_name"));
 		loginList.setModel(getListModel("login"));
