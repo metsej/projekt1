@@ -126,25 +126,25 @@ public class AdministratorPanel extends JFrame {
 
 	}
 		
-		private void doCopy() {
-			int col = table.getSelectedColumn();
-		    int row = table.getSelectedRow();
-		    if (col != -1 && row != -1) {
-		        Object value = table.getValueAt(row, col);
-		        String data;
-		        if (value == null) {
-		            data = "";
-		        } else {
-		            data = value.toString();
-		        }//end if
+	private void doCopy() {
+		int col = table.getSelectedColumn();
+		int row = table.getSelectedRow();
+		if (col != -1 && row != -1) {
+			Object value = table.getValueAt(row, col);
+			String data;
+			if (value == null) {
+				data = "";
+			} else {
+				data = value.toString();
+			} // end if
 
-		        final StringSelection selection = new StringSelection(data);     
+			final StringSelection selection = new StringSelection(data);
 
-		        final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		        clipboard.setContents(selection, selection);
-		    }//end if
-			
-		}
+			final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+			clipboard.setContents(selection, selection);
+		} // end if
+
+	}
 		
 
 	private void assignAllJMenuItems() {
