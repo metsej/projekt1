@@ -123,8 +123,8 @@ public class AdministratorPanel extends JFrame {
 				String name = JOptionPane.showInputDialog(null, "Enter Name");
 				String lastname = JOptionPane.showInputDialog(null, "Enter Last name");
 
-				if (name.equals("") || lastname.equals("")) {
-					JOptionPane.showMessageDialog(null, "You must insert name and lastname", "Alert",
+				if (name.equals("") || lastname.equals("") || name.contains(" ") || lastname.contains(" ") ) {
+					JOptionPane.showMessageDialog(null, "Incorrect name or lastname", "Alert",
 							JOptionPane.WARNING_MESSAGE);
 				} else {
 
