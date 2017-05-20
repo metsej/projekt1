@@ -1,11 +1,16 @@
 package org.wwsis.worker.view;
 
 import java.awt.EventQueue;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -21,6 +26,9 @@ import org.wwsis.worker.dataAccess.DataAccess;
 import org.wwsis.worker.dataAccess.impl.JadisDataAccess;
 
 import javax.swing.JTable;
+import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
 
 public class AdministratorPanel extends JFrame {
 
@@ -104,10 +112,40 @@ public class AdministratorPanel extends JFrame {
 
 		updateTable();
 		table.setModel(tableModel);
+		ActionListener listener = new ActionListener() {
+			 public void actionPerformed(ActionEvent event) {
+			 doCopy();
+			 }//end actionPerformed(ActionEvent)
+
+		};
+
+		final KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK, false);
+		table.registerKeyboardAction(listener, "Copy", stroke, JComponent.WHEN_FOCUSED);
 		contentPane = new JScrollPane(table);
 		add(contentPane);
 
 	}
+		
+		private void doCopy() {
+			int col = table.getSelectedColumn();
+		    int row = table.getSelectedRow();
+		    if (col != -1 && row != -1) {
+		        Object value = table.getValueAt(row, col);
+		        String data;
+		        if (value == null) {
+		            data = "";
+		        } else {
+		            data = value.toString();
+		        }//end if
+
+		        final StringSelection selection = new StringSelection(data);     
+
+		        final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		        clipboard.setContents(selection, selection);
+		    }//end if
+			
+		}
+		
 
 	private void assignAllJMenuItems() {
 		assingAddNewWorker();
