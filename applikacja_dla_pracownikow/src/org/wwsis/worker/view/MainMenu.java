@@ -37,10 +37,10 @@ public class MainMenu {
 	public  JFrame frame;
 	private JTextField loginTextField;
 	private AppController controller;
-	private final Action action = new SwingAction();
 	private JPasswordField passwordField;
 	private static Rectangle bounds;
 	private static boolean wasSomeWindowDisplayed = false;
+	private JButton logInButton;
 	/**
 	 * Launch the application.
 	 */
@@ -98,6 +98,8 @@ public class MainMenu {
 		frame.getContentPane().add(loginTextField);
 		loginTextField.setColumns(10);
 		
+		setLoginActionListener();
+		
 		
 		JLabel lblLogin = new JLabel("           Login");
 		lblLogin.setBounds(52, 127, 99, 45);
@@ -107,7 +109,14 @@ public class MainMenu {
 		lblPassword.setBounds(62, 184, 89, 37);
 		frame.getContentPane().add(lblPassword);
 		
-		JButton logInButton = new JButton("Log in");
+		passwordField = new JPasswordField();
+		passwordField.setBounds(149, 185, 261, 46);
+		frame.getContentPane().add(passwordField);
+		
+	}
+	
+	public void setLoginActionListener() {
+		logInButton = new JButton("Log in");
 		logInButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -142,11 +151,6 @@ public class MainMenu {
 		});
 		logInButton.setBounds(221, 273, 117, 25);
 		frame.getContentPane().add(logInButton);
-		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(149, 185, 261, 46);
-		frame.getContentPane().add(passwordField);
-		
 	}
 	
 	public static Rectangle getBounds( ) {
@@ -157,12 +161,5 @@ public class MainMenu {
 		bounds = b;
 	}
 	
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		}
-	}
+
 }

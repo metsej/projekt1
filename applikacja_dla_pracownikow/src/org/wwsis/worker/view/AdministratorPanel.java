@@ -89,7 +89,6 @@ public class AdministratorPanel extends JFrame {
 		setJMenuBar(menuBar);
 
 		table = new JTable();
-		table.setBounds(12, 0, 950, 200);
 		setBounds(MainMenu.getBounds());
 		setSize(950, 200);
 		tableModel = new DefaultTableModel(data, column) {
