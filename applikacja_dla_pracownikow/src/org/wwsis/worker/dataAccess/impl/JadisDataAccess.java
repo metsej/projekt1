@@ -51,6 +51,13 @@ public class JadisDataAccess implements DataAccess {
 		} else {
 			p.setIsBlocked(false);
 		}
+		
+		String didLogedForTheFirstTimeStr = connection.hget(key, "didLogedForTheFirstTime");
+		if (didLogedForTheFirstTimeStr != null) {
+			p.setDidLogedForTheFirstTime(didLogedForTheFirstTimeStr.equals("true"));
+		} else {
+			p.setDidLogedForTheFirstTime(false);
+		}
 
 		String strStartTime = connection.hget(key, "start");
 		if (strStartTime != null) {
@@ -60,6 +67,12 @@ public class JadisDataAccess implements DataAccess {
 		if (strEndTime != null) {
 			
 			p.setEndTime(strEndTime);
+		}
+		
+		String strNumOfFailedLogingAttempts = connection.hget(key, "numOfFailedLogingAttempts");
+		if (strNumOfFailedLogingAttempts != null) {
+			
+			p.setNumOfFailedLogingAttempts(Integer.parseInt(strNumOfFailedLogingAttempts));
 		}
 		
 		return p;
@@ -73,12 +86,15 @@ public class JadisDataAccess implements DataAccess {
 		if (p.getName() != null) {
 			connection.hset(key, "name", p.getName());
 		}
+		
 		if (p.getLastName() != null) {
 			connection.hset(key, "last_name", p.getLastName());
 		}
+		
 		if (p.getPassword() != null) {
 			connection.hset(key, "pass", p.getPassword());
 		}
+		
 		if (p.getIsLogged() != null) {
 			connection.hset(key, "isLogged", Boolean.toString(p.getIsLogged()));
 		}
@@ -86,12 +102,20 @@ public class JadisDataAccess implements DataAccess {
 		if (p.getIsBlocked() != null) {
 			connection.hset(key, "isBlocked", Boolean.toString(p.getIsBlocked()));
 		}
+		
+		if (p.getDidLogedForTheFirstTime() != null) {
+			connection.hset(key, "didLogedForTheFirstTime", Boolean.toString(p.getDidLogedForTheFirstTime()));
+		}
+		
 		if (p.getStartTime() != null) {
 			connection.hset(key, "start", p.getStartTime());
 		}
+		
 		if (p.getEndTime() != null) {
 			connection.hset(key, "stop", p.getEndTime());
 		}
+		
+		connection.hset(key, "numOfFailedLogingAttempts", Integer.toString (p.getNumOfFailedLogingAttempts()));
 	}
 	
 	@Override

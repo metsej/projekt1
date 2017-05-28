@@ -21,6 +21,7 @@ import org.wwsis.worker.dataAccess.impl.JadisDataAccess;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
@@ -61,6 +62,15 @@ public class MainMenu {
 		initialize();
 	}
 
+	
+	public static Rectangle getBounds() {
+		return bounds;
+	}
+
+	public static void setBounds(Rectangle b) {
+		bounds = b;
+	}
+	
 	private void initialize() {
 
 		setFrame();
@@ -128,17 +138,31 @@ public class MainMenu {
 						AdministratorPanel adminPanel = new AdministratorPanel(controller);
 						adminPanel.setVisible(true);
 
-					} else if (controller.isValidLogNPass(pass, login)) {
+					} else if (controller.doWorkerExists(Worker.withLogin(login))) {
 						Worker worker = controller.loadWorker(login);
 						
-						if (worker.getIsBlocked()) {
+						if (!controller.isValidLogNPass(pass, login)) {
+							JOptionPane.showMessageDialog(null, "wrong password or login", "Alert",
+							JOptionPane.WARNING_MESSAGE);
+							controller.incrementFailedLoggingAttempt(worker);
+							if (worker.getNumOfFailedLogingAttempts() >= 3) {
+								controller.blockUser(worker);
+								JOptionPane.showMessageDialog(null, "You gave 3 times wrong passwor. You accound have been blocked", "Alert",
+								JOptionPane.WARNING_MESSAGE);
+							}
+						} else if (worker.getIsBlocked()) {
 							JOptionPane.showMessageDialog(null, "You were blocked. Contact administrator", "Alert",
 									JOptionPane.WARNING_MESSAGE);
 							
 						} else {
 							MainMenu.setBounds(frame.getBounds());
 							frame.dispose();
+							if (!worker.getDidLogedForTheFirstTime()) {
+								forceToChangePassord(worker);
+							}
+							controller.markMandatoryPassChange(worker);
 							controller.saveStartTime(worker);
+							controller.resetFailedLoggingAttempt(worker);
 							WorkerPanel workerPanel = new WorkerPanel(worker, controller);
 							workerPanel.setVisible(true);
 						}
@@ -157,13 +181,60 @@ public class MainMenu {
 		logInButton.setBounds(221, 273, 117, 25);
 		frame.getContentPane().add(logInButton);
 	}
+	
+	private void forceToChangePassord(Worker worker) {
 
-	public static Rectangle getBounds() {
-		return bounds;
+		Boolean wasPassChanged = false;
+		String newPass = " ";
+		String oldPass;
+		String login = worker.getLogin();
+
+		while (!wasPassChanged) {
+
+			while (true) {
+				newPass = getPasswordFromUser ("Oligatory password change", "Insert new password");
+				if (controller.isPassValid(newPass)) {
+					break;
+				} else {
+					JOptionPane.showMessageDialog(frame, "Wrong password format", "Alert", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+
+			while (true) {
+				oldPass = getPasswordFromUser ("Oligatory password change","Insert your old password");
+				if (controller.isValidLogNPass(oldPass, login)) {
+					wasPassChanged = true;
+					break;
+				} else {
+					JOptionPane.showMessageDialog(frame, "Wrong password ", "Alert", JOptionPane.WARNING_MESSAGE);
+
+				}
+			}
+
+		}
+		controller.setNewPass(worker, newPass);
+
+	}
+	
+	private String getPasswordFromUser (String title, String TextContent) {
+		JPanel panel = new JPanel();
+		JLabel label = new JLabel(TextContent);
+		JPasswordField pass = new JPasswordField(10);
+		panel.add(label);
+		panel.add(pass);
+		String[] options = new String[]{"OK", "Cancel"};
+		int option = JOptionPane.showOptionDialog(frame, panel, title,
+		                         JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+		                         null, options, options[1]);
+		if(option == 0) // pressing OK button
+		{
+		    return new String (pass.getPassword());
+		   
+		} else {
+			frame.dispose();
+			return " ";
+		}
 	}
 
-	public static void setBounds(Rectangle b) {
-		bounds = b;
-	}
 
 }

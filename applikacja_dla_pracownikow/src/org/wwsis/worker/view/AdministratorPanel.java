@@ -208,7 +208,7 @@ public class AdministratorPanel extends JFrame {
 
 				if (controller.doWorkerExists(potencialWorker)) {
 
-					controller.changePass(login);
+					controller.generateNewPass(login);
 					Worker actualWorker = controller.loadWorker(login);
 
 					JOptionPane.showMessageDialog(null,
@@ -260,6 +260,7 @@ public class AdministratorPanel extends JFrame {
 					
 					Worker actualWorker = controller.loadWorker(login);
 					controller.unBlockUser(actualWorker);
+					controller.resetFailedLoggingAttempt(actualWorker);
 
 					JOptionPane.showMessageDialog(null,
 							" User with login " + login + " is unblocked now");

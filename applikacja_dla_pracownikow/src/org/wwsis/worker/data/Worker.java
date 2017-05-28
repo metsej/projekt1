@@ -9,8 +9,10 @@ public class Worker {
 	private String password;
 	private Boolean isLogged;
 	private Boolean isBlocked;
+	private Boolean didLogedForTheFirstTime;
 	private String timeOfStart;
 	private String timeofEnd;
+	private int numOfFailedLogingAttempts;
 
 
 	public static Worker withLogin(String login){
@@ -81,6 +83,22 @@ public class Worker {
 
 	public void setIsBlocked(Boolean isBlocked) {
 		this.isBlocked = isBlocked;
+	}
+
+	public int getNumOfFailedLogingAttempts() {
+		return numOfFailedLogingAttempts;
+	}
+
+	public void setNumOfFailedLogingAttempts(int numOfFailedLogingAttempts) {
+		this.numOfFailedLogingAttempts = numOfFailedLogingAttempts;
+	}
+
+	public Boolean getDidLogedForTheFirstTime() {
+		return didLogedForTheFirstTime;
+	}
+
+	public void setDidLogedForTheFirstTime(Boolean didLogedForTheFirstTime) {
+		this.didLogedForTheFirstTime = didLogedForTheFirstTime;
 	}
 
 }

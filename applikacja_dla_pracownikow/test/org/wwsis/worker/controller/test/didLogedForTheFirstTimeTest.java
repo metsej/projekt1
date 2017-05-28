@@ -1,4 +1,4 @@
-package wwsis.org.controllerTest;
+package org.wwsis.worker.controller.test;
 
 import static org.junit.Assert.*;
 
@@ -8,8 +8,8 @@ import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
 import org.wwsis.worker.dataAccess.impl.JadisDataAccess;
 
-public class blockUserTest {
-	
+public class didLogedForTheFirstTimeTest {
+
 	private String connectionName = "localhost";
 
 	@Test
@@ -17,24 +17,25 @@ public class blockUserTest {
 		DataAccess dao = new JadisDataAccess (connectionName);
 		AppController testController = new AppController();
 		testController.setDao(dao);
-		Worker w1 = testController.addAndGetNewWorker("test", "User");
+		Worker w1 = testController.addAndGetNewWorker("test1", "User");
 		dao.setExpireTimeForWorker(w1, 2);
-		testController.blockUser(w1);
+		testController.markMandatoryPassChange(w1);
 		w1 = testController.loadWorker(w1.getLogin());
-		assertEquals(w1.getIsBlocked(), true);
+		assertEquals(w1.getDidLogedForTheFirstTime(), true);
 	}
 	
 	@Test
-	public void test1() {
+	public void test2() {
 		DataAccess dao = new JadisDataAccess (connectionName);
 		AppController testController = new AppController();
 		testController.setDao(dao);
-		Worker w1 = testController.addAndGetNewWorker("test1", "User");
+		Worker w1 = testController.addAndGetNewWorker("test2", "User");
 		dao.setExpireTimeForWorker(w1, 2);
-		testController.blockUser(w1);
-		testController.unBlockUser(w1);
+
 		w1 = testController.loadWorker(w1.getLogin());
-		assertEquals(w1.getIsBlocked(), false);
+		assertEquals(w1.getDidLogedForTheFirstTime(), false);
 	}
+	
+	
 
 }

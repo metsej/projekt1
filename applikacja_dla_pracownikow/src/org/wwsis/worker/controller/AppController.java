@@ -71,6 +71,12 @@ public class AppController {
 		p.setIsBlocked(false);
 		dao.saveWorker(p);
 	}
+	
+	public void markMandatoryPassChange (Worker p) {
+		p.setDidLogedForTheFirstTime(true);
+		dao.saveWorker(p);
+		
+	}
 
 	public boolean isValidLogNPass(String password, String login) {
 		Worker key = Worker.withLogin(login);
@@ -81,13 +87,32 @@ public class AppController {
 		return false;
 	}
 
-	public void changePass(String login) {
+	public void generateNewPass(String login) {
 		String noweHaslo = getNewPass();
 		Worker p1 = new Worker();
 		p1.setLogin(login);
 		Worker p2 = getDao().loadWorker(p1);
 		p2.setPassword(noweHaslo);
 		getDao().saveWorker(p2);
+	}
+	
+	public void setNewPass (Worker p, String newPass) {
+		p.setPassword(newPass);
+		dao.saveWorker(p);
+	}
+	
+	public void incrementFailedLoggingAttempt (Worker p) {
+		int current = p.getNumOfFailedLogingAttempts();
+		p.setNumOfFailedLogingAttempts(current + 1);
+		dao.saveWorker(p);
+		
+	}
+	
+	public void resetFailedLoggingAttempt  (Worker p) {
+
+		p.setNumOfFailedLogingAttempts(0);
+		dao.saveWorker(p);
+		
 	}
 
 	public List<Worker> gettAllWorker() {
@@ -123,7 +148,7 @@ public class AppController {
 		dao.erase();
 	}
 	
-	private static String getNewPass() {
+	private  String getNewPass() {
 		int randomNum = ThreadLocalRandom.current().nextInt(0, 3);
 		String alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		String insert = alfabet.substring(randomNum, (randomNum + 3));
@@ -141,10 +166,13 @@ public class AppController {
 
 	}
 	
-	private static boolean isPassValid(String password) {
+	public boolean isPassValid(String password) {
+		
 		boolean hasLowerCase = false;
 		boolean hasUpperCase = false;
 		boolean hasNum = false;
+		boolean noSpaces = password.contains(" ");
+		boolean isLongEnought = password.length() >= 8;
 
 		for (int i = 0; i < password.length(); i++) {
 			char c = password.charAt(i);
@@ -161,7 +189,7 @@ public class AppController {
 				hasNum = true;
 			}
 
-			if (hasLowerCase && hasUpperCase && hasNum) {
+			if (hasLowerCase && hasUpperCase && hasNum && !noSpaces && isLongEnought) {
 				return true;
 			}
 
