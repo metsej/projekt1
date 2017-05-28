@@ -8,6 +8,7 @@ public class Worker {
 	private String lastName;
 	private String password;
 	private Boolean isLogged;
+	private Boolean isBlocked;
 	private String timeOfStart;
 	private String timeofEnd;
 
@@ -72,6 +73,14 @@ public class Worker {
 
 	public void setIsLogged(Boolean zalogowany) {
 		this.isLogged = zalogowany;
+	}
+
+	public Boolean getIsBlocked() {
+		return isBlocked;
+	}
+
+	public void setIsBlocked(Boolean isBlocked) {
+		this.isBlocked = isBlocked;
 	}
 
 }

@@ -38,9 +38,18 @@ public class JadisDataAccess implements DataAccess {
 		p.setLatName(connection.hget(key, "last_name"));
 		p.setPassword(connection.hget(key, "pass"));
 
-		String isLogged = connection.hget(key, "czyZalogowany");
+		String isLogged = connection.hget(key, "isLogged");
 		if (isLogged != null) {
 			p.setIsLogged(isLogged.equals("true"));
+		} else {
+			p.setIsLogged(false);
+		}
+		
+		String isBlocked = connection.hget(key, "isBlocked");
+		if (isBlocked != null) {
+			p.setIsBlocked(isBlocked.equals("true"));
+		} else {
+			p.setIsBlocked(false);
 		}
 
 		String strStartTime = connection.hget(key, "start");
@@ -71,7 +80,11 @@ public class JadisDataAccess implements DataAccess {
 			connection.hset(key, "pass", p.getPassword());
 		}
 		if (p.getIsLogged() != null) {
-			connection.hset(key, "czyZalogowany", Boolean.toString(p.getIsLogged()));
+			connection.hset(key, "isLogged", Boolean.toString(p.getIsLogged()));
+		}
+		
+		if (p.getIsBlocked() != null) {
+			connection.hset(key, "isBlocked", Boolean.toString(p.getIsBlocked()));
 		}
 		if (p.getStartTime() != null) {
 			connection.hset(key, "start", p.getStartTime());
@@ -80,6 +93,12 @@ public class JadisDataAccess implements DataAccess {
 			connection.hset(key, "stop", p.getEndTime());
 		}
 	}
+	
+	@Override
+	public void setExpireTimeForWorker (Worker w, int seconds ) {
+		connection.expire(userKeyPrefix  + w.getLogin(), seconds);
+	}
+
 
 	@Override
 	public List<Worker> getAllWorkers() {
@@ -107,5 +126,6 @@ public class JadisDataAccess implements DataAccess {
 	public void erase() {
 		connection.flushAll();
 	}
-
+	
+	
 }

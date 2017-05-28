@@ -14,6 +14,8 @@ public interface DataAccess {
 
 	public List<Worker> getAllWorkers();
 	
+	public void setExpireTimeForWorker(Worker w, int seconds);
+	
 	public void save();
 	
 	public void close();

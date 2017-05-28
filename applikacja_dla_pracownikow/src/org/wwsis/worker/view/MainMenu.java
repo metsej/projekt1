@@ -129,12 +129,20 @@ public class MainMenu {
 						adminPanel.setVisible(true);
 
 					} else if (controller.isValidLogNPass(pass, login)) {
-						MainMenu.setBounds(frame.getBounds());
-						frame.dispose();
-						Worker loggedWorker = controller.loadWorker(login);
-						controller.saveStartTime(loggedWorker);
-						WorkerPanel workerPanel = new WorkerPanel(loggedWorker, controller);
-						workerPanel.setVisible(true);
+						Worker worker = controller.loadWorker(login);
+						
+						if (worker.getIsBlocked()) {
+							JOptionPane.showMessageDialog(null, "You were blocked. Contact administrator", "Alert",
+									JOptionPane.WARNING_MESSAGE);
+							
+						} else {
+							MainMenu.setBounds(frame.getBounds());
+							frame.dispose();
+							controller.saveStartTime(worker);
+							WorkerPanel workerPanel = new WorkerPanel(worker, controller);
+							workerPanel.setVisible(true);
+						}
+						
 
 					} else {
 						JOptionPane.showMessageDialog(null, "wrong password or login", "Alert",

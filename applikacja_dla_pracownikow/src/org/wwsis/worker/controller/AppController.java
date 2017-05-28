@@ -61,6 +61,16 @@ public class AppController {
 		p.setIsLogged(false);
 		getDao().saveWorker(p);
 	}
+	
+	public void blockUser (Worker p) {
+		p.setIsBlocked(true);
+		dao.saveWorker(p);
+	}
+	
+	public void unBlockUser (Worker p) {
+		p.setIsBlocked(false);
+		dao.saveWorker(p);
+	}
 
 	public boolean isValidLogNPass(String password, String login) {
 		Worker key = Worker.withLogin(login);
@@ -112,8 +122,6 @@ public class AppController {
 	public void eraseDataBase(){
 		dao.erase();
 	}
-	
-	
 	
 	private static String getNewPass() {
 		int randomNum = ThreadLocalRandom.current().nextInt(0, 3);

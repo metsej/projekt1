@@ -40,12 +40,14 @@ public class AdministratorPanel extends JFrame {
 	DefaultTableModel tableModel;
 	private AppController controller;
 	private String[][] data;
-	String column[] = { "LOGIN", "NAME", "LAST NAME", "PASSWORD", "STARTED WORK AT", "END WORK AT" };
+	String column[] = { "LOGIN", "FIRST NAME", "LAST NAME", "PASSWORD", "STARTED WORK AT", "END WORK AT" };
 	JMenuBar menuBar;
 	private JMenu user, edit;
 	private JMenuItem addNewWorker;
 	private JMenuItem changePassword;
 	private JMenuItem logOut;
+	private JMenuItem blockUser;
+	private JMenuItem unBlockUser;
 	private JScrollPane contentPane;
 
 	/**
@@ -89,6 +91,9 @@ public class AdministratorPanel extends JFrame {
 
 		edit.add(addNewWorker);
 		edit.add(changePassword);
+		edit.add(blockUser);
+		edit.add(unBlockUser);
+		edit.add(changePassword);
 		user.add(logOut);
 		menuBar.add(edit);
 		menuBar.add(user);
@@ -98,7 +103,7 @@ public class AdministratorPanel extends JFrame {
 
 		table = new JTable();
 		setBounds(MainMenu.getBounds());
-		setSize(950, 200);
+		setSize(950, 300);
 		tableModel = new DefaultTableModel(data, column) {
 
 			private static final long serialVersionUID = 1L;
@@ -143,14 +148,15 @@ public class AdministratorPanel extends JFrame {
 			final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 			clipboard.setContents(selection, selection);
 		} // end if
-
 	}
 		
-
 	private void assignAllJMenuItems() {
 		assingAddNewWorker();
 		assingLogOut();
 		assignChangePassword();
+		assignUnBlockUser();
+		assignBlockUser();
+		assignUnBlockUser();
 	}
 
 	private void assingAddNewWorker() {
@@ -207,6 +213,56 @@ public class AdministratorPanel extends JFrame {
 
 					JOptionPane.showMessageDialog(null,
 							"New paswword for user with login " + login + " is : " + actualWorker.getPassword());
+
+					updateTable();
+				} else {
+					JOptionPane.showMessageDialog(null, "Incorrect login", "Alert", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+
+	}
+	
+	private void assignBlockUser() {
+		blockUser = new JMenuItem("Block user");
+		blockUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String login = JOptionPane.showInputDialog(null, "Insert login");
+				Worker potencialWorker = Worker.withLogin(login);
+
+				if (controller.doWorkerExists(potencialWorker)) {
+
+					
+					Worker actualWorker = controller.loadWorker(login);
+					controller.blockUser(actualWorker);
+
+					JOptionPane.showMessageDialog(null,
+							"User with login " + login + " is blocked now");
+
+					updateTable();
+				} else {
+					JOptionPane.showMessageDialog(null, "Incorrect login", "Alert", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+
+	}
+	
+	private void assignUnBlockUser() {
+		unBlockUser = new JMenuItem("unblock user");
+		unBlockUser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String login = JOptionPane.showInputDialog(null, "Insert login");
+				Worker potencialWorker = Worker.withLogin(login);
+
+				if (controller.doWorkerExists(potencialWorker)) {
+
+					
+					Worker actualWorker = controller.loadWorker(login);
+					controller.unBlockUser(actualWorker);
+
+					JOptionPane.showMessageDialog(null,
+							" User with login " + login + " is unblocked now");
 
 					updateTable();
 				} else {
