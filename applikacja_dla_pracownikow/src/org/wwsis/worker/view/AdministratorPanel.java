@@ -50,28 +50,6 @@ public class AdministratorPanel extends JFrame {
 	private JMenuItem unBlockUser;
 	private JScrollPane contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DataAccess dao = new JadisDataAccess("localhost");
-					AppController controller = new AppController();
-					controller.setDao(dao);
-					AdministratorPanel frame = new AdministratorPanel(controller);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public AdministratorPanel(AppController contr) {
 
 		this.controller = contr;
@@ -289,7 +267,6 @@ public class AdministratorPanel extends JFrame {
 			i++;
 		}
 		tableModel.setDataVector(data, column);
-
 	}
 
 }

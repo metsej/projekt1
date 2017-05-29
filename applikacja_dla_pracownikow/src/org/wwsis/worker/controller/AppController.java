@@ -215,7 +215,4 @@ public class AppController {
 		return dao.loadWorker(p);
 	}
 	
-
-	
-
 }

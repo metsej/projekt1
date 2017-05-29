@@ -44,25 +44,10 @@ public class MainMenu {
 	private static boolean wasSomeWindowDisplayed = false;
 	private JButton logInButton;
 
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainMenu window = new MainMenu(null);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	public MainMenu(AppController contr) {
 		this.controller = contr;
 		initialize();
 	}
-
 	
 	public static Rectangle getBounds() {
 		return bounds;

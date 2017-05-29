@@ -30,22 +30,6 @@ public class WorkerPanel extends JFrame {
 	private JLabel sWorkTimeLabbelDisplay;
 	private JButton btnNewButton;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WorkerPanel frame = new WorkerPanel(null, null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	
 	public WorkerPanel(Worker logWor, AppController contr) {
 	
@@ -76,6 +60,7 @@ public class WorkerPanel extends JFrame {
 		
 		
 	}
+	
 	private void setLogOutActionListener() {
 		btnLogOut = new JButton("Log out");
 		btnLogOut.addActionListener(new ActionListener() {
@@ -90,7 +75,6 @@ public class WorkerPanel extends JFrame {
 		});
 		btnLogOut.setBounds(379, 306, 117, 25);
 		contentPane.add(btnLogOut);
-		
 	}
 	
 	private void setLabelsAndButtons () {
