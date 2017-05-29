@@ -39,6 +39,7 @@ public class MainMenu {
 	private JTextField loginTextField;
 	private AppController controller;
 	private JPasswordField passwordField;
+	private boolean didExitFromMenu;
 	private static Rectangle bounds;
 	private static boolean wasSomeWindowDisplayed = false;
 	private JButton logInButton;
@@ -93,6 +94,7 @@ public class MainMenu {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(149, 185, 261, 46);
 		frame.getContentPane().add(passwordField);
+		didExitFromMenu = false;
 
 	}
 
@@ -160,11 +162,14 @@ public class MainMenu {
 							if (!worker.getDidLogedForTheFirstTime()) {
 								forceToChangePassord(worker);
 							}
+							
+							if (!didExitFromMenu) {
 							controller.markMandatoryPassChange(worker);
 							controller.saveStartTime(worker);
 							controller.resetFailedLoggingAttempt(worker);
 							WorkerPanel workerPanel = new WorkerPanel(worker, controller);
 							workerPanel.setVisible(true);
+							}
 						}
 						
 
@@ -189,20 +194,20 @@ public class MainMenu {
 		String oldPass;
 		String login = worker.getLogin();
 
-		while (!wasPassChanged) {
+		while (!wasPassChanged && !didExitFromMenu ) {
 
-			while (true) {
+			while (!didExitFromMenu) {
 				newPass = getPasswordFromUser ("Oligatory password change", "Insert new password");
-				if (controller.isPassValid(newPass)) {
+				if (controller.isPassValid(newPass) || didExitFromMenu) {
 					break;
 				} else {
 					JOptionPane.showMessageDialog(frame, "Wrong password format", "Alert", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 
-			while (true) {
+			while ( !didExitFromMenu) {
 				oldPass = getPasswordFromUser ("Oligatory password change","Insert your old password");
-				if (controller.isValidLogNPass(oldPass, login)) {
+				if (controller.isValidLogNPass(oldPass, login) || didExitFromMenu) {
 					wasPassChanged = true;
 					break;
 				} else {
@@ -212,7 +217,9 @@ public class MainMenu {
 			}
 
 		}
+		if (!didExitFromMenu) {
 		controller.setNewPass(worker, newPass);
+		}
 
 	}
 	
@@ -232,6 +239,10 @@ public class MainMenu {
 		   
 		} else {
 			frame.dispose();
+			didExitFromMenu = true;
+			bounds = frame.getBounds();
+			MainMenu newMainMenu = new MainMenu (controller);
+			newMainMenu.frame.setVisible(true);
 			return " ";
 		}
 	}
