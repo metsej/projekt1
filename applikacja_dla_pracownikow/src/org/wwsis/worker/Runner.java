@@ -27,7 +27,7 @@ public class Runner {
 			}
 		});	
 		
-		controller.saveDataBase();
+		controller.getDao().save();
     }
 	
 

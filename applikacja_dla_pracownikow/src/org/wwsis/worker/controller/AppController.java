@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -43,15 +44,6 @@ public class AppController {
 		return dao.getAllWorkers();
 	}
 
-	public void saveStartTime(Worker p) {
-		
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-		LocalDateTime now = LocalDateTime.now();
-		String str_now = dtf.format(now);
-		p.setStartTime(str_now);
-		getDao().saveWorker(p);
-	}
-
 	public void logOut(Worker p) {
 		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -60,6 +52,14 @@ public class AppController {
 		p.setEndTime(str_now);
 		p.setIsLogged(false);
 		getDao().saveWorker(p);
+		saveUserLog(p);
+	}
+	
+	public void logIn (Worker p) {
+		markMandatoryPassChange(p);
+		saveStartTime(p);
+		resetFailedLoggingAttempt(p);
+		saveUserLog(p);
 	}
 	
 	public void blockUser (Worker p) {
@@ -70,12 +70,6 @@ public class AppController {
 	public void unBlockUser (Worker p) {
 		p.setIsBlocked(false);
 		dao.saveWorker(p);
-	}
-	
-	public void markMandatoryPassChange (Worker p) {
-		p.setDidLogedForTheFirstTime(true);
-		dao.saveWorker(p);
-		
 	}
 
 	public boolean isValidLogNPass(String password, String login) {
@@ -99,71 +93,6 @@ public class AppController {
 	public void setNewPass (Worker p, String newPass) {
 		p.setPassword(newPass);
 		dao.saveWorker(p);
-	}
-	
-	public void incrementFailedLoggingAttempt (Worker p) {
-		int current = p.getNumOfFailedLogingAttempts();
-		p.setNumOfFailedLogingAttempts(current + 1);
-		dao.saveWorker(p);
-		
-	}
-	
-	public void resetFailedLoggingAttempt  (Worker p) {
-
-		p.setNumOfFailedLogingAttempts(0);
-		dao.saveWorker(p);
-		
-	}
-
-	public List<Worker> gettAllWorker() {
-
-		return getDao().getAllWorkers();
-	}
-
-	public boolean isAdmin(String login, String password) {
-		return (login.equals("admin") && password.equals("admin"));
-	}
-	
-	public boolean doWorkerExists(Worker p) {
-		return dao.doWorkerExists(p);
-	}
-
-	public DataAccess getDao() {
-		return dao;
-	}
-
-	public void setDao(DataAccess dao) {
-		this.dao = dao;
-	}
-	
-	public void saveDataBase() {
-		dao.save();
-	}
-	
-	public void closeDataBase(){
-		dao.close();
-	}
-	
-	public void eraseDataBase(){
-		dao.erase();
-	}
-	
-	private  String getNewPass() {
-		int randomNum = ThreadLocalRandom.current().nextInt(0, 3);
-		String alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		String insert = alfabet.substring(randomNum, (randomNum + 3));
-
-		SecureRandom random = new SecureRandom();
-		String random_pass = new BigInteger(30, random).toString(32);
-		String potencialPass = (random_pass.substring(0, randomNum) + insert
-				+ random_pass.substring(randomNum, random_pass.length()));
-
-		while (!isPassValid(potencialPass)) {
-			potencialPass = getNewPass();
-		}
-
-		return potencialPass;
-
 	}
 	
 	public boolean isPassValid(String password) {
@@ -197,6 +126,58 @@ public class AppController {
 		return false;
 	}
 	
+	public void incrementFailedLoggingAttempt (Worker p) {
+		int current = p.getNumOfFailedLogingAttempts();
+		p.setNumOfFailedLogingAttempts(current + 1);
+		dao.saveWorker(p);
+		
+	}
+	
+	public void resetFailedLoggingAttempt  (Worker p) {
+
+		p.setNumOfFailedLogingAttempts(0);
+		dao.saveWorker(p);
+	}
+	
+	public List<Worker> gettAllWorker() {
+
+		return getDao().getAllWorkers();
+	}
+
+	public boolean isAdmin(String login, String password) {
+		return (login.equals("admin") && password.equals("admin"));
+	}
+	
+	public boolean doWorkerExists(Worker p) {
+		return dao.doWorkerExists(p);
+	}
+
+	public DataAccess getDao() {
+		return dao;
+	}
+
+	public void setDao(DataAccess dao) {
+		this.dao = dao;
+	}
+	
+	private  String getNewPass() {
+		int randomNum = ThreadLocalRandom.current().nextInt(0, 3);
+		String alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		String insert = alfabet.substring(randomNum, (randomNum + 3));
+
+		SecureRandom random = new SecureRandom();
+		String random_pass = new BigInteger(30, random).toString(32);
+		String potencialPass = (random_pass.substring(0, randomNum) + insert
+				+ random_pass.substring(randomNum, random_pass.length()));
+
+		while (!isPassValid(potencialPass)) {
+			potencialPass = getNewPass();
+		}
+
+		return potencialPass;
+
+	}
+	
 	private String getAvalibleLog(String login) {
 		String potLogin = login;
 
@@ -213,6 +194,38 @@ public class AppController {
 	
 	private Worker loadWorkerHelper(Worker p) {
 		return dao.loadWorker(p);
+	}
+	
+	private void saveStartTime(Worker p) {
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		String str_now = dtf.format(now);
+		p.setStartTime(str_now);
+		getDao().saveWorker(p);
+	}
+	
+	private void saveUserLog (Worker p) {
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		String str_now = dtf.format(now);
+		List <String> logList;
+		if (p.getListOfLogs() != null){
+			logList = p.getListOfLogs();
+		} else {
+			logList = new LinkedList<String>();
+		}
+		logList.add(str_now);
+		p.setListOfLogs(logList);
+		dao.saveWorker(p);
+		
+	}
+	
+	private void markMandatoryPassChange (Worker p) {
+		p.setDidLogedForTheFirstTime(true);
+		dao.saveWorker(p);
+		
 	}
 	
 }

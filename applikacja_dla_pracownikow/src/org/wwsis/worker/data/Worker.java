@@ -1,5 +1,10 @@
 package org.wwsis.worker.data;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class Worker {
 
@@ -13,6 +18,7 @@ public class Worker {
 	private String timeOfStart;
 	private String timeofEnd;
 	private int numOfFailedLogingAttempts;
+	private List <String> listOfLogs;
 
 
 	public static Worker withLogin(String login){
@@ -100,5 +106,14 @@ public class Worker {
 	public void setDidLogedForTheFirstTime(Boolean didLogedForTheFirstTime) {
 		this.didLogedForTheFirstTime = didLogedForTheFirstTime;
 	}
+
+	public List<String> getListOfLogs() {
+		return listOfLogs;
+	}
+
+	public void setListOfLogs(List<String> listOfLogs) {
+		this.listOfLogs = listOfLogs;
+	}
+
 
 }

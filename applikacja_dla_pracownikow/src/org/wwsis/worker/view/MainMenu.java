@@ -149,9 +149,7 @@ public class MainMenu {
 							}
 							
 							if (!didExitFromMenu) {
-							controller.markMandatoryPassChange(worker);
-							controller.saveStartTime(worker);
-							controller.resetFailedLoggingAttempt(worker);
+							controller.logIn(worker);
 							WorkerPanel workerPanel = new WorkerPanel(worker, controller);
 							workerPanel.setVisible(true);
 							}
