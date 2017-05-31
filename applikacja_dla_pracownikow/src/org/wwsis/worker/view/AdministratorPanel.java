@@ -238,7 +238,6 @@ public class AdministratorPanel extends JFrame {
 					
 					Worker actualWorker = controller.loadWorker(login);
 					controller.unBlockUser(actualWorker);
-					controller.resetFailedLoggingAttempt(actualWorker);
 
 					JOptionPane.showMessageDialog(null,
 							" User with login " + login + " is unblocked now");

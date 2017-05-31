@@ -15,8 +15,7 @@ public class countFailedLoggingAttemptsTest {
 	@Test
 	public void test() {
 		DataAccess dao = new JadisDataAccess (connectionName);
-		AppController testController = new AppController();
-		testController.setDao(dao);
+		AppController testController = new AppController(dao);
 		Worker w1 = testController.addAndGetNewWorker("test1", "User");
 		dao.setExpireTimeForWorker(w1, 2);
 		testController.incrementFailedLoggingAttempt(w1);
@@ -27,8 +26,7 @@ public class countFailedLoggingAttemptsTest {
 	@Test
 	public void test2() {
 		DataAccess dao = new JadisDataAccess (connectionName);
-		AppController testController = new AppController();
-		testController.setDao(dao);
+		AppController testController = new AppController(dao);
 		Worker w1 = testController.addAndGetNewWorker("test2", "User");
 		dao.setExpireTimeForWorker(w1, 2);
 		testController.incrementFailedLoggingAttempt(w1);
@@ -41,14 +39,14 @@ public class countFailedLoggingAttemptsTest {
 	@Test
 	public void test3() {
 		DataAccess dao = new JadisDataAccess (connectionName);
-		AppController testController = new AppController();
+		AppController testController = new AppController(dao);
 		testController.setDao(dao);
 		Worker w1 = testController.addAndGetNewWorker("test3", "User");
 		dao.setExpireTimeForWorker(w1, 2);
 		testController.incrementFailedLoggingAttempt(w1);
 		testController.incrementFailedLoggingAttempt(w1);
 		testController.incrementFailedLoggingAttempt(w1);
-		testController.resetFailedLoggingAttempt(w1);
+		testController.unBlockUser(w1);
 		w1 = testController.loadWorker(w1.getLogin());
 		assertEquals(w1.getNumOfFailedLogingAttempts(), 0);
 	}

@@ -13,8 +13,7 @@ public class Runner {
 	public static void main(String[] args) {
         
 		DataAccess dao = new JadisDataAccess("localhost");
-		AppController controller = new AppController ();
-		controller.setDao(dao);
+		AppController controller = new AppController (dao);
 	
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

@@ -65,7 +65,7 @@ public class WorkerPanel extends JFrame {
 		btnLogOut = new JButton("Log out");
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.logOut(loggedWorker);
+				//controller.logOut(loggedWorker);
 				MainMenu.setBounds(getBounds());
 				MainMenu window = new MainMenu(controller);
 				window.frame.setVisible(true);

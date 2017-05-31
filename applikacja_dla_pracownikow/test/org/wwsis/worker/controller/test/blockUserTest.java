@@ -15,8 +15,8 @@ public class blockUserTest {
 	@Test
 	public void test() {
 		DataAccess dao = new JadisDataAccess (connectionName);
-		AppController testController = new AppController();
-		testController.setDao(dao);
+		AppController testController = new AppController(dao);
+
 		Worker w1 = testController.addAndGetNewWorker("test", "User");
 		dao.setExpireTimeForWorker(w1, 2);
 		testController.blockUser(w1);
@@ -27,8 +27,7 @@ public class blockUserTest {
 	@Test
 	public void test1() {
 		DataAccess dao = new JadisDataAccess (connectionName);
-		AppController testController = new AppController();
-		testController.setDao(dao);
+		AppController testController = new AppController(dao);
 		Worker w1 = testController.addAndGetNewWorker("test1", "User");
 		dao.setExpireTimeForWorker(w1, 2);
 		testController.blockUser(w1);

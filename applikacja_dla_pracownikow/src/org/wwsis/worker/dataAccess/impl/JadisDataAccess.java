@@ -173,8 +173,8 @@ public class JadisDataAccess implements DataAccess {
 		List <String> list = p.getListOfLogs();
 		
 	
-		for (String s: list) {
-			connection.lpush(key, s);
+		for ( int i = 0; i < list.size(); i++) {
+			connection.rpush(key, list.get(i));
 		}
 	}
 	

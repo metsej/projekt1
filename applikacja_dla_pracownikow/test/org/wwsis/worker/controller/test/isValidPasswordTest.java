@@ -15,7 +15,7 @@ public class isValidPasswordTest {
 	@Test
 	public void test() {
 		DataAccess dao = new JadisDataAccess (connectionName);
-		AppController testController = new AppController();
+		AppController testController = new AppController(dao);
 		Boolean result = testController.isPassValid("asDf90eDw");
 		
 
@@ -25,7 +25,7 @@ public class isValidPasswordTest {
 	@Test
 	public void test2() {
 		DataAccess dao = new JadisDataAccess (connectionName);
-		AppController testController = new AppController();
+		AppController testController = new AppController(dao);
 		Boolean result = testController.isPassValid("dfsgfdgdfhd");
 		
 
@@ -34,7 +34,7 @@ public class isValidPasswordTest {
 	@Test
 	public void test3() {
 		DataAccess dao = new JadisDataAccess (connectionName);
-		AppController testController = new AppController();
+		AppController testController = new AppController(dao);
 		Boolean result = testController.isPassValid("aSdVdsdsD");
 		
 
@@ -44,7 +44,7 @@ public class isValidPasswordTest {
 	@Test
 	public void test4() {
 		DataAccess dao = new JadisDataAccess (connectionName);
-		AppController testController = new AppController();
+		AppController testController = new AppController(dao);
 		Boolean result = testController.isPassValid("5sfgbn902ds");
 		
 
@@ -54,7 +54,7 @@ public class isValidPasswordTest {
 	@Test
 	public void test5() {
 		DataAccess dao = new JadisDataAccess (connectionName);
-		AppController testController = new AppController();
+		AppController testController = new AppController(dao);
 		Boolean result = testController.isPassValid("4scF");
 		
 
@@ -64,7 +64,7 @@ public class isValidPasswordTest {
 	@Test
 	public void test6() {
 		DataAccess dao = new JadisDataAccess (connectionName);
-		AppController testController = new AppController();
+		AppController testController = new AppController(dao);
 		Boolean result = testController.isPassValid("Wxc65cR0xd 09dsa");
 		
 
