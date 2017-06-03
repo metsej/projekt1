@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import org.wwsis.worker.controller.AppController;
@@ -29,12 +30,14 @@ public class WorkerPanel extends JFrame {
 	private JLabel lblLastTimeStart;
 	private JLabel sWorkTimeLabbelDisplay;
 	private JButton btnNewButton;
+	private Boolean isClosed;
 
 	
 	public WorkerPanel(Worker logWor, AppController contr) {
 	
 		this.controller = contr;
 		loggedWorker = logWor;
+		this.isClosed = false;
 		
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -61,6 +64,17 @@ public class WorkerPanel extends JFrame {
 		
 	}
 	
+	public void run () throws InterruptedException {
+		while (!isClosed) {
+			Thread.sleep(10000);
+			update();
+		}
+	}
+	
+	private void update(){
+		sWorkTimeLabbelDisplay.setText(controller.getTodayWorkTime(loggedWorker));
+	}
+	
 	private void setLogOutActionListener() {
 		btnLogOut = new JButton("Log out");
 		btnLogOut.addActionListener(new ActionListener() {
@@ -70,11 +84,21 @@ public class WorkerPanel extends JFrame {
 				MainMenu window = new MainMenu(controller);
 				window.frame.setVisible(true);
 				setVisible(false);
+				isClosed = true;
 				dispose();
 			}
 		});
 		btnLogOut.setBounds(379, 306, 117, 25);
 		contentPane.add(btnLogOut);
+		
+		JButton btnNewButton_1 = new JButton("update");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				update();
+			}
+		});
+		btnNewButton_1.setBounds(12, 109, 89, 25);
+		contentPane.add(btnNewButton_1);
 	}
 	
 	private void setLabelsAndButtons () {
@@ -83,23 +107,18 @@ public class WorkerPanel extends JFrame {
 		contentPane.add(lblLoggedAs);
 		
 		 loginDisplay = new JLabel(loggedWorker.getLogin());
-		loginDisplay.setBounds(100, 35, 269, 33);
+		loginDisplay.setBounds(126, 35, 269, 33);
 		contentPane.add(loginDisplay);
 		
 	
-		 lblLastTimeStart = new JLabel("Last time start work at: ");
+		 lblLastTimeStart = new JLabel("Worked today:");
 		lblLastTimeStart.setBounds(12, 80, 177, 33);
 		contentPane.add(lblLastTimeStart);
 		
-		String timeStart;
-		if (loggedWorker.getStartTime() == null) {
-			timeStart = " Haven't worked yet";
-		} else {
-			timeStart = loggedWorker.getStartTime();
-		}
 		
-		sWorkTimeLabbelDisplay = new JLabel(timeStart);
-		sWorkTimeLabbelDisplay.setBounds(204, 80, 231, 33);
+		
+		sWorkTimeLabbelDisplay = new JLabel(controller.getTodayWorkTime(loggedWorker));
+		sWorkTimeLabbelDisplay.setBounds(126, 80, 97, 33);
 		contentPane.add(sWorkTimeLabbelDisplay);
 		
 		JButton btnNewButton = new JButton("Start Work");
@@ -107,5 +126,4 @@ public class WorkerPanel extends JFrame {
 		contentPane.add(btnNewButton);
 		
 	}
-
 }

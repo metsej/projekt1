@@ -15,11 +15,13 @@ public class AppController {
 
 	private DataAccess dao;
 	private UserAccountsManager usersManager;
+	private WorkTimeManager timeManager;
 	
 	public AppController (DataAccess dao) {
 		setDao (dao);
 		usersManager = new UserAccountsManager();
 		usersManager.setDao(dao);
+		timeManager = new WorkTimeManager();
 		
 	}
 
@@ -79,6 +81,10 @@ public class AppController {
 
 	public boolean isAdmin(String login, String password) {
 		return usersManager.isAdmin(login, password);
+	}
+	
+	public String getTodayWorkTime (Worker w) {
+		return timeManager.calcTodayWorkTime(w);
 	}
 	
 	public boolean doWorkerExists(Worker p) {

@@ -152,6 +152,7 @@ public class MainMenu {
 							controller.logIn(worker);
 							WorkerPanel workerPanel = new WorkerPanel(worker, controller);
 							workerPanel.setVisible(true);
+							
 							}
 						}
 						
