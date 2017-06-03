@@ -41,7 +41,7 @@ public class AdministratorPanel extends JFrame {
 	private AppController controller;
 	private String[][] data;
 	String column[] = { "LOGIN", "FIRST NAME", "LAST NAME", "PASSWORD", "STARTED WORK AT", "END WORK AT" };
-	JMenuBar menuBar;
+	private JMenuBar menuBar;
 	private JMenu user, edit;
 	private JMenuItem addNewWorker;
 	private JMenuItem changePassword;
