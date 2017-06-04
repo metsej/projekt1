@@ -102,4 +102,8 @@ public class AppController {
 		return timeManager.getMonthReport(w);
 	}
 	
+	public String getCurrentMonthTitlle () {
+		return timeManager.getCurrentMonthTitlle();
+	}
+	
 }

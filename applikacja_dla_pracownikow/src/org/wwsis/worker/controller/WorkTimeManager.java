@@ -5,12 +5,17 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
+
 import org.wwsis.worker.data.Worker;
 
 public class WorkTimeManager {
@@ -45,6 +50,14 @@ public class WorkTimeManager {
 		}
 		
 		return result;
+	}
+	
+	public String getCurrentMonthTitlle() {
+		
+		LocalDateTime toDay = getDateFromString(getToday());
+		Month m = toDay.getMonth();
+		int y = toDay.getYear();
+		return m.getDisplayName(TextStyle.FULL, Locale.ENGLISH) + " " + Integer.toString(y);
 	}
 	
 	

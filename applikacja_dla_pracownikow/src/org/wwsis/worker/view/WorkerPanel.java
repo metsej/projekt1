@@ -147,7 +147,7 @@ public class WorkerPanel extends JFrame {
 				JScrollPane reportPanel = new MonthRaportContentPanel (controller, loggedWorker);
 				reportPanel.setBounds(MainMenu.getBounds());
 				reportPanel.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (),
-                        "June 2017",
+                        controller.getCurrentMonthTitlle(),
                         TitledBorder.CENTER,
                         TitledBorder.TOP));
 				setBounds (MainMenu.getBounds());
