@@ -9,6 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 
 import org.wwsis.worker.controller.AppController;
 import org.wwsis.worker.data.Worker;
@@ -19,6 +20,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import java.awt.Font;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -39,7 +42,6 @@ public class WorkerPanel extends JFrame {
 
 	
 	public WorkerPanel(Worker logWor, AppController contr) {
-	
 		this.controller = contr;
 		loggedWorker = logWor;
 		
@@ -51,7 +53,6 @@ public class WorkerPanel extends JFrame {
 					MainMenu.setBounds(getBounds());
 			}
 		});
-		
 		setTitle("Worker panel");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -59,8 +60,6 @@ public class WorkerPanel extends JFrame {
 		setSize(564, 300);
 		setNormalContentPain();
 		setMenu();
-		
-		
 	}
 	
 		
@@ -117,8 +116,6 @@ public class WorkerPanel extends JFrame {
 		
 	}
 
-	
-	
 	private void assignUpdate() {
 		udate = new JMenuItem("update");
 		udate.addActionListener(new ActionListener() {
@@ -149,6 +146,10 @@ public class WorkerPanel extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JScrollPane reportPanel = new MonthRaportContentPanel (controller, loggedWorker);
 				reportPanel.setBounds(MainMenu.getBounds());
+				reportPanel.setBorder (BorderFactory.createTitledBorder (BorderFactory.createEtchedBorder (),
+                        "June 2017",
+                        TitledBorder.CENTER,
+                        TitledBorder.TOP));
 				setBounds (MainMenu.getBounds());
 				setSize(564, 170);
 				setContentPane(reportPanel);

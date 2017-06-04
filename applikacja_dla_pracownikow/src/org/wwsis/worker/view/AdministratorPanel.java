@@ -40,7 +40,7 @@ public class AdministratorPanel extends JFrame {
 	DefaultTableModel tableModel;
 	private AppController controller;
 	private String[][] data;
-	String column[] = { "LOGIN", "FIRST NAME", "LAST NAME", "PASSWORD", "STARTED WORK AT", "END WORK AT" };
+	String column[] = { "LOGIN", "FIRST NAME", "LAST NAME", "PASSWORD", "BLOCKED" };
 	private JMenuBar menuBar;
 	private JMenu user, edit;
 	private JMenuItem addNewWorker;
@@ -253,7 +253,7 @@ public class AdministratorPanel extends JFrame {
 
 	private void updateTable() {
 		int n = controller.getAllWorkers().size();
-		data = new String[n][6];
+		data = new String[n][5];
 
 		int i = 0;
 		for (Worker curentWorker : controller.getAllWorkers()) {
@@ -261,8 +261,8 @@ public class AdministratorPanel extends JFrame {
 			data[i][1] = curentWorker.getName();
 			data[i][2] = curentWorker.getLastName();
 			data[i][3] = curentWorker.getPassword();
-			data[i][4] = curentWorker.getStartTime();
-			data[i][5] = curentWorker.getEndTime();
+			data[i][4] = String.valueOf(curentWorker.getIsBlocked());
+			
 			i++;
 		}
 		tableModel.setDataVector(data, column);
