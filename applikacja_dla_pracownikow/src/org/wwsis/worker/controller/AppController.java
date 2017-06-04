@@ -73,7 +73,6 @@ public class AppController {
 		usersManager.incrementFailedLoggingAttempt(p);
 	}
 	
-	
 	public List<Worker> gettAllWorker() {
 
 		return usersManager.getAllWorkers();
@@ -97,6 +96,10 @@ public class AppController {
 
 	public void setDao(DataAccess dao) {
 		this.dao = dao;
+	}
+	
+	public List <String> getMonthRaport (Worker w) {
+		return timeManager.getMonthReport(w);
 	}
 	
 }
