@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
@@ -26,7 +27,6 @@ import java.awt.event.ActionEvent;
 
 public class WorkerPanel extends JFrame {
 
-	private JPanel contentPane;
 	private AppController controller;
 	private Worker loggedWorker;
 	private JLabel lblLoggedAs;
@@ -35,7 +35,7 @@ public class WorkerPanel extends JFrame {
 	private JLabel sWorkTimeLabbelDisplay;
 	private JMenuBar menuBar;
 	private JMenu user, view;
-	private JMenuItem logOut, udate;
+	private JMenuItem logOut, udate, monthReport, dayRaport;
 
 	
 	public WorkerPanel(Worker logWor, AppController contr) {
@@ -56,14 +56,8 @@ public class WorkerPanel extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(MainMenu.getBounds());
-		setSize(564, 200);
-		
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		setLabelsAndButtons ();
+		setSize(564, 300);
+		setNormalContentPain();
 		setMenu();
 		
 		
@@ -75,7 +69,7 @@ public class WorkerPanel extends JFrame {
 	}
 	
 	
-	private void setLabelsAndButtons () {
+	private void setLabelsAndButtons (JPanel contentPane ) {
 		lblLoggedAs = new JLabel("Logged as: ");
 		lblLoggedAs.setBounds(12, 35, 89, 33);
 		contentPane.add(lblLoggedAs);
@@ -104,6 +98,8 @@ public class WorkerPanel extends JFrame {
 		assignAllJMenuItems();
 		
 		view.add(udate);
+		view.add(monthReport);
+		view.add(dayRaport);
 		user.add(logOut);
 		menuBar.add(view);
 		menuBar.add(user);
@@ -116,6 +112,8 @@ public class WorkerPanel extends JFrame {
 	private void assignAllJMenuItems() {
 		assignUpdate();
 		assignLogOut();
+		assignViewMonthReport ();
+		assignViewdayReport ();
 		
 	}
 
@@ -143,6 +141,37 @@ public class WorkerPanel extends JFrame {
 				dispose();
 			}
 		});
-
 	} 
+	
+	private void assignViewMonthReport () {
+		monthReport = new JMenuItem("Monthly work time report");
+		monthReport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JScrollPane reportPanel = new MonthRaportContentPanel (controller, loggedWorker);
+				reportPanel.setBounds(MainMenu.getBounds());
+				setBounds (MainMenu.getBounds());
+				setSize(564, 170);
+				setContentPane(reportPanel);
+			}
+		});
+	}
+	
+	private void assignViewdayReport () {
+		dayRaport = new JMenuItem("Dayly work time report");
+		dayRaport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setNormalContentPain();
+			}
+		});
+	}
+	private void setNormalContentPain  () {
+		JPanel dayRaport = new JPanel();
+		dayRaport.setBorder(new EmptyBorder(5, 5, 5, 5));
+		dayRaport.setLayout(null);
+		setLabelsAndButtons (dayRaport);
+		dayRaport.setBounds(MainMenu.getBounds());
+		setBounds (MainMenu.getBounds());
+		setSize(300, 200);
+		setContentPane(dayRaport);
+	}
 }
