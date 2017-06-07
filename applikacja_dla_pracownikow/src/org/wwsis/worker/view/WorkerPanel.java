@@ -38,7 +38,7 @@ public class WorkerPanel extends JFrame {
 	private JLabel sWorkTimeLabbelDisplay;
 	private JMenuBar menuBar;
 	private JMenu user, view;
-	private JMenuItem logOut, udate, monthReport, dayRaport;
+	private JMenuItem logOut, udate, monthReport, dayRaport, startWork;
 
 	
 	public WorkerPanel(Worker logWor, AppController contr) {
@@ -99,7 +99,9 @@ public class WorkerPanel extends JFrame {
 		view.add(udate);
 		view.add(monthReport);
 		view.add(dayRaport);
+		user.add(startWork);
 		user.add(logOut);
+		
 		menuBar.add(view);
 		menuBar.add(user);
 		add(menuBar);
@@ -113,9 +115,14 @@ public class WorkerPanel extends JFrame {
 		assignLogOut();
 		assignViewMonthReport ();
 		assignViewdayReport ();
+		assignStartWork ();
 		
 	}
-
+	
+	private void assignStartWork () {
+		startWork = new JMenuItem("start work");
+	}
+	
 	private void assignUpdate() {
 		udate = new JMenuItem("update");
 		udate.addActionListener(new ActionListener() {
