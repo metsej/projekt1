@@ -1,4 +1,4 @@
-package org.wwsis.dataAccess.JadisImpl.test;
+package org.wwsis.dataAccess.JadisImpl;
 
 import static org.junit.Assert.*;
 

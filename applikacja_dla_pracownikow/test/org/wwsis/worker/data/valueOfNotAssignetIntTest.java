@@ -1,4 +1,4 @@
-package org.wwsis.worker.data.test;
+package org.wwsis.worker.data;
 
 import static org.junit.Assert.*;
 

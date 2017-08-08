@@ -1,8 +1,9 @@
 package org.wwsis.worker.dataAccess.impl;
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +22,10 @@ public class JadisDataAccess implements DataAccess {
 	private String userKeyPrefix = "id:user:";
 	
 	private String userLogsKeyPrefix = "id:userLogs:";
+	
+	private DateTimeFormatter dateformatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 
+	
 	public JadisDataAccess(String hostName) {
 		this.hostName = hostName;
 		connection = new Jedis(hostName);
@@ -37,7 +41,7 @@ public class JadisDataAccess implements DataAccess {
 	@Override
 	public Worker loadWorker(Worker p) {
 		String userKey = userKeyPrefix + p.getLogin();
-		String userLogsKey = userLogsKeyPrefix + p.getLogin();
+	
 
 		p.setImsetName(connection.hget(userKey, "name"));
 		p.setLatName(connection.hget(userKey, "last_name"));
@@ -66,12 +70,12 @@ public class JadisDataAccess implements DataAccess {
 
 		String strStartTime = connection.hget(userKey, "start");
 		if (strStartTime != null) {
-			p.setStartTime(strStartTime);
+			p.setStartTime( dateTimeFromString( strStartTime));
 		}
 		String strEndTime = connection.hget(userKey, "stop");
 		if (strEndTime != null) {
 			
-			p.setEndTime(strEndTime);
+			p.setEndTime(dateTimeFromString( strEndTime));
 		}
 		
 		String strNumOfFailedLogingAttempts = connection.hget(userKey, "numOfFailedLogingAttempts");
@@ -82,7 +86,11 @@ public class JadisDataAccess implements DataAccess {
 		
 		List <String> listOfLogs = connection.lrange(userLogsKeyPrefix + p.getLogin(), 0, -1);
 		if (listOfLogs != null) {
-			p.setListOfLogs(listOfLogs);
+			List<LocalDateTime> listOfDates = new LinkedList<LocalDateTime>();
+			for (String s: listOfLogs) {
+				listOfDates.add(dateTimeFromString (s));
+			}
+			p.setListOfLogs(listOfDates);
 		}
 		
 		return p;
@@ -91,8 +99,6 @@ public class JadisDataAccess implements DataAccess {
 	@Override
 	public void saveWorker(Worker p) {
 		String userKey = userKeyPrefix + p.getLogin();
-		String userLogsKey = userLogsKeyPrefix + p.getLogin();
-		//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/ddHH:mm:ss");
 
 		if (p.getName() != null) {
 			connection.hset(userKey, "name", p.getName());
@@ -119,11 +125,11 @@ public class JadisDataAccess implements DataAccess {
 		}
 		
 		if (p.getStartTime() != null) {
-			connection.hset(userKey, "start", p.getStartTime());
+			connection.hset(userKey, "start", dateTimeToString(p.getStartTime()));
 		}
 		
 		if (p.getEndTime() != null) {
-			connection.hset(userKey, "stop", p.getEndTime());
+			connection.hset(userKey, "stop", dateTimeToString( p.getEndTime()));
 		}
 		
 		connection.hset(userKey, "numOfFailedLogingAttempts", Integer.toString (p.getNumOfFailedLogingAttempts()));
@@ -170,12 +176,22 @@ public class JadisDataAccess implements DataAccess {
 	private void saveList (Worker p) {
 		String key = userLogsKeyPrefix + p.getLogin();
 		connection.del(key);
-		List <String> list = p.getListOfLogs();
+		List <LocalDateTime> list = p.getListOfLogs();
 		
 	
 		for ( int i = 0; i < list.size(); i++) {
-			connection.rpush(key, list.get(i));
+			connection.rpush(key, dateTimeToString(list.get(i)));
 		}
+	}
+	
+	String dateTimeToString( LocalDateTime dt){
+		String dtStr = dt.format(dateformatter);
+		return dtStr;
+	}
+	
+	LocalDateTime  dateTimeFromString( String dateStr){
+		LocalDateTime date = LocalDateTime.parse(dateStr, dateformatter);
+		return date;
 	}
 	
 	

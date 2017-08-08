@@ -2,19 +2,21 @@ package org.wwsis.worker;
 
 import java.awt.EventQueue;
 
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.wwsis.worker.controller.AppController;
-import org.wwsis.worker.data.Worker;
-import org.wwsis.worker.dataAccess.DataAccess;
-import org.wwsis.worker.dataAccess.impl.JadisDataAccess;
 import org.wwsis.worker.view.MainMenu;
 
 public class Runner {
+		
 	
 	public static void main(String[] args) {
         
-		DataAccess dao = new JadisDataAccess("localhost");
-		AppController controller = new AppController (dao);
-	
+		String file = Runner.class.getResource(args[0]).getPath();		
+		ConfigurableApplicationContext context = new FileSystemXmlApplicationContext("/"+file);
+	    
+		AppController controller = context.getBean(AppController.class);
+				
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -25,7 +27,7 @@ public class Runner {
 				}
 			}
 		});	
-		
+		context.close();
 		controller.getDao().save();
     }
 	

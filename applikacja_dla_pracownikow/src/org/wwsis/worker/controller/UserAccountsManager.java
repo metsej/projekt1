@@ -3,7 +3,6 @@ package org.wwsis.worker.controller;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -45,11 +44,8 @@ public class UserAccountsManager {
 	}
 
 	public void logOut(Worker p) {
-		
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
-		String str_now = dtf.format(now);
-		p.setEndTime(str_now);
+		p.setEndTime(now);
 		p.setIsLogged(false);
 		saveUserLog(p);
 		getDao().saveWorker(p);
@@ -183,24 +179,21 @@ public class UserAccountsManager {
 	
 	private void saveStartTime(Worker p) {
 		
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+	
 		LocalDateTime now = LocalDateTime.now();
-		String str_now = dtf.format(now);
-		p.setStartTime(str_now);
+		
+		p.setStartTime(now);
 	}
 	
 	private void saveUserLog (Worker p) {
-		
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
-		String str_now = dtf.format(now);
-		List <String> logList;
+		List <LocalDateTime> logList;
 		if (p.getListOfLogs() != null){
 			logList = p.getListOfLogs();
 		} else {
-			logList = new LinkedList<String>();
+			logList = new LinkedList<LocalDateTime>();
 		}
-		logList.add(0,str_now);
+		logList.add(0,now);
 		p.setListOfLogs(logList);
 	}
 	

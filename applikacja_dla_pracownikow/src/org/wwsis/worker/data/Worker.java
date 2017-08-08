@@ -1,12 +1,10 @@
 package org.wwsis.worker.data;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 public class Worker {
+
 
 	private String login;
 	private String name;
@@ -15,10 +13,10 @@ public class Worker {
 	private Boolean isLogged;
 	private Boolean isBlocked;
 	private Boolean didLogedForTheFirstTime;
-	private String timeOfStart;
-	private String timeofEnd;
+	private LocalDateTime timeOfStart;
+	private LocalDateTime timeofEnd;
 	private int numOfFailedLogingAttempts;
-	private List <String> listOfLogs;
+	private List <LocalDateTime> listOfLogs;
 
 
 	public static Worker withLogin(String login){
@@ -59,19 +57,19 @@ public class Worker {
 		this.password = haslo;
 	}
 
-	public String getStartTime() {
+	public LocalDateTime getStartTime() {
 		return timeOfStart;
 	}
 
-	public void setStartTime(String czasRozpoczecia) {
+	public void setStartTime(LocalDateTime czasRozpoczecia) {
 		this.timeOfStart = czasRozpoczecia;
 	}
 
-	public String getEndTime() {
+	public LocalDateTime getEndTime() {
 		return timeofEnd;
 	}
 
-	public void setEndTime(String czasZakonczenia) {
+	public void setEndTime(LocalDateTime czasZakonczenia) {
 		this.timeofEnd = czasZakonczenia;
 	}
 
@@ -107,11 +105,11 @@ public class Worker {
 		this.didLogedForTheFirstTime = didLogedForTheFirstTime;
 	}
 
-	public List<String> getListOfLogs() {
+	public List<LocalDateTime> getListOfLogs() {
 		return listOfLogs;
 	}
 
-	public void setListOfLogs(List<String> listOfLogs) {
+	public void setListOfLogs(List<LocalDateTime> listOfLogs) {
 		this.listOfLogs = listOfLogs;
 	}
 

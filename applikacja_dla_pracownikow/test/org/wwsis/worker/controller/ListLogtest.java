@@ -1,8 +1,10 @@
-package org.wwsis.worker.controller.test;
+package org.wwsis.worker.controller;
 
 import static org.junit.Assert.*;
 
 import static org.junit.Assert.*;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -33,7 +35,7 @@ private String connectionName = "localhost";
 		}
 		
 		Worker testWorker2 = testController.loadWorker(testWorker.getLogin());
-		List <String> testList = testWorker2.getListOfLogs();
+		List <LocalDateTime> testList = testWorker2.getListOfLogs();
 
 		assertEquals(testList.size(), 10);
 	}
@@ -50,7 +52,7 @@ private String connectionName = "localhost";
 		}
 		
 		Worker testWorker2 = testController.loadWorker(testWorker.getLogin());
-		List <String> testList = testWorker2.getListOfLogs();
+		List <LocalDateTime> testList = testWorker2.getListOfLogs();
 
 		assertEquals(testList.size(), 10);
 	}
@@ -68,7 +70,7 @@ private String connectionName = "localhost";
 		}
 		
 		Worker testWorker2 = testController.loadWorker(testWorker.getLogin());
-		List <String> testList = testWorker2.getListOfLogs();
+		List <LocalDateTime> testList = testWorker2.getListOfLogs();
 
 		assertEquals(testList.size(), 10);
 	}

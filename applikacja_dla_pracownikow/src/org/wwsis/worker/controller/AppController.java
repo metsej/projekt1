@@ -8,23 +8,31 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
+import org.wwsis.worker.dataAccess.impl.JadisDataAccess;
 
+@Controller 
 public class AppController {
 
 	private DataAccess dao;
+	
 	private UserAccountsManager usersManager;
+	
 	private WorkTimeManager timeManager;
 	
-	public AppController (DataAccess dao) {
-		setDao (dao);
+	@Autowired
+	public AppController(@Qualifier("daoX") DataAccess dao){
 		usersManager = new UserAccountsManager();
 		usersManager.setDao(dao);
 		timeManager = new WorkTimeManager();
-		
 	}
-
+	
+	
 	public Worker  addAndGetNewWorker(String name, String lastName) {
 		return usersManager.addAndGetNewWorker(name, lastName);
 	}

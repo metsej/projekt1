@@ -1,4 +1,4 @@
-package org.wwsis.worker.controller.test;
+package org.wwsis.worker.controller;
 
 import static org.junit.Assert.*;
 
