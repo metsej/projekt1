@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.wwsis.worker.data.Worker;
@@ -29,7 +30,11 @@ public class PostgresDataAccess implements DataAccess {
 	String INSERT_LOGIN_STATEMENT = "INSERT INTO \"Logins\"( logNum,  userlogin, timeOfLog) " + " VALUES ( ?, ?, ?) "
 	+ " ON CONFLICT (logNum, userLogin) DO UPDATE SET timeOfLog = ?;";
 	
-	String DELETE_LOGINS_STATEMENT = " DELETE FROM \"Logins\" WHERE logNum > ? ;";
+	String GET_WORKER_STATEMENT = "SELECT * FROM \"Worker\" WHERE login = ? ";
+	
+	String GET_LOGINS_STATEMENT = "SELECT * FROM  \"Logins\" WHERE userLogin = ?";
+	
+	String DELETE_LOGINS_STATEMENT = " DELETE FROM \"Logins\" WHERE logNum > ? AND userLogin = ? ;";
 	
 	String EXISTS_WORKER_STATEMENT = "SELECT login FROM \"Worker\" WHERE login = ?";
 
@@ -74,8 +79,47 @@ public class PostgresDataAccess implements DataAccess {
 
 	@Override
 	public Worker loadWorker(Worker p) {
-		// TODO Auto-generated method stub
-		return null;
+			
+		Worker result = new Worker();
+		try {
+			PreparedStatement ps = conn.prepareStatement(GET_WORKER_STATEMENT);
+			
+			ps.setString(1, p.getLogin());
+			ResultSet rs = ps.executeQuery();
+			if (!rs.next() ) {
+				return null;
+			} else {
+				result.setLogin( rs.getString(1));
+				result.setName( rs.getString(2));
+				result.setLatName( rs.getString(3));
+				result.setPassword(rs.getString(4));
+				result.setIsLogged(rs.getBoolean(5));
+				result.setIsBlocked(rs.getBoolean(6));
+				result.setDidLogedForTheFirstTime(rs.getBoolean(7));
+				result.setStartTime(rs.getTimestamp(8).toLocalDateTime());
+				result.setEndTime(rs.getTimestamp(9).toLocalDateTime());
+				result.setNumOfFailedLogingAttempts(rs.getInt(10));
+				
+				PreparedStatement ls = conn.prepareStatement(GET_LOGINS_STATEMENT);
+				ls.setString(1, p.getLogin());
+				
+				ResultSet rs2 = ls.executeQuery();
+				List<LocalDateTime> listOfLogs = new LinkedList<LocalDateTime>();
+				
+				while (rs2.next() ) {
+					listOfLogs.add(rs2.getTimestamp(2).toLocalDateTime());
+				}
+				
+				result.setListOfLogs(listOfLogs);
+				
+			} 
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		return result;
 	}
 
 	@Override
@@ -115,7 +159,9 @@ public class PostgresDataAccess implements DataAccess {
 				
 				ps.execute();
 			}
-			{
+			if (p.getListOfLogs() != null) {
+					
+				
 				int index = 1;
 				for (LocalDateTime log : p.getListOfLogs()) {
 
@@ -130,6 +176,7 @@ public class PostgresDataAccess implements DataAccess {
 				PreparedStatement ds = conn.prepareStatement(DELETE_LOGINS_STATEMENT);
 				
 				ds.setInt(1, index - 1);
+				ds.setString(2, p.getLogin());
 				ds.execute();
 				conn.commit();
 			}
@@ -141,7 +188,7 @@ public class PostgresDataAccess implements DataAccess {
 	}
 
 	@Override
-	public List<Worker> getAllWorkers() {
+	public List<Worker> getAllWorkersWithoutLogs() {
 		// TODO Auto-generated method stub
 		return null;
 	}

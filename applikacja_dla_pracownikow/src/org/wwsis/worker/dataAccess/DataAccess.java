@@ -12,7 +12,7 @@ public interface DataAccess {
 
 	public void saveWorker(Worker p);
 
-	public List<Worker> getAllWorkers();
+	public List<Worker> getAllWorkersWithoutLogs();
 	
 	public void setExpireTimeForWorker(Worker w, int seconds);
 	

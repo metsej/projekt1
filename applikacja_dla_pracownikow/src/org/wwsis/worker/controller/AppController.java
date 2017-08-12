@@ -41,8 +41,8 @@ public class AppController {
 		return usersManager.loadWorker(login);
 	}
 
-	public List<Worker> getAllWorkers() {
-		return usersManager.getAllWorkers();
+	public List<Worker> getAllWorkersWithoutLogs() {
+		return usersManager.getAllWorkersWithoutLogs();
 	}
 
 	public void logOut(Worker p) {
@@ -83,7 +83,7 @@ public class AppController {
 	
 	public List<Worker> gettAllWorker() {
 
-		return usersManager.getAllWorkers();
+		return usersManager.getAllWorkersWithoutLogs();
 	}
 
 	public boolean isAdmin(String login, String password) {

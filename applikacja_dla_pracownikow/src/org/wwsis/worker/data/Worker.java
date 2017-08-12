@@ -37,7 +37,7 @@ public class Worker {
 		return name;
 	}
 
-	public void setImsetName(String imie) {
+	public void  setName(String imie) {
 		this.name = imie;
 	}
 
@@ -111,6 +111,30 @@ public class Worker {
 
 	public void setListOfLogs(List<LocalDateTime> listOfLogs) {
 		this.listOfLogs = listOfLogs;
+	}
+	@Override
+	public String toString() {
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("[LOGIN:").append(login).append("]\n[NAME:").append(name).append("]\n[SURNAME:");
+		sb.append(lastName).append("]\n[PASSWORD:").append(password).append("]\n[ISLOGGED:");
+		sb.append(isLogged).append("]\n[ISBLOCKED:").append(isBlocked).append("]\n[NUMOFFAILEDATTEMPTS:");
+		sb.append(numOfFailedLogingAttempts).append("]\n[DIDLOGFORTHEFIRSTTIME:").append(didLogedForTheFirstTime);
+		sb.append("]\n[TOS:").append(timeOfStart).append("]\n[TOE:").append(timeofEnd).append("]\n[FAILEDLOGS:");
+		sb.append(numOfFailedLogingAttempts);
+		sb.append("]\n[LOGS");
+		if (listOfLogs != null) {
+			sb.append("( ").append(listOfLogs.size()).append(") : ");
+			for (LocalDateTime log: listOfLogs) {
+				sb.append(log).append(" | " );
+			}
+			
+		} else {
+			sb.append("(0)");
+		}
+		sb.append("]");
+		
+		return sb.toString();			
 	}
 
 

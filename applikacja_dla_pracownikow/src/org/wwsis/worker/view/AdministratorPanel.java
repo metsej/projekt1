@@ -252,11 +252,11 @@ public class AdministratorPanel extends JFrame {
 	}
 
 	private void updateTable() {
-		int n = controller.getAllWorkers().size();
+		int n = controller.getAllWorkersWithoutLogs().size();
 		data = new String[n][5];
 
 		int i = 0;
-		for (Worker curentWorker : controller.getAllWorkers()) {
+		for (Worker curentWorker : controller.getAllWorkersWithoutLogs()) {
 			data[i][0] = curentWorker.getLogin();
 			data[i][1] = curentWorker.getName();
 			data[i][2] = curentWorker.getLastName();

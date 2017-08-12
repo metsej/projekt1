@@ -43,7 +43,7 @@ public class JadisDataAccess implements DataAccess {
 		String userKey = userKeyPrefix + p.getLogin();
 	
 
-		p.setImsetName(connection.hget(userKey, "name"));
+		p.setName(connection.hget(userKey, "name"));
 		p.setLatName(connection.hget(userKey, "last_name"));
 		p.setPassword(connection.hget(userKey, "pass"));
 
@@ -147,7 +147,7 @@ public class JadisDataAccess implements DataAccess {
 
 
 	@Override
-	public List<Worker> getAllWorkers() {
+	public List<Worker> getAllWorkersWithoutLogs() {
 		Set<String> logins = connection.keys("*" + userKeyPrefix + "*");
 		List<Worker> result = new ArrayList<Worker>();
 		for (String s : logins) {

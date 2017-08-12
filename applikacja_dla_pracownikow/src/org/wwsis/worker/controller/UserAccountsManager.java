@@ -24,7 +24,7 @@ public class UserAccountsManager {
 		Worker p = new Worker();
 		p.setLogin(login);
 		p.setPassword(haslo);
-		p.setImsetName(name);
+		p.setName(name);
 		p.setLatName(lastName);
 		getDao().saveWorker(p);
 		return p;
@@ -39,8 +39,8 @@ public class UserAccountsManager {
 		return dao.loadWorker(p);
 	}
 
-	public List<Worker> getAllWorkers() {
-		return dao.getAllWorkers();
+	public List<Worker> getAllWorkersWithoutLogs() {
+		return dao.getAllWorkersWithoutLogs();
 	}
 
 	public void logOut(Worker p) {
@@ -133,7 +133,7 @@ public class UserAccountsManager {
 	
 	public List<Worker> gettAllWorker() {
 
-		return getDao().getAllWorkers();
+		return getDao().getAllWorkersWithoutLogs();
 	}
 
 	public boolean isAdmin(String login, String password) {

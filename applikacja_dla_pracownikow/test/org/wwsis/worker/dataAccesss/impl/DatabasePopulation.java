@@ -32,11 +32,11 @@ public class DatabasePopulation {
 		
 		Random r = new Random();
 		String [] names = {"Robert", "Grzegorz", "Marcin", "Janusz", "Kondrat"};
-		String [] lastNames =  new String [] {"Kowalski", "Kwiatkowski", "Malinowski", "Zumba", "Majewski"};
+		String [] lastNames =  new String [] {"Kowalski", "Kwiatkowski",  "Majewski", "Malinowski", "Zumba"};
 		
 		for (int i =0; i < names.length; i++) {
 			Worker w1 = new Worker();
-			w1.setImsetName(names[i]);
+			w1.setName(names[i]);
 			w1.setLatName(lastNames[i]);
 			w1.setLogin(getLogin(names[i], lastNames[i]));
 			w1.setPassword(getNewPass());
@@ -68,11 +68,21 @@ public class DatabasePopulation {
 			}
 			
 			w1.setListOfLogs(logs);
-			da.saveWorker(w1);
 			System.out.println(w1.getLogin() + " " + logs.size() +" "+da.doWorkerExists(w1));
-			w1.setLogin(w1.getLogin()+"x");
-			System.out.println(da.doWorkerExists(w1));
+			 
+			da.saveWorker(w1);
+			Worker loadWorker = da.loadWorker(w1);
 			
+			List<LocalDateTime> logs1 = w1.getListOfLogs();
+			List<LocalDateTime> logs2 = loadWorker.getListOfLogs();
+			
+			System.out.println("Real: \n"+w1);
+			System.out.println();
+			System.out.println("DB: \n"+ loadWorker);
+			System.out.println();
+			System.out.println();
+			System.out.println();
+			System.out.println();
 			
 			
 		}
