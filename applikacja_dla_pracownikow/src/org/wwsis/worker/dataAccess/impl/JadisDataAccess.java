@@ -37,63 +37,73 @@ public class JadisDataAccess implements DataAccess {
 
 		return connection.exists(userKeyPrefix + p.getLogin());
 	}
-
-	@Override
-	public Worker loadWorker(Worker p) {
-		String userKey = userKeyPrefix + p.getLogin();
 	
-
-		p.setName(connection.hget(userKey, "name"));
-		p.setLatName(connection.hget(userKey, "last_name"));
-		p.setPassword(connection.hget(userKey, "pass"));
+	
+	public Worker loadWorkerWithoutLogs(Worker p) {
+		String userKey = userKeyPrefix + p.getLogin();
+		
+		Worker result = new Worker();
+		
+		result.setLogin(p.getLogin());
+		result.setName(connection.hget(userKey, "name"));
+		result.setLatName(connection.hget(userKey, "last_name"));
+		result.setPassword(connection.hget(userKey, "pass"));
 
 		String isLogged = connection.hget(userKey, "isLogged");
 		if (isLogged != null) {
-			p.setIsLogged(isLogged.equals("true"));
+			result.setIsLogged(isLogged.equals("true"));
 		} else {
-			p.setIsLogged(false);
+			result.setIsLogged(false);
 		}
 		
 		String isBlocked = connection.hget(userKey, "isBlocked");
 		if (isBlocked != null) {
-			p.setIsBlocked(isBlocked.equals("true"));
+			result.setIsBlocked(isBlocked.equals("true"));
 		} else {
-			p.setIsBlocked(false);
+			result.setIsBlocked(false);
 		}
 		
 		String didLogedForTheFirstTimeStr = connection.hget(userKey, "didLogedForTheFirstTime");
 		if (didLogedForTheFirstTimeStr != null) {
-			p.setDidLogedForTheFirstTime(didLogedForTheFirstTimeStr.equals("true"));
+			result.setDidLogedForTheFirstTime(didLogedForTheFirstTimeStr.equals("true"));
 		} else {
-			p.setDidLogedForTheFirstTime(false);
+			result.setDidLogedForTheFirstTime(false);
 		}
 
 		String strStartTime = connection.hget(userKey, "start");
 		if (strStartTime != null) {
-			p.setStartTime( dateTimeFromString( strStartTime));
+			result.setStartTime( dateTimeFromString( strStartTime));
 		}
 		String strEndTime = connection.hget(userKey, "stop");
 		if (strEndTime != null) {
 			
-			p.setEndTime(dateTimeFromString( strEndTime));
+			result.setEndTime(dateTimeFromString( strEndTime));
 		}
 		
 		String strNumOfFailedLogingAttempts = connection.hget(userKey, "numOfFailedLogingAttempts");
 		if (strNumOfFailedLogingAttempts != null) {
 			
-			p.setNumOfFailedLogingAttempts(Integer.parseInt(strNumOfFailedLogingAttempts));
+			result.setNumOfFailedLogingAttempts(Integer.parseInt(strNumOfFailedLogingAttempts));
 		}
+		return result;
 		
-		List <String> listOfLogs = connection.lrange(userLogsKeyPrefix + p.getLogin(), 0, -1);
+	}
+
+	@Override
+	public Worker loadWorker(Worker p) {
+		
+		Worker result = loadWorkerWithoutLogs(p);
+		
+		List <String> listOfLogs = connection.lrange(userLogsKeyPrefix + result.getLogin(), 0, -1);
 		if (listOfLogs != null) {
 			List<LocalDateTime> listOfDates = new LinkedList<LocalDateTime>();
 			for (String s: listOfLogs) {
 				listOfDates.add(dateTimeFromString (s));
 			}
-			p.setListOfLogs(listOfDates);
+			result.setListOfLogs(listOfDates);
 		}
 		
-		return p;
+		return result;
 	}
 
 	@Override

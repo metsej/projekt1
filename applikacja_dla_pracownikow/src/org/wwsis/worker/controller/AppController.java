@@ -1,20 +1,12 @@
 package org.wwsis.worker.controller;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
-import org.wwsis.worker.dataAccess.impl.JadisDataAccess;
 
 @Controller 
 public class AppController {

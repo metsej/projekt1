@@ -37,6 +37,8 @@ public class PostgresDataAccess implements DataAccess {
 	String DELETE_LOGINS_STATEMENT = " DELETE FROM \"Logins\" WHERE logNum > ? AND userLogin = ? ;";
 	
 	String EXISTS_WORKER_STATEMENT = "SELECT login FROM \"Worker\" WHERE login = ?";
+	
+	String GET_ALL_WORKERS_LOGINS_STATEMENT = " SELECT login FROM \"Worker\";";
 
 	public PostgresDataAccess() {
 
@@ -76,10 +78,10 @@ public class PostgresDataAccess implements DataAccess {
 		
 		return false;
 	}
-
+	
+	
 	@Override
-	public Worker loadWorker(Worker p) {
-			
+	public Worker loadWorkerWithoutLogs(Worker p) {
 		Worker result = new Worker();
 		try {
 			PreparedStatement ps = conn.prepareStatement(GET_WORKER_STATEMENT);
@@ -100,24 +102,35 @@ public class PostgresDataAccess implements DataAccess {
 				result.setEndTime(rs.getTimestamp(9).toLocalDateTime());
 				result.setNumOfFailedLogingAttempts(rs.getInt(10));
 				
-				PreparedStatement ls = conn.prepareStatement(GET_LOGINS_STATEMENT);
-				ls.setString(1, p.getLogin());
-				
-				ResultSet rs2 = ls.executeQuery();
-				List<LocalDateTime> listOfLogs = new LinkedList<LocalDateTime>();
-				
-				while (rs2.next() ) {
-					listOfLogs.add(rs2.getTimestamp(2).toLocalDateTime());
-				}
-				
-				result.setListOfLogs(listOfLogs);
-				
 			} 
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 		}
+		return result;
+	}
+
+	@Override
+	public Worker loadWorker(Worker p) {
 		
+		Worker result = loadWorkerWithoutLogs(p);
+		
+		try {
+			
+		PreparedStatement ls = conn.prepareStatement(GET_LOGINS_STATEMENT);
+		ls.setString(1, p.getLogin());
+		
+		ResultSet rs2 = ls.executeQuery();
+		List<LocalDateTime> listOfLogs = new LinkedList<LocalDateTime>();
+		
+		while (rs2.next() ) {
+			listOfLogs.add(rs2.getTimestamp(2).toLocalDateTime());
+		}
+		
+		result.setListOfLogs(listOfLogs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		return result;
 	}
@@ -178,8 +191,8 @@ public class PostgresDataAccess implements DataAccess {
 				ds.setInt(1, index - 1);
 				ds.setString(2, p.getLogin());
 				ds.execute();
-				conn.commit();
 			}
+			conn.commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -189,8 +202,23 @@ public class PostgresDataAccess implements DataAccess {
 
 	@Override
 	public List<Worker> getAllWorkersWithoutLogs() {
-		// TODO Auto-generated method stub
-		return null;
+		List <Worker> result = new LinkedList<>();
+		try {
+			PreparedStatement ds = conn.prepareStatement(GET_ALL_WORKERS_LOGINS_STATEMENT);
+			ResultSet rs = ds.executeQuery();
+			
+			while (rs.next()) {
+				Worker temp = new Worker();
+				temp.setLogin(rs.getString(1));
+				result.add(loadWorkerWithoutLogs(temp));
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -221,5 +249,6 @@ public class PostgresDataAccess implements DataAccess {
 		// TODO Auto-generated method stub
 
 	}
+
 
 }

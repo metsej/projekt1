@@ -18,10 +18,10 @@
 
 
 	
-	<bean id="daoX" class="org.wwsis.worker.dataAccess.impl.PostgresDataAccess">
+	<bean id="daoX" class="org.wwsis.worker.dataAccess.impl.PostgresDataAccess"> 
 	</bean>
 	
-	<bean class="org.wwsis.worker.controller.AppController"/>
+	<bean class="org.wwsis.worker.controller.AppController"> </bean>
 	
 
 </beans>

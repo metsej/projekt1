@@ -9,6 +9,8 @@ public interface DataAccess {
 	public boolean doWorkerExists(Worker p);
 
 	public Worker loadWorker(Worker p);
+	
+	public Worker loadWorkerWithoutLogs(Worker p);
 
 	public void saveWorker(Worker p);
 
