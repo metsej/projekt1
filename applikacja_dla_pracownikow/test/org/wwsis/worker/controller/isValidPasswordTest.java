@@ -1,10 +1,8 @@
 package org.wwsis.worker.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.wwsis.worker.controller.AppController;
-import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
 import org.wwsis.worker.dataAccess.impl.JadisDataAccess;
 

@@ -1,37 +1,21 @@
 package org.wwsis.worker.view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-
-import org.wwsis.worker.controller.AppController;
-import org.wwsis.worker.data.Worker;
-import org.wwsis.worker.dataAccess.DataAccess;
-import org.wwsis.worker.dataAccess.impl.JadisDataAccess;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.AbstractAction;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import javax.swing.Action;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import java.awt.Font;
-import java.awt.Rectangle;
+import javax.swing.JTextField;
+
+import org.wwsis.worker.controller.AppController;
+import org.wwsis.worker.data.Worker;
 
 public class MainMenu {
 

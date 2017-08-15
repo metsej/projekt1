@@ -24,7 +24,7 @@ public class WorkTimeManager {
 		LocalDate today = now.toLocalDate();
 
 		List<LocalDateTime> logsCopy = cloneDates(today, w.getListOfLogs());
-		logsCopy.add(0, now);
+		logsCopy.add(now);
 		int minutes = calcWorkTime(logsCopy);
 		return minutesToHours(minutes);
 	}
@@ -102,18 +102,44 @@ public class WorkTimeManager {
 
 	}
 
-	private List<LocalDateTime> cloneDates(LocalDate day, List<LocalDateTime> datesListOrg) {
-		List<LocalDateTime> copy = new LinkedList<LocalDateTime>();
-		for (int i = 0; i < datesListOrg.size(); i++) {
-			if (datesListOrg.get(i).toLocalDate().equals(day)) {
-				copy.add(datesListOrg.get(i));
-			}
+	private List<LocalDateTime> cloneDates(LocalDate day, List<LocalDateTime> dates) {
+		List<LocalDateTime> copy = new ArrayList <LocalDateTime>();
+		if (dates.get(dates.size() - 1).isBefore(day.atStartOfDay()) 
+				|| day.isBefore(dates.get(0).toLocalDate()) ) {
+			return copy;
 		}
+		int firstIndexToSearch;
+		
+		
+		if (dates.get(0).toLocalDate().equals(day)) {
+			firstIndexToSearch = 0;
+		} else {
+			int leftIndex = 0;
+			int rightIndex = dates.size() - 1;
+			
+			while (rightIndex - leftIndex > 1) {
+				int midlleIndex = ( rightIndex + leftIndex) / 2;
+				
+				if (dates.get(midlleIndex).isBefore(day.atStartOfDay())) {
+					leftIndex = midlleIndex;
+				} else {
+					rightIndex = midlleIndex;
+				}
+			}
+			
+			firstIndexToSearch = rightIndex;
+		}
+
+		for(int i = firstIndexToSearch; i < dates.size() - 1 || dates.get(i).toLocalDate().isAfter(day); i++) {
+			copy.add(dates.get(i));
+		}
+		 
+
 		return copy;
 	}
 
 	private List<LocalDateTime> cloneDates(List<LocalDateTime> datesListOrg) {
-		List<LocalDateTime> copy = new LinkedList<LocalDateTime>();
+		List<LocalDateTime> copy = new ArrayList<LocalDateTime>();
 
 		for (LocalDateTime s : datesListOrg) {
 			copy.add(s);
@@ -123,15 +149,15 @@ public class WorkTimeManager {
 
 	private Map<Integer, Integer> getMonthReportHelper(List<LocalDateTime> allLogs, Map<Integer, Integer> emptyCalendar) {
 
-		ListIterator<LocalDateTime> iter = allLogs.listIterator(0);
+		int index = allLogs.size() - 1;
 
 		int year = getNow().getYear();
 		Month currentMonth = getNow().getMonth();
 
-		while (iter.hasNext()) {
+		while (index > 0) {
 
-			LocalDateTime currentDay = iter.next();
-			iter.previous();
+			LocalDateTime currentDay = allLogs.get(index --);
+			
 
 			if (!currentDay.getMonth().equals(currentMonth) || currentDay.getYear() != year) {
 				break;
@@ -139,13 +165,13 @@ public class WorkTimeManager {
 			int dayNum = currentDay.getDayOfMonth();
 			int currentDayWorkMiutes = 0;
 
-			while (iter.hasNext()) {
-				LocalDateTime login = iter.next();
+			while (index > 0) {
+				LocalDateTime login =  allLogs.get(index --);
 				if (!login.toLocalDate().equals(currentDay)) {
-					iter.previous();
+					index ++;
 					break;
 				}
-				LocalDateTime logout = iter.next();
+				LocalDateTime logout = allLogs.get(index --);
 				currentDayWorkMiutes += calcTimeinMins(login, logout);
 			}
 			emptyCalendar.put(dayNum, currentDayWorkMiutes);

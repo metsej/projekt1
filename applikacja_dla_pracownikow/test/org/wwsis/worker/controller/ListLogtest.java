@@ -1,19 +1,11 @@
 package org.wwsis.worker.controller;
 
-import static org.junit.Assert.*;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.LinkedList;
 
 import org.junit.Test;
-import org.wwsis.worker.controller.AppController;
 import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
 import org.wwsis.worker.dataAccess.impl.JadisDataAccess;

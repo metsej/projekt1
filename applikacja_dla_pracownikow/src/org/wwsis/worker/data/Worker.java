@@ -1,6 +1,7 @@
 package org.wwsis.worker.data;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 public class Worker {
@@ -111,6 +112,8 @@ public class Worker {
 
 	public void setListOfLogs(List<LocalDateTime> listOfLogs) {
 		this.listOfLogs = listOfLogs;
+		Collections.sort(this.listOfLogs);
+		
 	}
 	@Override
 	public String toString() {

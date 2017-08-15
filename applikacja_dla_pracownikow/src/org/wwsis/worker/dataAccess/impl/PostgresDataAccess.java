@@ -39,6 +39,8 @@ public class PostgresDataAccess implements DataAccess {
 	String EXISTS_WORKER_STATEMENT = "SELECT login FROM \"Worker\" WHERE login = ?";
 	
 	String GET_ALL_WORKERS_LOGINS_STATEMENT = " SELECT login FROM \"Worker\";";
+	
+	String DEPOPULATE_DATABASE_STATEMENT = "DELETE  FROM \"Logins\"; DELETE FROM \"Worker\";";
 
 	public PostgresDataAccess() {
 
@@ -246,7 +248,14 @@ public class PostgresDataAccess implements DataAccess {
 
 	@Override
 	public void erase() {
-		// TODO Auto-generated method stub
+		try {
+			PreparedStatement ds = conn.prepareStatement(DEPOPULATE_DATABASE_STATEMENT);
+			ds.execute();
+			conn.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

@@ -3,6 +3,7 @@ package org.wwsis.worker.controller;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -47,7 +48,7 @@ public class UserAccountsManager {
 		LocalDateTime now = LocalDateTime.now();
 		p.setEndTime(now);
 		p.setIsLogged(false);
-		saveUserLog(p);
+		addCurrentLogin(p);
 		getDao().saveWorker(p);
 	}
 	
@@ -55,7 +56,7 @@ public class UserAccountsManager {
 		markMandatoryPassChange(p);
 		saveStartTime(p);
 		resetFailedLoggingAttempt(p);
-		saveUserLog(p);
+		addCurrentLogin(p);
 		dao.saveWorker(p);
 	}
 	
@@ -185,15 +186,15 @@ public class UserAccountsManager {
 		p.setStartTime(now);
 	}
 	
-	private void saveUserLog (Worker p) {
+	private void addCurrentLogin (Worker p) {
 		LocalDateTime now = LocalDateTime.now();
 		List <LocalDateTime> logList;
 		if (p.getListOfLogs() != null){
 			logList = p.getListOfLogs();
 		} else {
-			logList = new LinkedList<LocalDateTime>();
+			logList = new ArrayList <LocalDateTime>();
 		}
-		logList.add(0,now);
+		logList.add(now);
 		p.setListOfLogs(logList);
 	}
 	

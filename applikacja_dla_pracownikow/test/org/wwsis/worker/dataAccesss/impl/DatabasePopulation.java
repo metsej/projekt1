@@ -72,10 +72,7 @@ public class DatabasePopulation {
 			 
 			da.saveWorker(w1);
 			Worker loadWorker = da.loadWorker(w1);
-			
-			List<LocalDateTime> logs1 = w1.getListOfLogs();
-			List<LocalDateTime> logs2 = loadWorker.getListOfLogs();
-			
+				
 			System.out.println("Real: \n"+w1);
 			System.out.println();
 			System.out.println("DB: \n"+ loadWorker);

@@ -2,8 +2,6 @@ package org.wwsis.worker.view;
 
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -13,6 +11,10 @@ import org.wwsis.worker.data.Worker;
 
 public class MonthRaportContentPanel extends JScrollPane {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4337253061639143620L;
 	String column[] = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 	private JTable table;
 	private String[][] data;
