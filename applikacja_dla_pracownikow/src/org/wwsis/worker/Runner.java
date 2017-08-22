@@ -1,6 +1,7 @@
 package org.wwsis.worker;
 
 import java.awt.EventQueue;
+import java.lang.reflect.InvocationTargetException;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -17,7 +18,7 @@ public class Runner {
 	    
 		AppController controller = context.getBean(AppController.class);
 				
-		EventQueue.invokeLater(new Runnable() {
+		Runnable frameApp = new Runnable() {
 			public void run() {
 				try {
 					MainMenu window = new MainMenu(controller);
@@ -26,9 +27,15 @@ public class Runner {
 					e.printStackTrace();
 				}
 			}
-		});	
-		context.close();
+		};
+		try {
+			EventQueue.invokeAndWait(frameApp);
+		} catch (InvocationTargetException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 		controller.getDao().save();
+		context.close();
     }
 	
 }

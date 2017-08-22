@@ -31,7 +31,7 @@ public class WorkTimeManager {
 
 	public List<String> getMonthReport(Worker w) {
 		List<LocalDateTime> listOfLogCopy = cloneDates(w.getListOfLogs());
-		listOfLogCopy.add(0, getNow());
+		listOfLogCopy.add(getNow());
 		int daysInMonth = getMonthsLenght(getNow().toLocalDate());
 		Map<Integer, Integer> emptyCalendar = new TreeMap<Integer, Integer>();
 		for (int i = 1; i <= daysInMonth; i++) {
@@ -45,7 +45,7 @@ public class WorkTimeManager {
 			result.add(0, " ");
 		}
 		for (Integer d : resultCalendar.values()) {
-			result.add(minutesToHours( d));
+			result.add(minutesToHours(d));
 		}
 
 		return result;
@@ -103,37 +103,34 @@ public class WorkTimeManager {
 	}
 
 	private List<LocalDateTime> cloneDates(LocalDate day, List<LocalDateTime> dates) {
-		List<LocalDateTime> copy = new ArrayList <LocalDateTime>();
-		if (dates.get(dates.size() - 1).isBefore(day.atStartOfDay()) 
-				|| day.isBefore(dates.get(0).toLocalDate()) ) {
+		List<LocalDateTime> copy = new ArrayList<LocalDateTime>();
+		if (dates.get(dates.size() - 1).isBefore(day.atStartOfDay()) || day.isBefore(dates.get(0).toLocalDate())) {
 			return copy;
 		}
 		int firstIndexToSearch;
-		
-		
+
 		if (dates.get(0).toLocalDate().equals(day)) {
 			firstIndexToSearch = 0;
 		} else {
 			int leftIndex = 0;
 			int rightIndex = dates.size() - 1;
-			
+
 			while (rightIndex - leftIndex > 1) {
-				int midlleIndex = ( rightIndex + leftIndex) / 2;
-				
+				int midlleIndex = (rightIndex + leftIndex) / 2;
+
 				if (dates.get(midlleIndex).isBefore(day.atStartOfDay())) {
 					leftIndex = midlleIndex;
 				} else {
 					rightIndex = midlleIndex;
 				}
 			}
-			
+
 			firstIndexToSearch = rightIndex;
 		}
 
-		for(int i = firstIndexToSearch; i < dates.size() - 1 || dates.get(i).toLocalDate().isAfter(day); i++) {
+		for (int i = firstIndexToSearch; i < dates.size() - 1 || dates.get(i).toLocalDate().isAfter(day); i++) {
 			copy.add(dates.get(i));
 		}
-		 
 
 		return copy;
 	}
@@ -147,31 +144,27 @@ public class WorkTimeManager {
 		return copy;
 	}
 
-	private Map<Integer, Integer> getMonthReportHelper(List<LocalDateTime> allLogs, Map<Integer, Integer> emptyCalendar) {
+	private Map<Integer, Integer> getMonthReportHelper(List<LocalDateTime> allLogs,
+			Map<Integer, Integer> emptyCalendar) {
 
 		int index = allLogs.size() - 1;
 
 		int year = getNow().getYear();
 		Month currentMonth = getNow().getMonth();
 
-		while (index > 0) {
+		while (index > 0
+				&& (allLogs.get(index).getMonth().equals(currentMonth) && allLogs.get(index).getYear() == year)) {
 
-			LocalDateTime currentDay = allLogs.get(index --);
+			LocalDateTime currentLogin = allLogs.get(index);
+			LocalDate currentDay = currentLogin.toLocalDate();
 			
-
-			if (!currentDay.getMonth().equals(currentMonth) || currentDay.getYear() != year) {
-				break;
-			}
-			int dayNum = currentDay.getDayOfMonth();
+			int dayNum = currentLogin.getDayOfMonth();
 			int currentDayWorkMiutes = 0;
 
-			while (index > 0) {
-				LocalDateTime login =  allLogs.get(index --);
-				if (!login.toLocalDate().equals(currentDay)) {
-					index ++;
-					break;
-				}
-				LocalDateTime logout = allLogs.get(index --);
+			while (index > 0 && allLogs.get(index-1).toLocalDate().equals(currentDay) &&  allLogs.get(index).toLocalDate().equals(currentDay)) {
+				LocalDateTime login = allLogs.get(index-1);
+				LocalDateTime logout = allLogs.get(index);
+				index -= 2;
 				currentDayWorkMiutes += calcTimeinMins(login, logout);
 			}
 			emptyCalendar.put(dayNum, currentDayWorkMiutes);

@@ -21,15 +21,14 @@
 		<constructor-arg type="String" value="localhostqwe" />
 	</bean>
 
-	<bean id="dao" class="org.wwsis.worker.dataAccess.impl.JadisDataAccess">
-		<constructor-arg ref="hostname" />
-	</bean>
 	
-	<bean id="daoX" class="org.wwsis.worker.dataAccess.impl.JadisDataAccess">
+	<bean id="dao" class="org.wwsis.worker.dataAccess.impl.JadisDataAccess">
 		<constructor-arg value="127.0.0.1" />
 	</bean>
 	
-	<bean class="org.wwsis.worker.controller.AppController"/>
+	<bean class="org.wwsis.worker.controller.AppController">
+		<constructor-arg ref = "dao"/>
+	</bean>
 	
 
 </beans>

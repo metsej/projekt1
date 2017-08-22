@@ -10,7 +10,7 @@ import org.wwsis.worker.dataAccess.DataAccess;
 
 @Controller 
 public class AppController {
-
+	
 	private DataAccess dao;
 	
 	private UserAccountsManager usersManager;
@@ -18,10 +18,11 @@ public class AppController {
 	private WorkTimeManager timeManager;
 	
 	@Autowired
-	public AppController(@Qualifier("daoX") DataAccess dao){
+	public AppController(DataAccess dao){
 		usersManager = new UserAccountsManager();
 		usersManager.setDao(dao);
 		timeManager = new WorkTimeManager();
+		this.dao = dao;
 	}
 	
 	
