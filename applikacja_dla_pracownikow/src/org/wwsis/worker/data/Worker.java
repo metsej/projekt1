@@ -14,6 +14,7 @@ public class Worker {
 	private Boolean isLogged;
 	private Boolean isBlocked;
 	private Boolean didLogedForTheFirstTime;
+	//TODO delete timeOfStart, timeOfEnd fields
 	private LocalDateTime timeOfStart;
 	private LocalDateTime timeofEnd;
 	private int numOfFailedLogingAttempts;

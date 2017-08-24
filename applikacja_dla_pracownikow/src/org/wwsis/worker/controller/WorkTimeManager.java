@@ -25,8 +25,8 @@ public class WorkTimeManager {
 
 		List<LocalDateTime> logsCopy = cloneDates(today, w.getListOfLogs());
 		logsCopy.add(now);
-		int minutes = calcWorkTime(logsCopy);
-		return minutesToHours(minutes);
+		float minutes = calcWorkTime(logsCopy);
+		return minutesToHours( (int) minutes);
 	}
 
 	public List<String> getMonthReport(Worker w) {
@@ -59,9 +59,9 @@ public class WorkTimeManager {
 		return m.getDisplayName(TextStyle.FULL, Locale.ENGLISH) + " " + Integer.toString(y);
 	}
 
-	private int calcWorkTime(List<LocalDateTime> datesList) {
+	private float calcWorkTime(List<LocalDateTime> datesList) {
 
-		int result = 0;
+		float result = 0;
 
 		if (datesList.size() < 2) {
 			return result;
@@ -73,8 +73,8 @@ public class WorkTimeManager {
 
 	}
 
-	private int calcTimeinMins(LocalDateTime date1, LocalDateTime date2) {
-		return (int) Duration.between(date1, date2).toMinutes();
+	private float calcTimeinMins(LocalDateTime date1, LocalDateTime date2) {
+		return  (float)(Duration.between(date1, date2).toMillis() /  60000d );
 	}
 
 	private LocalDateTime getNow() {

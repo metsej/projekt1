@@ -9,6 +9,9 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.junit.Test;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.wwsis.worker.Runner;
 import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
 import org.wwsis.worker.dataAccess.impl.JadisDataAccess;
@@ -16,12 +19,17 @@ import org.wwsis.worker.dataAccess.impl.PostgresDataAccess;
 
 public class DatabasePopulation {
 	
+	private static final String filePosgresConf = Runner.class.getResource("/PostgresTestContext.xml").getPath();
+	private static final String fileJadisConf = Runner.class.getResource("/JadisTestContext.xml").getPath();
+	private static final ConfigurableApplicationContext posgresContext = new FileSystemXmlApplicationContext("/"+ filePosgresConf); 
+	private static final ConfigurableApplicationContext jadisContext = new FileSystemXmlApplicationContext("/"+ fileJadisConf); 
+	
 	DataAccess getPostgresDataAccess() {
-		return new PostgresDataAccess();
+		return posgresContext.getBean(PostgresDataAccess.class);
 	}
 	
 	DataAccess getJadisDataAccess() {
-		return new JadisDataAccess("127.0.0.1");
+		return jadisContext.getBean(JadisDataAccess.class);
 	}
 	
 	private  String getLogin(String name, String surrname) {
