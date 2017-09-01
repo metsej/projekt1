@@ -214,7 +214,7 @@ public class WorkTimeManager {
 			// get last possible login in this month
 
 			// if the last login is after last login in this month we calculate
-			// time for the last possible login in this month
+			// time for the last possible login in this month 9
 			LocalDateTime actualLastLogin = (currentLastLogin.getMonth().equals(currentMonth)
 					&& currentLastLogin.getYear() == year) ? currentLastLogin : endOfMonth;
 			allSesions.get(index).setEndTime(actualLastLogin);
