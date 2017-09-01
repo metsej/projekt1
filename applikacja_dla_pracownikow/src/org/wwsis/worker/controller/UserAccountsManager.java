@@ -4,10 +4,10 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.wwsis.worker.data.Session;
 import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
 
@@ -187,12 +187,12 @@ public class UserAccountsManager {
 	}
 	
 	private void addCurrentLogin (Worker p) {
-		LocalDateTime now = LocalDateTime.now();
-		List <LocalDateTime> logList;
+		Session now = Session.forStart(LocalDateTime.now());
+		List <Session> logList;
 		if (p.getListOfLogs() != null){
 			logList = p.getListOfLogs();
 		} else {
-			logList = new ArrayList <LocalDateTime>();
+			logList = new ArrayList <Session>();
 		}
 		logList.add(now);
 		p.setListOfLogs(logList);

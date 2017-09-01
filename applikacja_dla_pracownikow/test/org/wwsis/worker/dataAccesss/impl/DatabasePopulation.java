@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.wwsis.worker.Runner;
+import org.wwsis.worker.data.Session;
 import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
 import org.wwsis.worker.dataAccess.impl.JadisDataAccess;
@@ -60,9 +61,10 @@ public class DatabasePopulation {
 			
 			// dodaj logi
 			
-			List <LocalDateTime> logs = new LinkedList<LocalDateTime>();
-			logs.add(stopTime);
-			logs.add(startTime);
+			List <Session> logs = new LinkedList<Session>();
+			Session session = Session.forDates(startTime, stopTime);
+			logs.add(session);
+
 			int numOfDays = 1 + r.nextInt(9);
 			
 			LocalDateTime newLogStart = startTime;
@@ -71,8 +73,9 @@ public class DatabasePopulation {
 			for (int j = 1; j < numOfDays; j++) {
 				newLogStart = newLogStart.minusDays(1);
 				newLogStop = newLogStart.plusMinutes(10 + r.nextInt(40));
-				logs.add(newLogStop);
-				logs.add(newLogStart);
+				Session s = Session.forDates(newLogStart, newLogStop);
+				logs.add(s);
+				
 			}
 			
 			w1.setListOfLogs(logs);

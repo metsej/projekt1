@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
+import org.springframework.cglib.core.Local;
+import org.wwsis.worker.data.Session;
 import org.wwsis.worker.data.Worker;
 
 public class calculateWorkTimeTest {
@@ -60,6 +62,19 @@ public class calculateWorkTimeTest {
 		
 		
 		
+	}
+	
+	@Test 
+	public void splitSessionTest () {
+		LocalDateTime start = LocalDateTime.of(2017, Month.NOVEMBER, 12, 12, 0);
+		LocalDateTime end = LocalDateTime.of(2017, Month.NOVEMBER, 18, 13, 30);
+		
+		Session session = Session.forDates(start, end);
+		List <Session> daySessions = new WorkTimeManager().sessionInDay(session);
+		for (Session s: daySessions ) {
+			System.out.println(s.getStartTime() + " " + s.getEndTime());
+		}
+		assertEquals(7, daySessions.size());
 	}
 
 }

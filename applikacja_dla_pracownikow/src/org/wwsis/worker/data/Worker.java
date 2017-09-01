@@ -18,7 +18,7 @@ public class Worker {
 	private LocalDateTime timeOfStart;
 	private LocalDateTime timeofEnd;
 	private int numOfFailedLogingAttempts;
-	private List <LocalDateTime> listOfLogs;
+	private List <Session> listOfLogs;
 
 
 	public static Worker withLogin(String login){
@@ -107,11 +107,11 @@ public class Worker {
 		this.didLogedForTheFirstTime = didLogedForTheFirstTime;
 	}
 
-	public List<LocalDateTime> getListOfLogs() {
+	public List<Session> getListOfLogs() {
 		return listOfLogs;
 	}
 
-	public void setListOfLogs(List<LocalDateTime> listOfLogs) {
+	public void setListOfLogs(List<Session> listOfLogs) {
 		this.listOfLogs = listOfLogs;
 		Collections.sort(this.listOfLogs);
 		
@@ -129,7 +129,7 @@ public class Worker {
 		sb.append("]\n[LOGS");
 		if (listOfLogs != null) {
 			sb.append("( ").append(listOfLogs.size()).append(") : ");
-			for (LocalDateTime log: listOfLogs) {
+			for (Session log: listOfLogs) {
 				sb.append(log).append(" | " );
 			}
 			

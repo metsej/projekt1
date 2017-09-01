@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.wwsis.worker.data.Session;
 import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
 
@@ -21,9 +22,13 @@ public class JadisDataAccess implements DataAccess {
 	
 	private String userKeyPrefix = "id:user:";
 	
-	private String userLogsKeyPrefix = "id:userLogs:";
+	private String userLoginKeyPrefix = "id:userLogins:";
+	
+	private String userLogoutKeyPrefix = "id:userLogouts:";
 	
 	private DateTimeFormatter dateformatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+	
+	final private static String nullStr = "null";
 
 	
 	public JadisDataAccess(String hostName) {
@@ -93,14 +98,20 @@ public class JadisDataAccess implements DataAccess {
 	public Worker loadWorker(Worker p) {
 		
 		Worker result = loadWorkerWithoutLogs(p);
-		
-		List <String> listOfLogs = connection.lrange(userLogsKeyPrefix + result.getLogin(), 0, -1);
-		if (listOfLogs != null) {
-			List<LocalDateTime> listOfDates = new LinkedList<LocalDateTime>();
-			for (String s: listOfLogs) {
-				listOfDates.add(dateTimeFromString (s));
+		List <String> listOfLogins = connection.lrange(userLoginKeyPrefix + result.getLogin(), 0, -1);
+		List<String> listOfLogouts = connection.lrange(userLogoutKeyPrefix + result.getLogin(), 0, -1);
+		if (listOfLogins != null || listOfLogouts != null ) {
+			if (listOfLogins.size() != listOfLogouts.size()) {
+				throw new RuntimeException("login list and logout list not equal size");
 			}
-			result.setListOfLogs(listOfDates);
+			List<Session> listOfSessions = new LinkedList<Session>();
+			for (int i = 0; i < listOfLogins.size(); i++) {
+				LocalDateTime login = listOfLogins.get(i).equals(nullStr) ? null : dateTimeFromString(listOfLogins.get(i)); 
+				LocalDateTime logout = listOfLogouts.get(i).equals(nullStr) ? null : dateTimeFromString(listOfLogouts.get(i)); 
+				Session s = Session.forDates(login, logout) ;
+				listOfSessions.add(s);
+			}
+			result.setListOfLogs(listOfSessions);
 		}
 		
 		return result;
@@ -152,7 +163,7 @@ public class JadisDataAccess implements DataAccess {
 	@Override
 	public void setExpireTimeForWorker (Worker w, int seconds ) {
 		connection.expire(userKeyPrefix  + w.getLogin(), seconds);
-		connection.expire(userLogsKeyPrefix + w.getLogin(), seconds);
+		connection.expire(userLogoutKeyPrefix + w.getLogin(), seconds);
 	}
 
 
@@ -184,13 +195,18 @@ public class JadisDataAccess implements DataAccess {
 	}
 	
 	private void saveList (Worker p) {
-		String key = userLogsKeyPrefix + p.getLogin();
-		connection.del(key);
-		List <LocalDateTime> list = p.getListOfLogs();
-		
+		String loginsKey = userLoginKeyPrefix + p.getLogin();
+		String logoutsKey = userLogoutKeyPrefix +  p.getLogin();
+		connection.del(loginsKey);
+		connection.del(logoutsKey);
+		List <Session> sessions = p.getListOfLogs();
 	
-		for ( int i = 0; i < list.size(); i++) {
-			connection.rpush(key, dateTimeToString(list.get(i)));
+		for ( int i = 0; i < sessions.size(); i++) {
+			LocalDateTime starTime = sessions.get(i).getStartTime();
+			LocalDateTime endTime = sessions.get(i).getEndTime();
+			
+			connection.rpush(loginsKey, starTime == null ? nullStr : dateTimeToString(starTime) );
+			connection.rpush(logoutsKey, endTime == null ? nullStr : dateTimeToString(endTime) );
 		}
 	}
 	

@@ -97,6 +97,7 @@ public class MainMenu {
 		logInButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					
 					String login = loginTextField.getText();
 					@SuppressWarnings("deprecation")
 					String pass = passwordField.getText();
@@ -147,7 +148,7 @@ public class MainMenu {
 					}
 
 				} catch (Exception exc) {
-
+					exc.printStackTrace();
 				}
 			}
 		});
