@@ -1,4 +1,4 @@
-package org.wwsis.worker.view;
+package org.wwsis.worker.view.jframe;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +18,7 @@ import javax.swing.border.TitledBorder;
 
 import org.wwsis.worker.controller.AppController;
 import org.wwsis.worker.data.Worker;
+import org.wwsis.worker.view.ViewUtils;
 
 public class WorkerPanel extends JFrame {
 
@@ -59,7 +60,7 @@ public class WorkerPanel extends JFrame {
 	
 		
 	private void update(){
-		sWorkTimeLabbelDisplay.setText(controller.getTodayWorkTime(loggedWorker));
+		sWorkTimeLabbelDisplay.setText(ViewUtils.minutesToHours((int)controller.getTodayWorkTime(loggedWorker)));
 	}
 	
 	
@@ -79,7 +80,7 @@ public class WorkerPanel extends JFrame {
 		
 		
 		
-		sWorkTimeLabbelDisplay = new JLabel(controller.getTodayWorkTime(loggedWorker));
+		sWorkTimeLabbelDisplay = new JLabel(ViewUtils.minutesToHours((int)controller.getTodayWorkTime(loggedWorker)));
 		sWorkTimeLabbelDisplay.setBounds(126, 80, 97, 33);
 		contentPane.add(sWorkTimeLabbelDisplay);
 		

@@ -1,6 +1,9 @@
 package org.wwsis.worker.controller;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -83,7 +86,7 @@ public class AppController {
 		return usersManager.isAdmin(login, password);
 	}
 	
-	public String getTodayWorkTime (Worker w) {
+	public float getTodayWorkTime (Worker w) {
 		return timeManager.calcTodayWorkTime(w);
 	}
 	
@@ -99,7 +102,7 @@ public class AppController {
 		this.dao = dao;
 	}
 	
-	public List <String> getMonthRaport (Worker w) {
+	public SortedMap<LocalDate, Float>  getMonthRaport (Worker w) {
 		return timeManager.getMonthReport(w);
 	}
 	

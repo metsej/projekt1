@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.wwsis.worker.controller.AppController;
-import org.wwsis.worker.view.MainMenu;
+import org.wwsis.worker.view.jframe.MainMenu;
 
 public class Runner {
 		

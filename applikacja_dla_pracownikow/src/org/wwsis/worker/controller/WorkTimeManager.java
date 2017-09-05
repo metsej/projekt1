@@ -9,11 +9,10 @@ import java.time.YearMonth;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.wwsis.worker.data.Session;
@@ -21,7 +20,7 @@ import org.wwsis.worker.data.Worker;
 
 public class WorkTimeManager {
 
-	public String calcTodayWorkTime(Worker w) {
+	public float calcTodayWorkTime(Worker w) {
 		LocalDateTime now = getNow();
 		LocalDate today = now.toLocalDate();
 		List<Session> logsCopy = seesionsFromDay(today, w.getListOfLogs());
@@ -33,37 +32,61 @@ public class WorkTimeManager {
 		Session openSession = Session.forDates(openSessionTodayStart, now);
 		
 		logsCopy.add(openSession);
-		float minutes = calcWorkTime(logsCopy);
-		return minutesToHours( (int) minutes);
+		return  calcWorkTime(logsCopy);
+		 
+	}
+	
+	private SortedMap<LocalDate, Float> getEmptyCalendar(YearMonth ym) {
+		
+		
+		
+		SortedMap<LocalDate, Float> emptyCalendar = new TreeMap<LocalDate, Float>();
+		LocalDate currentDay = ym.atDay(1);
+		while (currentDay.getYear() == ym.getYear() && currentDay.getMonth().equals(ym.getMonth()) ) {
+			emptyCalendar.put(currentDay, 0.0f);
+			currentDay = currentDay.plusDays(1);
+		}
+		return emptyCalendar;
 	}
 
-	public List<String> getMonthReport(Worker w) {
+	public SortedMap<LocalDate, Float>  getMonthReport(Worker w) {
 		List<Session> listOfLogCopy = cloneSessions(w.getListOfLogs());
+		Session currentSession = w.getListOfLogs().get(w.getListOfLogs().size() -1 );
+		if (currentSession.getEndTime() != null) {
+			throw new RuntimeException( "Current session shouln't be closed");
+		}
 		LocalDateTime now = getNow();
-		LocalDate today = now.toLocalDate();
-		Session lastSession = w.getListOfLogs().get(w.getListOfLogs().size() -1 );
-		if (lastSession.getEndTime() != null) {
-			throw new RuntimeException( "Last session shouln't be terminated");
-		}
-		Session openSession = Session.forDates(lastSession.getStartTime(), now);
+		Session openSession = Session.forDates(currentSession.getStartTime(), now);
+		listOfLogCopy.remove(listOfLogCopy.size() - 1);
 		listOfLogCopy.add(openSession);
-		int daysInMonth = getMonthsLenght(getNow().toLocalDate());
-		Map<Integer, Integer> emptyCalendar = new TreeMap<Integer, Integer>();
-		for (int i = 1; i <= daysInMonth; i++) {
-			emptyCalendar.put(i, 0);
-		}
-		Map<Integer, Integer> resultCalendar = getMonthReportHelper(listOfLogCopy, emptyCalendar);
+		
+		int year = now.getYear();
+		int monthValue = now.getMonth().getValue();
+		YearMonth currentMonth = YearMonth.of(year, monthValue);
+		SortedMap<LocalDate, Float> calendar = getEmptyCalendar(currentMonth);
+		
+		LocalDateTime beginingOfMonth = LocalDate.of(year, monthValue, 1).atStartOfDay();
+		
+		LocalDate lastDayOfMonth =  currentMonth.atEndOfMonth();
+		LocalDateTime endOfMonth = lastDayOfMonth.plusDays(1).atStartOfDay();
 
-		List<String> result = new ArrayList<String>();
-		DayOfWeek numOfFirstDayOfMonth = getFirstDayofMonthNum(getNow().toLocalDate());
-		for (int i = 0; i < numOfFirstDayOfMonth.ordinal(); i++) {
-			result.add(0, " ");
+		for (int i = 0; i < listOfLogCopy.size(); i++) {
+			Session sessionInMonth = sessionInMonth(listOfLogCopy.get(i), beginingOfMonth, endOfMonth);
+			if (sessionInMonth != null) {
+				List<Session> sessionsInDays = sessionInDay(sessionInMonth);
+				for (int j = 0; j < sessionsInDays.size(); j++){
+					LocalDate day = sessionsInDays.get(j).getStartTime().toLocalDate();
+					Float addedDurration =  calcTimeinMins(sessionsInDays.get(j));
+					Float currentDuarration = calendar.containsKey(day) ? calendar.get(day) : 0.0f;
+					calendar.put(day, currentDuarration + addedDurration);
+					
+				}
+			}
 		}
-		for (Integer d : resultCalendar.values()) {
-			result.add(minutesToHours(d));
-		}
-
-		return result;
+		
+		return calendar;
+		
+	
 	}
 
 	public String getCurrentMonthTitlle() {
@@ -96,26 +119,6 @@ public class WorkTimeManager {
 		return LocalDateTime.now();
 	}
 
-	private String minutesToHours(int minutes) {
-		int hours;
-		int remainingMinutes;
-		String hoursStr;
-		String remainingMinutesStr;
-
-		hours = minutes / 60;
-		remainingMinutes = minutes - (hours * 60);
-
-		hoursStr = Integer.toString(hours) + "h";
-
-		if (remainingMinutes < 10) {
-			remainingMinutesStr = "0" + Integer.toString(remainingMinutes) + "m";
-		} else {
-			remainingMinutesStr = Integer.toString(remainingMinutes) + "m";
-		}
-
-		return hoursStr + " " + remainingMinutesStr;
-
-	}
 
 	private List<Session> seesionsFromDay(LocalDate day, List<Session> sessions) {
 		List<Session> copy = new ArrayList<Session>();
@@ -177,73 +180,21 @@ public class WorkTimeManager {
 		List<Session> result = new ArrayList<>();
 		LocalDateTime startOfSession = session.getStartTime();
 		LocalDateTime endOfSession = session.getEndTime();
-		LocalDate currnetDay = session.getStartTime().minusDays(1).toLocalDate();
+		LocalDate currnetDay = session.getStartTime().toLocalDate();
 		LocalDateTime endOfDaySession;
 		LocalDateTime startOfDaySession;
 		
 		do {
-			currnetDay = currnetDay.plusDays(1); 
 			startOfDaySession = max (currnetDay.atStartOfDay(), startOfSession);  
 			endOfDaySession = min (currnetDay.plusDays(1).atStartOfDay(), endOfSession);
 			Session daySession = Session.forDates(startOfDaySession, endOfDaySession);
 			result.add(daySession);
-			
-		} while (currnetDay.plusDays(1).atStartOfDay().isBefore(endOfSession) );
+			currnetDay = currnetDay.plusDays(1); 
+		} while (currnetDay.atStartOfDay().isBefore(endOfSession) );
 		
 		return result;
 	}
 
-	private Map<Integer, Integer> getMonthReportHelper(List<Session> allSesions,
-			Map<Integer, Integer> emptyCalendar) {
-
-		int index = allSesions.size() - 1;
-
-		LocalDateTime now = getNow();
-		int year = now.getYear();
-		int monthValue = now.getMonth().getValue();
-		YearMonth currentMonth = YearMonth.of(year, monthValue);
-		LocalDateTime beginingOfMonth = LocalDate.of(year, monthValue, 1).atStartOfDay();
-		
-		LocalDate lastDayOfMonth =  currentMonth.atEndOfMonth();
-		LocalDateTime endOfMonth = lastDayOfMonth.plusDays(1).atStartOfDay();
-
-		while (index > 0 && (allSesions.get(index).getStartTime().getMonth().equals(currentMonth)
-				&& allSesions.get(index).getStartTime().getYear() == year)) {
-			Session currentSesion = allSesions.get(index);
-			LocalDateTime currentLastLogin = currentSesion.getEndTime();
-			// get last possible login in this month
-
-			// if the last login is after last login in this month we calculate
-			// time for the last possible login in this month 9
-			LocalDateTime actualLastLogin = (currentLastLogin.getMonth().equals(currentMonth)
-					&& currentLastLogin.getYear() == year) ? currentLastLogin : endOfMonth;
-			allSesions.get(index).setEndTime(actualLastLogin);
-
-			LocalDate currentDay = currentLastLogin.toLocalDate();
-			float currentWorkTime = 0;
-			LocalDateTime endOfDay;
-			LocalDateTime beggingAtDay;
-			LocalDateTime lastLoginAtDay;
-			Session sessionDuringCurrentDat;
-			while (index > 0 && isSessionDuringDay(currentSesion, currentDay)) {
-				currentSesion = allSesions.get(index);
-				currentLastLogin = currentSesion.getEndTime();
-				currentDay = currentLastLogin.toLocalDate();
-				
-				endOfDay = currentDay.plusDays(1).atStartOfDay();
-				beggingAtDay = (currentDay.atStartOfDay().isBefore(currentSesion.getStartTime()))
-						? currentSesion.getStartTime() : currentDay.atStartOfDay();
-				lastLoginAtDay = (endOfDay.isAfter(currentSesion.getEndTime())) ? currentSesion.getEndTime() : endOfDay;
-				sessionDuringCurrentDat = Session.forDates(beggingAtDay, lastLoginAtDay);
-				currentWorkTime += calcTimeinMins(sessionDuringCurrentDat);
-				index--;
-
-			}
-			emptyCalendar.put(index, (int)currentWorkTime);
-		}
-		return emptyCalendar;
-
-	}
 
 	private int getMonthsLenght(LocalDate date) {
 		Calendar calendar = Calendar.getInstance();

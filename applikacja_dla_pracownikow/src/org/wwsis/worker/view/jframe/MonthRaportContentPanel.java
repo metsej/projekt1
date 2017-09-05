@@ -1,6 +1,10 @@
-package org.wwsis.worker.view;
+package org.wwsis.worker.view.jframe;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -8,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.wwsis.worker.controller.AppController;
 import org.wwsis.worker.data.Worker;
+import org.wwsis.worker.view.ViewUtils;
 
 public class MonthRaportContentPanel extends JScrollPane {
 	
@@ -53,8 +58,26 @@ public class MonthRaportContentPanel extends JScrollPane {
 		getViewport ().add (table);
 	}
 	
+
+
+	
+	private List<String> formattedMonthReport () {
+		SortedMap<LocalDate, Float> calendar =  controller.getMonthRaport(loggedWorker);
+		List<String> result = new ArrayList<String>();
+		DayOfWeek numOfFirstDayOfMonth = calendar.firstKey().getDayOfWeek();
+		for (int i = 0; i < numOfFirstDayOfMonth.ordinal(); i++) {
+			result.add(0, " ");
+		}
+		int dayNum = 1;
+		for (float d : calendar.values()) {
+			result.add(dayNum + " " + ViewUtils.minutesToHours((int)d));
+			dayNum ++;
+		}
+		return result;
+	}
+	
 	private void updateTable() {
-		List <String> list = controller.getMonthRaport(loggedWorker);
+		List <String> list = formattedMonthReport();
 		int numOfRows = 6;
 		int numOfColumns = 7;
 		data = new String[numOfRows][numOfColumns];
