@@ -1,6 +1,5 @@
 package org.wwsis.worker.controller;
 
-import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -8,10 +7,8 @@ import java.time.Month;
 import java.time.YearMonth;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -49,7 +46,7 @@ public class WorkTimeManager {
 		return emptyCalendar;
 	}
 
-	public SortedMap<LocalDate, Float>  getMonthReport(Worker w) {
+	public SortedMap<LocalDate, Float>  getMonthRaport(Worker w) {
 		List<Session> listOfLogCopy = cloneSessions(w.getListOfLogs());
 		Session currentSession = w.getListOfLogs().get(w.getListOfLogs().size() -1 );
 		if (currentSession.getEndTime() != null) {
@@ -196,22 +193,6 @@ public class WorkTimeManager {
 	}
 
 
-	private int getMonthsLenght(LocalDate date) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.YEAR, date.getYear());
-		calendar.set(Calendar.MONTH, date.getMonthValue() - 1);
-		return calendar.getActualMaximum(Calendar.DATE);
-	}
-
-	private DayOfWeek getFirstDayofMonthNum(LocalDate date) {
-		return getFirstDayofMonth(date).getDayOfWeek();
-	}
-
-	private LocalDate getFirstDayofMonth(LocalDate date) {
-		return date.withDayOfMonth(1);
-	}
-	
-	
 	private boolean isSessionDuringDay (Session s, LocalDate day){
 		LocalDateTime endOfDay = day.plusDays(1).atStartOfDay();
 		return s.getStartTime().isBefore(endOfDay) && s.getEndTime().isAfter(day.atStartOfDay());

@@ -2,11 +2,9 @@ package org.wwsis.worker.controller;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
@@ -103,7 +101,7 @@ public class AppController {
 	}
 	
 	public SortedMap<LocalDate, Float>  getMonthRaport (Worker w) {
-		return timeManager.getMonthReport(w);
+		return timeManager.getMonthRaport(w);
 	}
 	
 	public String getCurrentMonthTitlle () {
