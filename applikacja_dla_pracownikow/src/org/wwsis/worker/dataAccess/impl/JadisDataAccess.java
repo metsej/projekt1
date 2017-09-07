@@ -36,7 +36,8 @@ public class JadisDataAccess implements DataAccess {
 		connection = new Jedis(hostName);
 
 	}
-
+	//dddd
+	
 	@Override
 	public boolean doWorkerExists(Worker p) {
 
