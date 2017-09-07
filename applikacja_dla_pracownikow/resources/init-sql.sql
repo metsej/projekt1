@@ -9,8 +9,6 @@ CREATE TABLE "Worker" (
 	isLogged BOOLEAN,
 	isBlocked BOOLEAN,
 	didLogedForTheFirstTime BOOLEAN,
-	timeOfStart TIMESTAMP,
-	timeofEnd TIMESTAMP,
 	numOfFailedLogingAttempts INTEGER,
 	PRIMARY KEY(login)
 	 );
@@ -18,7 +16,8 @@ CREATE TABLE "Worker" (
 	
 CREATE TABLE "Logins" (
 	logNum INTEGER,
-	timeOfLog TIMESTAMP,
+	timeOfLogin TIMESTAMP,
+	timeOfLogout TIMESTAMP,
 	userLogin VARCHAR(40),
 	PRIMARY KEY(logNum, userLogin),
 	FOREIGN KEY (userLogin) REFERENCES "Worker"(login)

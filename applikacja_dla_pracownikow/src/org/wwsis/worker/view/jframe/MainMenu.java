@@ -1,4 +1,4 @@
-package org.wwsis.worker.view;
+package org.wwsis.worker.view.jframe;
 
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;

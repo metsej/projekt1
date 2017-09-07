@@ -1,6 +1,5 @@
 package org.wwsis.worker.data;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,8 +14,6 @@ public class Worker {
 	private Boolean isBlocked;
 	private Boolean didLogedForTheFirstTime;
 	//TODO delete timeOfStart, timeOfEnd fields
-	private LocalDateTime timeOfStart;
-	private LocalDateTime timeofEnd;
 	private int numOfFailedLogingAttempts;
 	private List <Session> listOfLogs;
 
@@ -57,22 +54,6 @@ public class Worker {
 
 	public void setPassword(String haslo) {
 		this.password = haslo;
-	}
-
-	public LocalDateTime getStartTime() {
-		return timeOfStart;
-	}
-
-	public void setStartTime(LocalDateTime czasRozpoczecia) {
-		this.timeOfStart = czasRozpoczecia;
-	}
-
-	public LocalDateTime getEndTime() {
-		return timeofEnd;
-	}
-
-	public void setEndTime(LocalDateTime czasZakonczenia) {
-		this.timeofEnd = czasZakonczenia;
 	}
 
 	public Boolean getIsLogged() {
@@ -124,9 +105,7 @@ public class Worker {
 		sb.append(lastName).append("]\n[PASSWORD:").append(password).append("]\n[ISLOGGED:");
 		sb.append(isLogged).append("]\n[ISBLOCKED:").append(isBlocked).append("]\n[NUMOFFAILEDATTEMPTS:");
 		sb.append(numOfFailedLogingAttempts).append("]\n[DIDLOGFORTHEFIRSTTIME:").append(didLogedForTheFirstTime);
-		sb.append("]\n[TOS:").append(timeOfStart).append("]\n[TOE:").append(timeofEnd).append("]\n[FAILEDLOGS:");
-		sb.append(numOfFailedLogingAttempts);
-		sb.append("]\n[LOGS");
+		sb.append("]\n[FAILEDLOGS:").append(numOfFailedLogingAttempts).append("]\n[LOGS");
 		if (listOfLogs != null) {
 			sb.append("( ").append(listOfLogs.size()).append(") : ");
 			for (Session log: listOfLogs) {

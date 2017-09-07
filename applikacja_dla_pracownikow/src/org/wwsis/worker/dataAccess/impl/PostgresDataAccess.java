@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.wwsis.worker.data.Session;
 import org.wwsis.worker.data.Worker;
 import org.wwsis.worker.dataAccess.DataAccess;
 
@@ -19,13 +20,13 @@ public class PostgresDataAccess implements DataAccess {
 
 	static final String INSERT_WORKER_STATEMENT = "INSERT INTO \"Worker\""
 			+ "(login, name, lastname, password, islogged, isblocked, didlogedforthefirsttime,"
-			+ "  timeofstart, timeofend, numoffailedlogingattempts)" + "VALUES (?,?,?,?,?,?,?,?,?,?)"
+			+ "numoffailedlogingattempts)" + "VALUES (?,?,?,?,?,?,?,?)"
 			+ "ON CONFLICT (login) DO UPDATE SET"
 			+ "(name, lastname, password, islogged, isblocked, didlogedforthefirsttime,"
-			+ "  timeofstart, timeofend, numoffailedlogingattempts)" + " = " + "(?,?,?,?,?,?,?,?,?) ";
+			+ " numoffailedlogingattempts) = (?,?,?,?,?,?,?); ";
 
-	static final String INSERT_LOGIN_STATEMENT = "INSERT INTO \"Logins\"( logNum,  userlogin, timeOfLog) "
-			+ " VALUES ( ?, ?, ?) " + " ON CONFLICT (logNum, userLogin) DO UPDATE SET timeOfLog = ?;";
+	static final String INSERT_LOGIN_STATEMENT = "INSERT INTO \"Logins\"( logNum, timeOfLogin, timeOfLogout, userlogin) "
+			+ " VALUES ( ?, ?, ?, ?)  ON CONFLICT (logNum, userLogin) DO UPDATE SET (timeOfLogin, timeOfLogout) = (?, ?) ;";
 
 	static final String GET_WORKER_STATEMENT = "SELECT * FROM \"Worker\" WHERE login = ? ";
 
@@ -89,9 +90,7 @@ public class PostgresDataAccess implements DataAccess {
 				result.setIsLogged(rs.getBoolean(5));
 				result.setIsBlocked(rs.getBoolean(6));
 				result.setDidLogedForTheFirstTime(rs.getBoolean(7));
-				result.setStartTime(rs.getTimestamp(8).toLocalDateTime());
-				result.setEndTime(rs.getTimestamp(9).toLocalDateTime());
-				result.setNumOfFailedLogingAttempts(rs.getInt(10));
+				result.setNumOfFailedLogingAttempts(rs.getInt(8));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -110,10 +109,13 @@ public class PostgresDataAccess implements DataAccess {
 			ls.setString(1, p.getLogin());
 
 			ResultSet rs2 = ls.executeQuery();
-			List<LocalDateTime> listOfLogs = new LinkedList<LocalDateTime>();
+			List<Session> listOfLogs = new LinkedList<Session>();
 
 			while (rs2.next()) {
-				listOfLogs.add(rs2.getTimestamp(2).toLocalDateTime());
+				LocalDateTime startDate = rs2.getTimestamp(2).toLocalDateTime();
+				LocalDateTime endDate = rs2.getTimestamp(3).toLocalDateTime();
+				Session currentSession = Session.forDates(startDate, endDate);
+				listOfLogs.add(currentSession);
 			}
 
 			result.setListOfLogs(listOfLogs);
@@ -133,44 +135,42 @@ public class PostgresDataAccess implements DataAccess {
 				ps.setString(1, p.getLogin());
 
 				ps.setString(2, p.getName());
-				ps.setString(11, p.getName());
+				ps.setString(2 + 7, p.getName());
 
 				ps.setString(3, p.getLastName());
-				ps.setString(3 + 9, p.getLastName());
+				ps.setString(3 + 7, p.getLastName());
 
 				ps.setString(4, p.getPassword());
-				ps.setString(4 + 9, p.getPassword());
+				ps.setString(4 + 7, p.getPassword());
 
 				ps.setBoolean(5, p.getIsLogged());
-				ps.setBoolean(5 + 9, p.getIsLogged());
+				ps.setBoolean(5 + 7, p.getIsLogged());
 
 				ps.setBoolean(6, p.getIsBlocked());
-				ps.setBoolean(6 + 9, p.getIsBlocked());
+				ps.setBoolean(6 + 7, p.getIsBlocked());
 
 				ps.setBoolean(7, p.getDidLogedForTheFirstTime());
-				ps.setBoolean(7 + 9, p.getDidLogedForTheFirstTime());
+				ps.setBoolean(7 + 7, p.getDidLogedForTheFirstTime());
 
-				ps.setTimestamp(8, Timestamp.valueOf(p.getStartTime()));
-				ps.setTimestamp(8 + 9, Timestamp.valueOf(p.getStartTime()));
-
-				ps.setTimestamp(9, Timestamp.valueOf(p.getEndTime()));
-				ps.setTimestamp(9 + 9, Timestamp.valueOf(p.getEndTime()));
-
-				ps.setInt(10, 0);
-				ps.setInt(10 + 9, 0);
+				ps.setInt(8, 0);
+				ps.setInt(8 + 7, 0);
 
 				ps.execute();
 			}
 			if (p.getListOfLogs() != null) {
 
 				int index = 1;
-				for (LocalDateTime log : p.getListOfLogs()) {
-
+				for (Session session : p.getListOfLogs()) {
+					
+					Timestamp start = Timestamp.valueOf(session.getStartTime());
+					Timestamp stop = session.getEndTime() != null ? Timestamp.valueOf(session.getEndTime()): null;
 					PreparedStatement ps = conn.prepareStatement(INSERT_LOGIN_STATEMENT);
 					ps.setInt(1, index);
-					ps.setString(2, p.getLogin());
-					ps.setTimestamp(3, Timestamp.valueOf(log));
-					ps.setTimestamp(4, Timestamp.valueOf(log));
+					ps.setTimestamp(2, start);
+					ps.setTimestamp(3, stop);
+					ps.setString(4, p.getLogin());
+					ps.setTimestamp(5, start);
+					ps.setTimestamp(6, stop);
 					ps.execute();
 					index++;
 				}

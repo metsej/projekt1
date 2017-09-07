@@ -1,4 +1,4 @@
-package org.wwsis.worker.view;
+package org.wwsis.worker.view.jframe;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;

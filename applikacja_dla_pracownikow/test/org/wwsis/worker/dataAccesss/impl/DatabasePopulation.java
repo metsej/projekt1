@@ -56,8 +56,6 @@ public class DatabasePopulation {
 			int minutesActive = 10 + r.nextInt(80);
 			LocalDateTime startTime = LocalDateTime.now().minusHours(hours);
 			LocalDateTime stopTime = startTime.plusMinutes(minutesActive);
-			w1.setStartTime(startTime);
-			w1.setEndTime(stopTime);
 			
 			// dodaj logi
 			
