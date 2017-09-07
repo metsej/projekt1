@@ -112,8 +112,10 @@ public class PostgresDataAccess implements DataAccess {
 			List<Session> listOfLogs = new LinkedList<Session>();
 
 			while (rs2.next()) {
-				LocalDateTime startDate = rs2.getTimestamp(2).toLocalDateTime();
-				LocalDateTime endDate = rs2.getTimestamp(3).toLocalDateTime();
+				Timestamp startTs = rs2.getTimestamp(2);
+				Timestamp endTs = rs2.getTimestamp(3);
+				LocalDateTime startDate = startTs.toLocalDateTime();
+				LocalDateTime endDate = endTs != null ? endTs.toLocalDateTime() : null;
 				Session currentSession = Session.forDates(startDate, endDate);
 				listOfLogs.add(currentSession);
 			}

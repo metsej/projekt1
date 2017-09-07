@@ -83,6 +83,21 @@ public class calculateWorkTimeTest {
 		LocalDateTime startS11 = LocalDateTime.of(currentYear,  currentMonth, 07, 15, 46, 10);
 		LocalDateTime endS11 = LocalDateTime.of(currentYear,  currentMonth, 07, 15, 46, 40 );
 		
+		LocalDateTime startS12 = LocalDateTime.of(currentYear,  currentMonth, 8, 1, 20, 10);
+		LocalDateTime endS12 = LocalDateTime.of(currentYear,  currentMonth, 9, 11, 30, 11);
+		
+		LocalDateTime startS13 = LocalDateTime.of(currentYear,  currentMonth, 9, 2, 20, 11);
+		LocalDateTime endS13 = LocalDateTime.of(currentYear,  currentMonth, 10, 2, 40, 15);
+		
+		LocalDateTime startS14 = LocalDateTime.of(currentYear,  currentMonth, 10, 14, 20);
+		LocalDateTime endS14 = LocalDateTime.of(currentYear,  currentMonth, 10, 14, 39);
+		
+		LocalDateTime startS15 = LocalDateTime.of(currentYear,  currentMonth, 10, 0, 20, 10);
+		LocalDateTime endS15 = LocalDateTime.of(currentYear,  currentMonth, 10, 2, 23, 50 );
+		
+		LocalDateTime startS16 = LocalDateTime.of(currentYear,  currentMonth, 10, 15, 46, 10);
+		LocalDateTime endS16 = LocalDateTime.of(currentYear,  currentMonth, 11, 15, 46, 40 );
+		
 		LocalDateTime startLs = LocalDateTime.of(currentYear,  currentMonth, 28, 23, 59);
 		LocalDateTime endLs = LocalDateTime.of(currentYear,  currentMonth, 28, 23, 59);
 		
@@ -99,12 +114,17 @@ public class calculateWorkTimeTest {
 		Session s9 = Session.forDates(startS9, endS9);
 		Session s10 = Session.forDates(startS10, endS10);
 		Session s11 = Session.forDates(startS11, endS11);
+		Session s12 = Session.forDates(startS12, endS12);
+		Session s13 = Session.forDates(startS13, endS13);
+		Session s14 = Session.forDates(startS14, endS14);
+		Session s15 = Session.forDates(startS15, endS15);
+		Session s16 = Session.forDates(startS16, endS16);
 		Session lastSession = Session.forDates(startLs, endLs);
 
 
 		
 
-		List<Session> sessionList = new ArrayList<Session>(Arrays.asList(s1,s2, s3,s4,s5,s6, s7, s8, s9, s10, s11, lastSession));
+		List<Session> sessionList = new ArrayList<Session>(Arrays.asList(s1,s2, s3,s4,s5,s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, lastSession));
 		Worker testWorker = new Worker();
 		testWorker.setListOfLogs(sessionList);
 		lastSession = sessionList.get(sessionList.size() -1);
@@ -155,6 +175,12 @@ public class calculateWorkTimeTest {
 	public void splitSessionTest7 () {
 		Float result = testCalendar.get(LocalDate.of(currentYear, currentMonth, 7));
 		assertEquals(124, result.intValue());
+	}
+	
+	@Test
+	public void splitSessionTest8 () {
+		Float result = testCalendar.get(LocalDate.of(currentYear, currentMonth, 9));
+		assertEquals(1990, result.intValue());
 	}
 
 
