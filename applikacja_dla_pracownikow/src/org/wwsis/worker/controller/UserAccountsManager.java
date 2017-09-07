@@ -44,17 +44,22 @@ public class UserAccountsManager {
 		return dao.getAllWorkersWithoutLogs();
 	}
 
-	public void logOut(Worker p) {
+	public void logOut(Worker w) {
 		LocalDateTime now = LocalDateTime.now();
-		p.setEndTime(now);
-		p.setIsLogged(false);
-		addCurrentLogin(p);
-		getDao().saveWorker(p);
+		Session currentSession = w.getListOfLogs().get(w.getListOfLogs().size() -1 );
+		if (currentSession.getEndTime() != null) {
+			throw new RuntimeException( "Current session shouln't be closed");
+		}
+		Session openSession = Session.forDates(currentSession.getStartTime(), now);
+		w.getListOfLogs().remove(w.getListOfLogs().size() - 1);
+		w.getListOfLogs().add(openSession);
+		w.setIsLogged(false);
+		addCurrentLogin(w);
+		getDao().saveWorker(w);
 	}
 	
 	public void logIn (Worker p) {
 		markMandatoryPassChange(p);
-		saveStartTime(p);
 		resetFailedLoggingAttempt(p);
 		addCurrentLogin(p);
 		dao.saveWorker(p);
@@ -178,13 +183,6 @@ public class UserAccountsManager {
 		return p.getLogin();
 	}
 	
-	private void saveStartTime(Worker p) {
-		
-	
-		LocalDateTime now = LocalDateTime.now();
-		
-		p.setStartTime(now);
-	}
 	
 	private void addCurrentLogin (Worker p) {
 		Session now = Session.forStart(LocalDateTime.now());

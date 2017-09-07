@@ -74,16 +74,6 @@ public class JadisDataAccess implements DataAccess {
 		} else {
 			result.setDidLogedForTheFirstTime(false);
 		}
-
-		String strStartTime = connection.hget(userKey, "start");
-		if (strStartTime != null) {
-			result.setStartTime( dateTimeFromString( strStartTime));
-		}
-		String strEndTime = connection.hget(userKey, "stop");
-		if (strEndTime != null) {
-			
-			result.setEndTime(dateTimeFromString( strEndTime));
-		}
 		
 		String strNumOfFailedLogingAttempts = connection.hget(userKey, "numOfFailedLogingAttempts");
 		if (strNumOfFailedLogingAttempts != null) {
@@ -144,15 +134,7 @@ public class JadisDataAccess implements DataAccess {
 		if (p.getDidLogedForTheFirstTime() != null) {
 			connection.hset(userKey, "didLogedForTheFirstTime", Boolean.toString(p.getDidLogedForTheFirstTime()));
 		}
-		
-		if (p.getStartTime() != null) {
-			connection.hset(userKey, "start", dateTimeToString(p.getStartTime()));
-		}
-		
-		if (p.getEndTime() != null) {
-			connection.hset(userKey, "stop", dateTimeToString( p.getEndTime()));
-		}
-		
+			
 		connection.hset(userKey, "numOfFailedLogingAttempts", Integer.toString (p.getNumOfFailedLogingAttempts()));
 		
 		if (p.getListOfLogs() != null) {
