@@ -17,15 +17,27 @@
 </head>
 <script>
 
-function submit(){
-	console.log("SUBMIT");
-	var userValue = $("#userInput").val();
-	var passwordWalue = $("#passInput").val();
-	document.getElementById("info").innerHTML = "Logownie się nie powiodło!";
+var numberOfFailded = 0;
 
-	$.post('/login', { 'user' : userValue, 'password' : passwordWalue}, 
+function submit(){
+	
+	var userValue = $("#userInput").val();
+	var passwordValue = $("#passInput").val();
+	var userFieldName = "<%= WebAppController.USER_INPUT_NAME%>";
+	var passwordFieldName = "<%= WebAppController.PASSWORD_INPUT_NAME %>";
+	var emitJSON = {};
+	emitJSON[userFieldName] = userValue;
+	emitJSON[passwordFieldName] = passwordValue ;
+	
+	
+
+	$.post('/login', emitJSON, 
 		    function(returnedData){
-		         console.log(returnedData);
+		         if (returnedData === 'true') {
+		        	 $(location).attr("href", "/Welcome");
+		         } else {
+		        	 alert("Zly login lub haslo");
+		         }
 		});
 }
 

@@ -22,10 +22,10 @@ public class WebAppController {
 	private AppController controller;
 	private Map <String, InternetSession> sessionsData = new HashMap <String, InternetSession> (); 
 	private static final  String SESSION_COOKIE_NAME = "SID"; 
-	private static final String USER_INPUT_NAME = "user";
+	public static final String USER_INPUT_NAME = "user";
 	private static final String WELCOME_PANEL_ADDRESS = "/Welcome";
 	private static final String INDEX_PAGE = "/index.jsp";
-	private static final String PASSWORD_INPUT_NAME = "password";
+	public static final String PASSWORD_INPUT_NAME = "password";
 
 
 	
@@ -77,17 +77,22 @@ public class WebAppController {
 	
 	public void handleLoginInput (HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException,  IOException  {
+		
+		
+		
 		Map<String, String[]> parametry = request.getParameterMap();
 		try {
-			if (getAppController().isValidLogNPass(parametry.get(PASSWORD_INPUT_NAME)[0], parametry.get(USER_INPUT_NAME)[0])) {
+			if (getAppController().isValidLogNPass(request.getParameter(PASSWORD_INPUT_NAME), parametry.get(USER_INPUT_NAME)[0])) {
 			
 	
 				response.addCookie(getNewSessionCookie(parametry, UUID.randomUUID().toString()));
 				
-				response.sendRedirect(WELCOME_PANEL_ADDRESS);
+				response.setContentType("text/plain");
+				response.getWriter().write("true");
+				//response.sendRedirect(WELCOME_PANEL_ADDRESS);
 			} else {
 				
-				ifUserNotLoggedRedirectToIndexPg(request, response);
+				//ifUserNotLoggedRedirectToIndexPg(request, response);
 			}
 		} catch (Exception E) {
 
@@ -101,7 +106,7 @@ public class WebAppController {
 		
 	}
 	
-	public Cookie getNewSessionCookie (Map<String, String[]> parametry, String SID) {
+	private Cookie getNewSessionCookie (Map<String, String[]> parametry, String SID) {
 		InternetSession newSession = new InternetSession();
 
 		newSession.setStart(LocalDateTime.now());
