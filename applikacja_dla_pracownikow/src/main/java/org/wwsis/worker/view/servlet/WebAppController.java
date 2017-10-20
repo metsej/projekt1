@@ -16,16 +16,20 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.wwsis.worker.Runner;
 import org.wwsis.worker.controller.AppController;
+import org.wwsis.worker.data.Worker;
 
 public class WebAppController {
 	static WebAppController  instance;
 	private AppController controller;
 	private Map <String, InternetSession> sessionsData = new HashMap <String, InternetSession> (); 
-	private static final  String SESSION_COOKIE_NAME = "SID"; 
-	public static final String USER_INPUT_NAME = "user";
-	private static final String WELCOME_PANEL_ADDRESS = "/Welcome";
-	private static final String INDEX_PAGE = "/index.jsp";
 	public static final String PASSWORD_INPUT_NAME = "password";
+	public static final String USER_INPUT_NAME = "user";
+	public static final String WELCOME_PANEL_ADDRESS = "/Welcome";
+	public static final String INDEX_PAGE = "/index.jsp";
+	private static final  String SESSION_COOKIE_NAME = "SID"; 
+	public static final String WRONG_LOGIN_OR_PASSWORD_RESP = "wrong login or password";
+	public static final String USER_IS_BLOCKED_RESP = "user is blocked";
+	public static final String SUCCESSFUL_LOGGING_RESP= "success";
 
 
 	
@@ -78,28 +82,32 @@ public class WebAppController {
 	public void handleLoginInput (HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException,  IOException  {
 		
+		String login = request.getParameter(USER_INPUT_NAME);
+		String password = request.getParameter(PASSWORD_INPUT_NAME);
 		
-		
-		Map<String, String[]> parametry = request.getParameterMap();
-		try {
-			if (getAppController().isValidLogNPass(request.getParameter(PASSWORD_INPUT_NAME), parametry.get(USER_INPUT_NAME)[0])) {
+		if (login != null ) {
+			boolean doUserExist = controller.doWorkerExists(Worker.withLogin(login));
+			Worker w =  doUserExist ? controller.loadWorker(login) : null;
+			boolean isLogInputValid = doUserExist && controller.isValidLogNPass(password, login);
+			boolean isOnlyPasswordInvalid = doUserExist && (!isLogInputValid) && w.getPassword() != null;
+			response.setContentType("text/plain");
+			String responseText;
 			
-	
+			if (isLogInputValid) {
+				Map<String, String[]> parametry = request.getParameterMap();
 				response.addCookie(getNewSessionCookie(parametry, UUID.randomUUID().toString()));
-				
-				response.setContentType("text/plain");
-				response.getWriter().write("true");
-				//response.sendRedirect(WELCOME_PANEL_ADDRESS);
-			} else {
-				
-				//ifUserNotLoggedRedirectToIndexPg(request, response);
+				responseText = SUCCESSFUL_LOGGING_RESP;
+			} else if (isOnlyPasswordInvalid) {
+				controller.incrementFailedLoggingAttempt(w);
+				w = controller.loadWorker(w.getLogin());
+				responseText = w.getIsBlocked() ? USER_IS_BLOCKED_RESP : WRONG_LOGIN_OR_PASSWORD_RESP;
+			}  else {
+				responseText = WRONG_LOGIN_OR_PASSWORD_RESP;
 			}
-		} catch (Exception E) {
-
+			
+			response.getWriter().write(responseText);
 		}
-		
 	}
-	
 	
 	public AppController getAppController() {
 		return controller;

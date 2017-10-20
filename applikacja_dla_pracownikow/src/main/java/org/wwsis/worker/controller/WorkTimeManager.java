@@ -36,16 +36,6 @@ public class WorkTimeManager {
 
 	}
 
-	private SortedMap<LocalDate, Float> getEmptyCalendar(YearMonth ym) {
-
-		SortedMap<LocalDate, Float> emptyCalendar = new TreeMap<LocalDate, Float>();
-		LocalDate currentDay = ym.atDay(1);
-		while (currentDay.getYear() == ym.getYear() && currentDay.getMonth().equals(ym.getMonth())) {
-			emptyCalendar.put(currentDay, 0.0f);
-			currentDay = currentDay.plusDays(1);
-		}
-		return emptyCalendar;
-	}
 	
 	private List<Session> getSessionsForReport (Worker w) {
 		List<Session> listOfLogCopy = cloneSessions(w.getListOfLogs());

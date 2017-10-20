@@ -154,8 +154,8 @@ public class PostgresDataAccess implements DataAccess {
 				ps.setBoolean(7, p.getDidLogedForTheFirstTime());
 				ps.setBoolean(7 + 7, p.getDidLogedForTheFirstTime());
 
-				ps.setInt(8, 0);
-				ps.setInt(8 + 7, 0);
+				ps.setInt(8, p.getNumOfFailedLogingAttempts());
+				ps.setInt(8 + 7, p.getNumOfFailedLogingAttempts());
 
 				ps.execute();
 			}

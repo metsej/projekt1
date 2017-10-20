@@ -135,8 +135,11 @@ public class UserAccountsManager {
 	}
 	
 	public void incrementFailedLoggingAttempt (Worker p) {
-		int current = p.getNumOfFailedLogingAttempts();
-		p.setNumOfFailedLogingAttempts(current + 1);
+		int current = p.getNumOfFailedLogingAttempts() + 1;
+		if (current >= 3) {
+			p.setIsBlocked(true);
+		}
+		p.setNumOfFailedLogingAttempts(current);
 		dao.saveWorker(p);
 		
 	}
