@@ -27,6 +27,10 @@ public class UserAccountsManager {
 		p.setPassword(haslo);
 		p.setName(name);
 		p.setLatName(lastName);
+		p.setDidLogedForTheFirstTime(false);
+		p.setIsLogged(false);
+		p.setIsBlocked(false);
+		p.setNumOfFailedLogingAttempts(0);
 		getDao().saveWorker(p);
 		return p;
 
