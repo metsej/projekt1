@@ -1,4 +1,6 @@
-
+:root{
+  --outerMargin: 50px;
+}
 
 body {
   width: 100%;
@@ -68,4 +70,56 @@ p {
    text-shadow: 1px 1px black;
   text-align: center;
  }
- 
+
+ .displayData {
+    border: 1px #CCC solid;
+    width: 100%;
+ }
+
+ td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.hoursInChart {
+  font-size: 70%;
+  font-weight: bold;
+}
+
+#BarChart {
+  position: absolute;
+  left:  var(--outerMargin);
+  width: calc(80% - 3*var(--outerMargin));
+  height: 80%;
+  padding: 10px;
+  box-shadow: 3px 3px 3px #444;
+  height: 80%;
+    background-color: #eee;
+}
+
+#records_table{
+
+  font-family: Arial, Helvetica;
+  font-weight: lighter;
+  border-spacing: 0;
+  border: none;
+
+  border-collapse:collapse;
+  background-color: #eee;
+  height: 100%;
+  width: 100%;
+}
+
+#recordsDiv{
+  position: absolute;
+  right: var(--outerMargin);
+  padding: 10px;
+  box-shadow: 3px 3px 3px #444;
+  width: 20%;
+  height: 80%;
+    background-color: #efefef;
+}
+
+#records_table td, th {
+   border:1px solid #333;
+}

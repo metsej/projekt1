@@ -8,30 +8,67 @@
 <%@ page import="org.wwsis.worker.data.Worker"%>
 
 <%
+	WebAppController wContrl = WebAppController.getInstance();
 
-WebAppController wContrl =  WebAppController.getInstance();
-
-InternetSession currentSession = wContrl.getCurrentInternetSession(request);
+	InternetSession currentSession = wContrl.getCurrentInternetSession(request);
 
 	if (currentSession == null) {
 		wContrl.ifUserNotLoggedRedirectToIndexPg(request, response);
 	}
-
 %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="css/styles.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="javascript/welcomePanelFunctions.js"></script>
 <title>Aplikacja dla pracowników</title>
 </head>
+<script>
+
+	var properties = {};
+	properties["upperMargin"] = 80;
+	properties["lowerMargin"] = 80;
+	properties["leftMargin"] = 60;
+	properties["rightMargin"] = 0;
+	properties["elemName"] = "BarChart";
+	properties["yAxisUnit"] = "mm";
+	properties["xAxisUnit"] = "";
+
+	$(document).ready(function() {
+		$.get("/dayReport", function(data) {
+			drawDayReportTable(data);
+			drawChart(properties, data);
+
+		});
+	});
+
+	$(window).resize(function() {
+		$.get("/dayReport", function(data) {
+			drawDayReportTable(data);
+			drawChart(properties, data);
+
+		});
+	});
+</script>
+
 <body>
 
 	<div class="header">
-		<h2>
-			Welcome
-			<%=currentSession.getUserLogin()%>
-		</h2>
+		<h2>Welcome</h2>
+	</div>
+
+	<div class="displayData">
+
+		<div id="recordsDiv">
+			<table id="records_table" border='1'>
+			</table>
+		</div>
+
+		<div id="BarChart"></div>
 	</div>
 
 </body>
+
 </html>

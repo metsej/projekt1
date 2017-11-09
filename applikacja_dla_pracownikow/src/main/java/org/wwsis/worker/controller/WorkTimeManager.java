@@ -10,6 +10,7 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.Function;
@@ -61,34 +62,48 @@ public class WorkTimeManager {
 		}
 		return resultList;
 	}
+	
+	public SortedMap<LocalDateTime, Float> getRaport(Worker w, LocalDateTime start, LocalDateTime end, Function<LocalDateTime, LocalDateTime> nextPeriod){
+		List<Session> sessions = getSessionsForReport(w);
+		List <LocalDateTime> periods = generatePeriods(start, end, (LocalDateTime date) -> date.plusDays(1) ) ;
+		List<Float> listOfDurations = getDurations(sessions, periods);
+		
+		SortedMap<LocalDateTime, Float> resultMap = new TreeMap<>();
+		
+		for (int i = 0; i < listOfDurations.size(); i ++) {
+			resultMap.put(periods.get(i), listOfDurations.get(i));
+		}
+	
+		return resultMap;
+	
+	}
+	
+	private <K1, K2, V> SortedMap<K2, V> convertMapKeys (SortedMap<K1, V> inputMap, Function<K1, K2> converter  )  {
+		
+		SortedMap<K2, V> resultMap = new TreeMap <K2, V>();
+		
+		for (Map.Entry<K1, V> entry : inputMap.entrySet()) {
+			resultMap.put(converter.apply(entry.getKey()), entry.getValue());
+		}
+		return resultMap;
+	}
+	
 
 	public SortedMap<LocalDate, Float> getMonthRaport(Worker w) {
 		
-		List<Session> sessions = getSessionsForReport(w);
 		LocalDateTime now = getNow();
 
 		int year = now.getYear();
 		int monthValue = now.getMonth().getValue();
 		YearMonth currentMonth = YearMonth.of(year, monthValue);
-		//SortedMap<LocalDate, Float> calendar = getEmptyCalendar(currentMonth);
-		SortedMap<LocalDate, Float> calendar = new TreeMap<>();
 		LocalDateTime beginingOfMonth = LocalDate.of(year, monthValue, 1).atStartOfDay();
 
 		LocalDate lastDayOfMonth = currentMonth.atEndOfMonth();
 		LocalDateTime endOfMonth = lastDayOfMonth.plusDays(1).atStartOfDay();
 		
-		List <LocalDateTime> periods = generatePeriods(beginingOfMonth, endOfMonth, (LocalDateTime date) -> date.plusDays(1) ) ;
-		List<Float> listOfDurations = getDurations(sessions, periods);
-		SortedMap<LocalDate, Float> resultMap = new TreeMap<>();
-		LocalDateTime iterDay = beginingOfMonth;
-		int i = 0;
-		while (i < listOfDurations.size()) {
-			resultMap.put(iterDay.toLocalDate(), listOfDurations.get(i));
-			i++;
-			iterDay = iterDay.plusDays(1);
-		}
-	
-		return resultMap;
+		SortedMap <LocalDateTime, Float> raport = getRaport(w, beginingOfMonth, endOfMonth, (LocalDateTime time )-> time.plusDays(1) );
+		
+		return convertMapKeys (raport, (LocalDateTime time) -> time.toLocalDate() );
 
 	}
 	

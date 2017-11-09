@@ -13,37 +13,34 @@
 <link rel="stylesheet" type="text/css" href="css/styles.css" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="javascript/functions.js"></script>
 <title>Aplication for workers</title>
 </head>
 <script>
-
-
-function submit(){
-	
+function submitSignInData(){
 	var userValue = $("#userInput").val();
 	var passwordValue = $("#passInput").val();
 	var userFieldName = "<%= WebAppController.USER_INPUT_NAME%>";
 	var passwordFieldName = "<%= WebAppController.PASSWORD_INPUT_NAME %>";
-	
+
 	var successResp = "<%= WebAppController.SUCCESSFUL_LOGGING_RESP %>";
 	var userIsBlockedResp = "<%= WebAppController.USER_IS_BLOCKED_RESP %>";
-	
+
 	var emitJSON = {};
 	emitJSON[userFieldName] = userValue;
 	emitJSON[passwordFieldName] = passwordValue ;
-	
-	$.post('/login', emitJSON, 
-		    function(returnedData){
-		         if (returnedData === successResp) {
-		        	 $(location).attr("href", "/Welcome");
-		         } else if (returnedData === userIsBlockedResp ) {
-		        	 alert("Trzykrotnie podales zle haslo. Twoje konto jest zablokowane. W celu odblokowania skontaktuj sie z administratorem");
-		         } else {
-		        	 alert ("Zle haslo lub login");
-		         }
-		});
-}
 
+	$.post('/login', emitJSON, 
+	    function(returnedData){
+	         if (returnedData === successResp) {
+	        	 $(location).attr("href", "/html/welcame.html");
+	         } else if (returnedData === userIsBlockedResp ) {
+	        	 alert("Trzykrotnie podales zle haslo. Twoje konto jest zablokowane. W celu odblokowania skontaktuj sie z administratorem");
+	         } else {
+	        	 alert ("Zle haslo lub login");
+	         }
+	});
+}	
 </script>
 <body>
 	<div class="background">
@@ -58,12 +55,11 @@ function submit(){
 				<div class="login">
 					<form action="/login" method="post">
 						<input id="userInput" type="text" placeholder="Login" name="user">
-						 <input id="passInput"
-							type="password" placeholder="Password" name="password"> <br>
+						<input id="passInput" type="password" placeholder="Password"
+							name="password"> <br>
 						<!--   <input type="submit" value="Sign In" disabled="disabled">-->
 					</form>
-					<button onClick="submit()">Submit</button>
-					<p id="info"></p>
+					<button onClick="submitSignInData()">Submit</button>
 				</div>
 			</div>
 		</div>
