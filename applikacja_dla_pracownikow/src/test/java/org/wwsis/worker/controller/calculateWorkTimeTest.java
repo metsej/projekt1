@@ -130,7 +130,7 @@ public class calculateWorkTimeTest {
 		lastSession = sessionList.get(sessionList.size() -1);
 		lastSession.setStartTime(LocalDateTime.now());
 		lastSession.setEndTime(null);
-		return   controller.getMonthRaport(testWorker);
+		return   controller.getMonthRaport(LocalDate.now(),testWorker);
 		
 	}
 	

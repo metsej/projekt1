@@ -62,7 +62,7 @@ public class MonthRaportContentPanel extends JScrollPane {
 
 	
 	private List<String> formattedMonthReport () {
-		SortedMap<LocalDate, Float> calendar =  controller.getMonthRaport(loggedWorker);
+		SortedMap<LocalDate, Float> calendar =  controller.getMonthRaport(LocalDate.now(),loggedWorker);
 		List<String> result = new ArrayList<String>();
 		DayOfWeek numOfFirstDayOfMonth = calendar.firstKey().getDayOfWeek();
 		for (int i = 0; i < numOfFirstDayOfMonth.ordinal(); i++) {

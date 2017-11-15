@@ -1,6 +1,8 @@
 package org.wwsis.worker.controller;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.SortedMap;
 
@@ -100,8 +102,20 @@ public class AppController {
 		this.dao = dao;
 	}
 	
-	public SortedMap<LocalDate, Float>  getMonthRaport (Worker w) {
-		return timeManager.getMonthRaport(w);
+	public SortedMap<LocalTime, Float> getDayRaport(LocalDate day, Worker w) {
+		return timeManager.getDayRaport(day, w);
+	}
+	
+	public SortedMap <LocalDate, Float> getWeekRaport (LocalDate day, Worker w ) {
+		return timeManager.getWeekRaport(day, w);
+	}
+	
+	public SortedMap<LocalDate, Float>  getMonthRaport (LocalDate day,Worker w) {
+		return timeManager.getMonthRaport(day,w);
+	}
+	
+	public SortedMap<YearMonth, Float> getYearRaport (LocalDate day, Worker w) {
+		return timeManager.getYearRaport(day, w);
 	}
 	
 	public String getCurrentMonthTitlle () {

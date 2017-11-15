@@ -13,8 +13,8 @@
     <jsp-file>/index.jsp</jsp-file>
   </servlet>
   <servlet>
-  	<servlet-name>GetDayRaportServlet</servlet-name>
-    <servlet-class>org.wwsis.worker.view.servlet.GetDayRaportServlet</servlet-class>
+  	<servlet-name>GetRaportServlet</servlet-name>
+    <servlet-class>org.wwsis.worker.view.servlet.GetRaportServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>WelcomeServlet</servlet-name>
@@ -29,7 +29,7 @@
     <url-pattern>/index</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>GetDayRaportServlet</servlet-name>
-  	<url-pattern>/dayReport</url-pattern>
+  	<servlet-name>GetRaportServlet</servlet-name>
+  	<url-pattern>/Raport</url-pattern>
   </servlet-mapping>
 </web-app>

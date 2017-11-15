@@ -9,12 +9,8 @@
 
 <%
 	WebAppController wContrl = WebAppController.getInstance();
-
-	InternetSession currentSession = wContrl.getCurrentInternetSession(request);
-
-	if (currentSession == null) {
-		wContrl.ifUserNotLoggedRedirectToIndexPg(request, response);
-	}
+	wContrl.checkIfLogged(request, response);
+	
 %>
 <html>
 <head>

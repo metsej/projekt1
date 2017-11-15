@@ -4,7 +4,11 @@
 <%@ page import="org.wwsis.worker.view.servlet.WebAppController"%>
 
 <% 
-	 WebAppController.getInstance().ifUserLoggedRedirectToWelcomePg(request, response);
+	 WebAppController webcontroller = WebAppController.getInstance();
+     if (webcontroller.isUserLogged(request)) {
+    	 response.sendRedirect(WebAppController.WELCOME_PANEL_ADDRESS);
+     }
+
 %>
 
 <html>
@@ -33,7 +37,7 @@ function submitSignInData(){
 	$.post('/login', emitJSON, 
 	    function(returnedData){
 	         if (returnedData === successResp) {
-	        	 $(location).attr("href", "/html/welcame.html");
+	        	 $(location).attr("href", "/Welcome");
 	         } else if (returnedData === userIsBlockedResp ) {
 	        	 alert("Trzykrotnie podales zle haslo. Twoje konto jest zablokowane. W celu odblokowania skontaktuj sie z administratorem");
 	         } else {
