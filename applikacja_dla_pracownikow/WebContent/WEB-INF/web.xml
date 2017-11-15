@@ -30,6 +30,6 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>GetRaportServlet</servlet-name>
-  	<url-pattern>/Raport</url-pattern>
+  	<url-pattern>/Report</url-pattern>
   </servlet-mapping>
 </web-app>

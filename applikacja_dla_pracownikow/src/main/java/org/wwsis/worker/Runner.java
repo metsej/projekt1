@@ -31,7 +31,6 @@ public class Runner {
 		try {
 			EventQueue.invokeAndWait(frameApp);
 		} catch (InvocationTargetException | InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
 		controller.getDao().save();

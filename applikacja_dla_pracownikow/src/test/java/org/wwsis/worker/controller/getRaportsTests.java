@@ -51,8 +51,8 @@ public class getRaportsTests {
 			
 			Random r = new Random();
 			int firstMinute = r.nextInt(15);
-			LocalDateTime start = LocalDateTime.of(currentYear, currentMonth, currentDay, i, firstMinute);
-			LocalDateTime end = LocalDateTime.of(currentYear, currentMonth, currentDay, i, firstMinute + 45);
+			LocalDateTime start = LocalDateTime.of(currentYear, currentMonth, currentDay - 1, i, firstMinute);
+			LocalDateTime end = LocalDateTime.of(currentYear, currentMonth, currentDay - 1, i, firstMinute + 20);
 			Session session = Session.forDates(start, end);
 			list.add(session);
 		}
@@ -66,14 +66,14 @@ public class getRaportsTests {
 		TemporalField fieldUS = WeekFields.of(Locale.FRANCE).dayOfWeek();
 		LocalDate beginOfWeek =  toDay.with(fieldUS, 1);
 		int firstDayOfWeek = beginOfWeek.atStartOfDay().getDayOfMonth();
-		int initDay = firstDayOfWeek - 3;
+
 		
 		List <Session> list = new ArrayList<>();
 		
-		for (int i =0; i < 15; i++) {
+		for (int i =0; i < 7; i++) {
 			
-			LocalDateTime start = LocalDateTime.of(currentYear, currentMonth, initDay + i, 0, 0);
-			LocalDateTime end = LocalDateTime.of(currentYear, currentMonth, initDay + i, i, 30);
+			LocalDateTime start = LocalDateTime.of(currentYear, currentMonth, firstDayOfWeek + i, 0, 0);
+			LocalDateTime end = LocalDateTime.of(currentYear, currentMonth, firstDayOfWeek + i, 10, 00);
 			Session session = Session.forDates(start, end);
 			list.add(session);
 		}
@@ -116,129 +116,32 @@ private List<Session> getSessionsForYearRaport () {
 		sessions.add(lastSession);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private <K, V> V getValueFromMap (int index,SortedMap<K, V> map) {
 		
 		return (V) map.values().toArray()[index];
 	}
 	
 	@Test
-	public  void dayRaportTest1 () {
+	public  void dayRaportTest () {
 		List <Session> sessions = getSessionsForDayRaport();
 		AppController controller = getAppController(CONFIGURATION);
 		Worker w = new Worker();
 		w.setListOfLogs(sessions);
 		neutralizeLastSession(sessions);
-		SortedMap<LocalTime, Float> raport = controller.getDayRaport(LocalDate.now(), w);
-		
-		
+		SortedMap<LocalTime, Float> raport = controller.getDayRaport(LocalDate.now().minusDays(1), w);
 		assertEquals( 24, raport.entrySet().size());
-		
-	}
-	
-	@Test
-	public  void dayRaportTest2 () {
-		List <Session> sessions = getSessionsForDayRaport();
-		AppController controller = getAppController(CONFIGURATION);
-		Worker w = new Worker();
-		w.setListOfLogs(sessions);
-		neutralizeLastSession(sessions);
-		SortedMap<LocalTime, Float> raport = controller.getDayRaport(LocalDate.now(), w);
-		
 		for (int i = 0; i < 24; i++){
 			float acctual = getValueFromMap(i, raport);
 			assertEquals( 45f, acctual, 0.001);
 		
 		}
-	}
-	
-	
-	
-	@Test
-	public  void weekRaportTest1 () {
-		List <Session> sessions = getSessionsForWeekRaport();
-		AppController controller = getAppController(CONFIGURATION);
-		Worker w = new Worker();
-		w.setListOfLogs(sessions);
-		neutralizeLastSession(sessions);
-		SortedMap<LocalDate, Float> raport = controller.getWeekRaport(LocalDate.now(), w);
-		float accual = (float) getValueFromMap(1, raport);
-		
-		assertEquals( 270f, accual,  0.001f);
 		
 	}
 	
-	@Test
-	public  void weekRaportTest2 () {
-		List <Session> sessions = getSessionsForWeekRaport();
-		AppController controller = getAppController(CONFIGURATION);
-		Worker w = new Worker();
-		w.setListOfLogs(sessions);
-		neutralizeLastSession(sessions);
-		SortedMap<LocalDate, Float> raport = controller.getWeekRaport(LocalDate.now(), w);
-		float accual = (float) getValueFromMap(2, raport);
-		
-		assertEquals( 330f, accual,  0.001f);
-		
-	}
 	
 	@Test
-	public  void weekRaportTest3 () {
-		List <Session> sessions = getSessionsForWeekRaport();
-		AppController controller = getAppController(CONFIGURATION);
-		Worker w = new Worker();
-		w.setListOfLogs(sessions);
-		neutralizeLastSession(sessions);
-		SortedMap<LocalDate, Float> raport = controller.getWeekRaport(LocalDate.now(), w);
-		float accual = (float) getValueFromMap(3, raport);
-		
-		assertEquals( 390f, accual,  0.001f);
-		
-	}
-	
-	@Test
-	public  void weekRaportTest4 () {
-		List <Session> sessions = getSessionsForWeekRaport();
-		AppController controller = getAppController(CONFIGURATION);
-		Worker w = new Worker();
-		w.setListOfLogs(sessions);
-		neutralizeLastSession(sessions);
-		SortedMap<LocalDate, Float> raport = controller.getWeekRaport(LocalDate.now(), w);
-		float accual = (float) getValueFromMap(4, raport);
-		
-		assertEquals( 450f, accual,  0.001f);
-		
-	}
-	
-	@Test
-	public  void weekRaportTest5 () {
-		List <Session> sessions = getSessionsForWeekRaport();
-		AppController controller = getAppController(CONFIGURATION);
-		Worker w = new Worker();
-		w.setListOfLogs(sessions);
-		neutralizeLastSession(sessions);
-		SortedMap<LocalDate, Float> raport = controller.getWeekRaport(LocalDate.now(), w);
-		float accual = (float) getValueFromMap(5, raport);
-		
-		assertEquals( 510f, accual,  0.001f);
-		
-	}
-	
-	@Test
-	public  void weekRaportTest6 () {
-		List <Session> sessions = getSessionsForWeekRaport();
-		AppController controller = getAppController(CONFIGURATION);
-		Worker w = new Worker();
-		w.setListOfLogs(sessions);
-		neutralizeLastSession(sessions);
-		SortedMap<LocalDate, Float> raport = controller.getWeekRaport(LocalDate.now(), w);
-		float accual = (float) getValueFromMap(6, raport);
-		
-		assertEquals( 570f, accual,  0.001f);
-		
-	}
-	
-	@Test
-	public  void weekRaportTest7 () {
+	public  void weekRaportTest () {
 		List <Session> sessions = getSessionsForWeekRaport();
 		AppController controller = getAppController(CONFIGURATION);
 		Worker w = new Worker();
@@ -246,8 +149,31 @@ private List<Session> getSessionsForYearRaport () {
 		neutralizeLastSession(sessions);
 		SortedMap<LocalDate, Float> raport = controller.getWeekRaport(LocalDate.now(), w);
 		
+		for (int i = 0 ; i <7 ; i++) {
+			
+			float accual = (float) getValueFromMap(i, raport);
+			assertEquals( "I: " + i,600f, accual,  0.001f);
+		}
 		
-		assertEquals( 7, raport.entrySet().size());
+		
+	}
+	
+	
+	@Test
+	public  void monthRaportTest () {
+		List <Session> sessions = getSessionsForMontRaport();
+		AppController controller = getAppController(CONFIGURATION);
+		Worker w = new Worker();
+		w.setListOfLogs(sessions);
+		neutralizeLastSession(sessions);
+		SortedMap<LocalDate, Float> raport = controller.getMonthRaport(LocalDate.of(2017, 1, 1), w);
+		
+		
+		for (int i = 0; i < 31; i++) {
+			float accual = getValueFromMap(i, raport);
+			assertEquals( "I: "+i,120f, accual,  0.001f);
+			
+		}
 		
 	}
 	
@@ -269,28 +195,20 @@ private List<Session> getSessionsForYearRaport () {
 		
 	}
 	
-	@Test
-	public  void monthRaportTest () {
-		List <Session> sessions = getSessionsForMontRaport();
-		AppController controller = getAppController(CONFIGURATION);
-		Worker w = new Worker();
-		w.setListOfLogs(sessions);
-		neutralizeLastSession(sessions);
-		SortedMap<LocalDate, Float> raport = controller.getMonthRaport(LocalDate.of(2017, 1, 1), w);
-	
-		
-		for (int i = 0; i < 31; i++) {
-			float accual = getValueFromMap(i, raport);
-			assertEquals( "I: "+i,120f, accual,  0.001f);
-			
-		}
-		
-	}
 	
 	@Test
 	public void printDateTest() {
 		System.out.println(Instant.ofEpochSecond(1510702258).atZone(ZoneId.systemDefault()).toLocalDateTime());
 		
+	}
+	
+	@Test
+	public void populateWorkerSessionsList () {
+		AppController controller = getAppController(CONFIGURATION);
+		Worker w = controller.loadWorker("gklimek");
+		List<Session> sessions = getSessionsForDayRaport();
+		w.setListOfLogs(sessions);
+		controller.getDao().saveWorker(w);
 	}
 
 }

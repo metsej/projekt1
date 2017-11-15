@@ -25,8 +25,18 @@ function submitSignInData(){
 		});
 }
 
-function getDataFromServer() {
-	return $.getJSON("/dayReport", function(resultJSON) {
-		return resultJSON;
-	});
+function getDataFromServer(type) {
+    var emitJSON = {};
+    emitJSON["time"] = Math.round((Date.now() - 86400000)/1000);
+    emitJSON["type"] = type ;
+    var data = {};
+
+    $.when( $.post("/Report",emitJSON, function(resultJSON) {
+         $.each(resultJSON, function(key, value) {
+         	data[key] = value;
+		 });
+
+	}) ).
+
+	 return data;
 }

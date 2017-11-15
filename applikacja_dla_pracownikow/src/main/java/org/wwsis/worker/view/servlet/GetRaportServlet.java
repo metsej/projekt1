@@ -20,6 +20,13 @@ public class GetRaportServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if(webController.checkIfLogged(req, resp)){
 						
+		} 
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		if(webController.checkIfLogged(req, resp)){
+			webController.getReport(req, resp);
 		}
 	}
 	

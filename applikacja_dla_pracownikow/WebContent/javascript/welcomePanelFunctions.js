@@ -1,11 +1,3 @@
-function getTimeData () {
-	var result ;
-	$.get("/dayReport", function(data) {
-			result = JSON.parse(data);
-	});
-
-	return result;
-}
 
 function drawDayReportTable(resultJSON) {
 	$("#records_table tr").remove();

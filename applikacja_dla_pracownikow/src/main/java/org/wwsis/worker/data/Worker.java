@@ -13,7 +13,6 @@ public class Worker {
 	private Boolean isLogged;
 	private Boolean isBlocked;
 	private Boolean didLogedForTheFirstTime;
-	//TODO delete timeOfStart, timeOfEnd fields
 	private int numOfFailedLogingAttempts;
 	private List <Session> listOfLogs;
 

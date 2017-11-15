@@ -184,7 +184,6 @@ public class PostgresDataAccess implements DataAccess {
 			}
 			conn.commit();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -204,7 +203,6 @@ public class PostgresDataAccess implements DataAccess {
 
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -213,13 +211,13 @@ public class PostgresDataAccess implements DataAccess {
 
 	@Override
 	public void setExpireTimeForWorker(Worker w, int seconds) {
-		// TODO Auto-generated method stub
+
 
 	}
 
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
+	
 
 	}
 
@@ -228,7 +226,6 @@ public class PostgresDataAccess implements DataAccess {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -241,7 +238,6 @@ public class PostgresDataAccess implements DataAccess {
 			ds.execute();
 			conn.commit();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

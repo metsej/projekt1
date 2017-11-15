@@ -5,6 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="../css/styles.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="../javascript/welcomePanelFunctions.js"></script>
+	<script src="../javascript/functions.js"></script>
 	<title>Aplikacja dla pracowników</title>
 </head>
 <script>
@@ -36,7 +37,8 @@
 	data["22:00"] = Math.random() * maxVal;
 	data["23:00"] = Math.random() * maxVal;
 
-	var data2 = {};
+	var data2 = getDataFromServer("day");
+
 
 	data2["00:00"] = 0;
 	data2["01:00"] = 1;

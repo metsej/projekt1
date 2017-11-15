@@ -5,6 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="../css/styles.css" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="../javascript/welcomePanelFunctions.js"></script>
+	<script src="../javascript/functions.js"></script>
 	<title>Aplikacja dla pracowników</title>
 </head>
 <script>
@@ -19,21 +20,19 @@
 	properties["xAxisUnit"] = "";
 	properties["distArgsChart"] = 15;
 
+	var data = getDataFromServer("day");
+
 
 
 	$(document).ready(function() {
-		$.get("/dayReport", function(data) {
 			drawDayReportTable(data);
 			drawChart(properties, data);
-		});
 	});
 
 	$( window ).resize(function() {
-		$.get("/dayReport", function(data) {
 			drawDayReportTable(data);
 			drawChart(properties, data);
-		});
-});
+	});
 
 </script>
 
