@@ -37,7 +37,7 @@ function submitSignInData(){
 	$.post('/login', emitJSON, 
 	    function(returnedData){
 	         if (returnedData === successResp) {
-	        	 $(location).attr("href", "/html/welcame.html");
+	        	 $(location).attr("href", "/login");
 	         } else if (returnedData === userIsBlockedResp ) {
 	        	 alert("Trzykrotnie podales zle haslo. Twoje konto jest zablokowane. W celu odblokowania skontaktuj sie z administratorem");
 	         } else {

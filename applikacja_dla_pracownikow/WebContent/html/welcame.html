@@ -20,18 +20,34 @@
 	properties["xAxisUnit"] = "";
 	properties["distArgsChart"] = 15;
 
-	var data = getDataFromServer("day");
+	//var data = getDataFromServer("day");
 
 
 
 	$(document).ready(function() {
-			drawDayReportTable(data);
-			drawChart(properties, data);
+        var emitJSON = {};
+        emitJSON["time"] = Math.round((Date.now() - 86400000)/1000);
+        emitJSON["type"] = "day" ;
+
+
+        $.post("/Report",emitJSON, function(resultJSON) {
+			drawDayReportTable(resultJSON);
+			drawChart(properties, resultJSON);
+
+        });
 	});
 
 	$( window ).resize(function() {
-			drawDayReportTable(data);
-			drawChart(properties, data);
+        var emitJSON = {};
+        emitJSON["time"] = Math.round((Date.now() - 86400000)/1000);
+        emitJSON["type"] = type ;
+
+
+        $.post("/Report",emitJSON, function(resultJSON) {
+            drawDayReportTable(resultJSON);
+            drawChart(properties, resultJSON);
+
+        });
 	});
 
 </script>

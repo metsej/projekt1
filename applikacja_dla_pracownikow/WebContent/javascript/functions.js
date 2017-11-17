@@ -31,12 +31,12 @@ function getDataFromServer(type) {
     emitJSON["type"] = type ;
     var data = {};
 
-    $.when( $.post("/Report",emitJSON, function(resultJSON) {
+
+    $.post("/Report",emitJSON, function(resultJSON) {
          $.each(resultJSON, function(key, value) {
          	data[key] = value;
 		 });
-
-	}) ).
+	});
 
 	 return data;
 }
