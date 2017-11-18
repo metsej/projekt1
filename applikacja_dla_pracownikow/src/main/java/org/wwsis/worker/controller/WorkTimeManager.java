@@ -134,7 +134,7 @@ public class WorkTimeManager {
 	public SortedMap<YearMonth, Float> getYearRaport(LocalDate day, Worker w) {
 
 		int year = day.getYear();
-		LocalDateTime begingOfYear = LocalDateTime.of(year, day.getMonth(), day.getDayOfMonth(), 0, 0, 0);
+		LocalDateTime begingOfYear = LocalDateTime.of(year, Month.JANUARY, 1, 0, 0);
 		LocalDateTime endOfYear = LocalDateTime.of(year+1, Month.JANUARY, 1, 00, 00);
 		SortedMap<LocalDateTime, Float> raport = getRaport(w, begingOfYear, endOfYear, (LocalDateTime time) -> time.plusMonths(1));
 		

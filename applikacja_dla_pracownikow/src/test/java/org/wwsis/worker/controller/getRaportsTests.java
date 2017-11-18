@@ -195,6 +195,15 @@ private List<Session> getSessionsForYearRaport () {
 		
 	}
 	
+	@Test
+	public void yearReportTest2 () {
+		AppController controller = getAppController(CONFIGURATION);
+		Worker w = controller.loadWorker("gklimek");
+		controller.logIn(w);
+		SortedMap<YearMonth,Float> report = controller.getYearRaport(LocalDate.now().minusDays(1), w);
+		System.out.println(report);
+	}
+	
 	
 	@Test
 	public void printDateTest() {
@@ -210,5 +219,7 @@ private List<Session> getSessionsForYearRaport () {
 		w.setListOfLogs(sessions);
 		controller.getDao().saveWorker(w);
 	}
+	
+	
 
 }
