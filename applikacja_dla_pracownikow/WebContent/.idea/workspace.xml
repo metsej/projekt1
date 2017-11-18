@@ -17,8 +17,8 @@
       <file leaf-file-name="welcame.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/html/welcame.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="33" column="12" lean-forward="false" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
+            <state relative-caret-position="128">
+              <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -31,11 +31,41 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="developWelcame.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/html/developWelcame.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="465">
+              <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="styles.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/styles.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="58" column="1" lean-forward="true" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="functions.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/javascript/functions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="32" column="20" lean-forward="true" selection-start-line="32" selection-start-column="20" selection-end-line="32" selection-end-column="20" />
+            <state relative-caret-position="405">
+              <caret line="27" column="26" lean-forward="false" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="welcomePanelFunctions.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/javascript/welcomePanelFunctions.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-630">
+              <caret line="48" column="0" lean-forward="true" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -54,11 +84,11 @@
         <option value="chrome-extension://gmbgaklkmjakoegficnlkhebmhkjfich/lib/moment+langs.min.js" />
         <option value="chrome-extension://gmbgaklkmjakoegficnlkhebmhkjfich/utils.js" />
         <option value="chrome-extension://gmbgaklkmjakoegficnlkhebmhkjfich/events_microformats.js" />
-        <option value="chrome-extension://kbfnbcaeplbcioakkpcpgfkobkghlhen/src/js/Grammarly.js" />
         <option value="$PROJECT_DIR$/javascript/functions.js" />
         <option value="chrome-extension://gmbgaklkmjakoegficnlkhebmhkjfich/lib/jquery.min.js" />
-        <option value="$PROJECT_DIR$/html/welcame.html" />
+        <option value="chrome-extension://kbfnbcaeplbcioakkpcpgfkobkghlhen/src/js/Grammarly.js" />
         <option value="chrome-extension://cjpalhdlnbpafiamejdnhcphjbkeiagm/js/contentscript.js" />
+        <option value="$PROJECT_DIR$/html/welcame.html" />
       </list>
     </option>
   </component>
@@ -95,12 +125,18 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="WebContent" type="b2602c69:ProjectViewProjectNode" />
               <item name="WebContent" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebContent" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebContent" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="WebContent" type="b2602c69:ProjectViewProjectNode" />
@@ -116,7 +152,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -171,12 +206,13 @@
       <workItem from="1510702842835" duration="647000" />
       <workItem from="1510744914896" duration="10140000" />
       <workItem from="1510937775176" duration="3425000" />
-      <workItem from="1510941660737" duration="6245000" />
+      <workItem from="1510941660737" duration="7702000" />
+      <workItem from="1510999565473" duration="6316000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22184000" />
+    <option name="totallyTimeSpent" value="29957000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="251" y="57" width="1922" height="1056" extended-state="6" />
@@ -208,11 +244,27 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="71" />
+      <option name="time" value="85" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/html/welcame.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="12" lean-forward="false" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/functions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="26" lean-forward="false" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/html/welcame.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -389,17 +441,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.jsp">
+    <entry file="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+      <provider selected="true" editor-type-id="httpFileEditor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/styles.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="38" column="48" lean-forward="false" selection-start-line="38" selection-start-column="48" selection-end-line="38" selection-end-column="48" />
+        <state relative-caret-position="510">
+          <caret line="58" column="1" lean-forward="true" selection-start-line="58" selection-start-column="1" selection-end-line="58" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-      <provider selected="true" editor-type-id="httpFileEditor">
-        <state />
+    <entry file="file://$PROJECT_DIR$/javascript/functions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="26" lean-forward="false" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/welcomePanelFunctions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-630">
+          <caret line="48" column="0" lean-forward="true" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/html/developWelcame.html">
@@ -410,26 +478,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/javascript/welcomePanelFunctions.js">
+    <entry file="file://$PROJECT_DIR$/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-247">
-          <caret line="112" column="47" lean-forward="true" selection-start-line="112" selection-start-column="47" selection-end-line="112" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/javascript/functions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="32" column="20" lean-forward="true" selection-start-line="32" selection-start-column="20" selection-end-line="32" selection-end-column="20" />
+        <state relative-caret-position="-285">
+          <caret line="38" column="48" lean-forward="false" selection-start-line="38" selection-start-column="48" selection-end-line="38" selection-end-column="48" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/html/welcame.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="33" column="12" lean-forward="false" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="12" />
+        <state relative-caret-position="128">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
         </state>
       </provider>

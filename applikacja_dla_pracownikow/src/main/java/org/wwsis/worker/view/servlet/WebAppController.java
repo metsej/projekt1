@@ -3,8 +3,10 @@ package org.wwsis.worker.view.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
@@ -148,17 +150,27 @@ public class WebAppController {
 		long timeStampSec = Long.parseLong(timeStampSecsStr);
 		LocalDateTime date = Instant.ofEpochSecond(timeStampSec).atZone(ZoneId.systemDefault()).toLocalDateTime();
 		
+		typeStr = typeStr != null ? typeStr : "none";
+		
 		switch (typeStr) {
 		case DAY_REPORT_NAME:
-			SortedMap<LocalTime,Float> report = controller.getDayRaport(date.toLocalDate(), w);
-			sendJSON(resp, report);
+			SortedMap<LocalTime,Float> dayReport = controller.getDayRaport(date.toLocalDate(), w);
+			sendJSON(resp, dayReport);
 			break;
 		case WEEK_REPORT_NAME:
+			SortedMap<LocalDate,Float> weekReport = controller.getWeekRaport(date.toLocalDate(), w);
+			sendJSON(resp, weekReport);
 			break;
 		case MONTH_REPORT_NAME:
+			SortedMap<LocalDate,Float> monthReport = controller.getMonthRaport(date.toLocalDate(), w);
+			sendJSON(resp, monthReport);
 			break;
 		case YEAR_REPORT_NAME:
+			
+			SortedMap<YearMonth,Float> yearReport = controller.getYearRaport(date.toLocalDate(), w);
+			sendJSON(resp, yearReport);
 			break;
+			
 		default:
 			break;
 		}

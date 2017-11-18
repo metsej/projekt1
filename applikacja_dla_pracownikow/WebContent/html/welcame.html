@@ -22,19 +22,34 @@
 
 
 	$(document).ready(function() {
-        getDataFromServer("day").done(function (data) {
+	    var typeOfReport = $("input[name = 'reportType']:checked").val();
+        getDataFromServer(typeOfReport).done(function (data) {
             drawDayReportTable(data);
             drawChart(properties, data);
         });
+
+        $("input:radio[name = 'reportType']").change(
+            function(){
+                if (this.checked ) {
+                    var typeOfReport = $("input[name = 'reportType']:checked").val();
+                    getDataFromServer(typeOfReport).done(function (data) {
+                        drawDayReportTable(data);
+                        drawChart(properties, data);
+                    });
+                }
+            });
 	});
 
 	$( window ).resize(function() {
 
-        getDataFromServer("day").done(function (data) {
+        var typeOfReport = $("input[name = 'reportType']:checked").val();
+        getDataFromServer(typeOfReport).done(function (data) {
             drawDayReportTable(data);
             drawChart(properties, data);
         });
 	});
+
+
 
 </script>
 
@@ -45,6 +60,15 @@
 			Welcome
 
 		</h2>
+	</div>
+
+	<div class = "login input">
+			<form id = "radioButtForReportType">
+				<input type="radio" name="reportType" value="day" checked> day<br>
+				<input type="radio" name="reportType" value="week"> week<br>
+				<input type="radio" name="reportType" value="month"> month <br>
+				<input type="radio" name="reportType" value="year"> year <br>
+			</form>
 	</div>
 
 	<div class="displayData">
