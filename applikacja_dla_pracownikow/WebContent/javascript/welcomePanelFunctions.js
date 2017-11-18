@@ -1,3 +1,28 @@
+/* --------------------------------------------------------------------------------GET DATA FROM SERVER---------------------------------------------------------------------------------*/
+function getDataFromServer(type) {
+    var emitJSON = {};
+    emitJSON["time"] = Math.round(Date.now()/1000);
+    emitJSON["type"] = type ;
+
+    return  $.ajax({
+        url: "/Report",
+        type: "POST",
+        cache: false,
+        data: emitJSON
+    });
+
+}
+
+/* -------------------------------------------------------------------------------PRESENT DATA----------------------------------------------------------------------------------------*/
+
+function presentReport () {
+    var typeOfReport = $("input[name = 'reportType']:checked").val();
+    getDataFromServer(typeOfReport).done(function (data) {
+        drawDayReportTable(data);
+        drawChart(properties, data);
+    });
+}
+
 
 function drawDayReportTable(resultJSON) {
 	$("#records_table tr").remove();

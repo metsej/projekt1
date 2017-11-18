@@ -22,33 +22,19 @@
 
 
 	$(document).ready(function() {
-	    var typeOfReport = $("input[name = 'reportType']:checked").val();
-        getDataFromServer(typeOfReport).done(function (data) {
-            drawDayReportTable(data);
-            drawChart(properties, data);
-        });
+        presentReport ();
 
         $("input:radio[name = 'reportType']").change(
             function(){
                 if (this.checked ) {
-                    var typeOfReport = $("input[name = 'reportType']:checked").val();
-                    getDataFromServer(typeOfReport).done(function (data) {
-                        drawDayReportTable(data);
-                        drawChart(properties, data);
-                    });
+                    presentReport ();
                 }
             });
 	});
 
 	$( window ).resize(function() {
-
-        var typeOfReport = $("input[name = 'reportType']:checked").val();
-        getDataFromServer(typeOfReport).done(function (data) {
-            drawDayReportTable(data);
-            drawChart(properties, data);
-        });
+        presentReport ();
 	});
-
 
 
 </script>

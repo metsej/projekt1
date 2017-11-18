@@ -25,16 +25,3 @@ function submitSignInData(){
 		});
 }
 
-function getDataFromServer(type) {
-    var emitJSON = {};
-    emitJSON["time"] = Math.round((Date.now() - 86400000)/1000);
-    emitJSON["type"] = type ;
-
-    return  $.ajax({
-        url: "/Report",
-        type: "POST",
-        cache: false,
-        data: emitJSON
-    });
-
-}

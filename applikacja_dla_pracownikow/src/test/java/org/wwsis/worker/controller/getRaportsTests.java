@@ -51,15 +51,16 @@ public class getRaportsTests {
 		
 		LocalDateTime finalDate = LocalDateTime.of(CURRENT_YEAR, CURRENT_MONTH,  CURRENT_DAY - 1, 12,0);
 		
+		Random r = new Random();
 		LocalDateTime start = LocalDateTime.of(CURRENT_YEAR, 1, 1,0,0);
-		LocalDateTime end = start.plusHours(6);
+		LocalDateTime end = start.plusHours(r.nextInt(12));
 			
 		while (end.isBefore(finalDate)) {
 			
 			Session session = Session.forDates(start, end);
 			result.add(session);
 			start = start.plusDays(1);
-			end = start.plusHours(6);
+			end = start.plusHours(r.nextInt(12));
 			
 		}
 		
@@ -75,7 +76,7 @@ public class getRaportsTests {
 			Random r = new Random();
 			int firstMinute = r.nextInt(15);
 			LocalDateTime start = LocalDateTime.of(CURRENT_YEAR, CURRENT_MONTH, CURRENT_DAY - 1, i, firstMinute);
-			LocalDateTime end = LocalDateTime.of(CURRENT_YEAR, CURRENT_MONTH, CURRENT_DAY - 1, i, firstMinute + 20);
+			LocalDateTime end = LocalDateTime.of(CURRENT_YEAR, CURRENT_MONTH, CURRENT_DAY - 1, i, firstMinute + 45);
 			Session session = Session.forDates(start, end);
 			list.add(session);
 		}
@@ -156,7 +157,7 @@ private List<Session> getSessionsForYearRaport () {
 		assertEquals( 24, raport.entrySet().size());
 		for (int i = 0; i < 24; i++){
 			float acctual = getValueFromMap(i, raport);
-			assertEquals( 45f, acctual, 0.001);
+			assertEquals("I: " + i, 45f, acctual, 0.001);
 		
 		}
 		
@@ -232,6 +233,7 @@ private List<Session> getSessionsForYearRaport () {
 		List<Session> sessions = getSessionsForPopulateSessionTest();
 		w.setListOfLogs(sessions);
 		controller.getDao().saveWorker(w);
+		//controller.logIn(w);
 	}
 	
 	
