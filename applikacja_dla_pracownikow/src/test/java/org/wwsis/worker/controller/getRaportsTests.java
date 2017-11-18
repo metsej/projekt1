@@ -24,15 +24,16 @@ import java.util.SortedMap;
 import org.junit.Test;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.format.number.money.CurrencyUnitFormatter;
 import org.wwsis.worker.Runner;
 import org.wwsis.worker.data.Session;
 import org.wwsis.worker.data.Worker;
 
 public class getRaportsTests {
 	final private static String CONFIGURATION = "/PostgresTestContext.xml";
-	final private static int currentDay = LocalDate.now().getDayOfMonth();
-	final private static Month currentMonth =  LocalDate.now().getMonth();
-	final private static  int currentYear = LocalDate.now().getYear();
+	final private static int CURRENT_DAY = LocalDate.now().getDayOfMonth();
+	final private static Month CURRENT_MONTH =  LocalDate.now().getMonth();
+	final private static  int CURRENT_YEAR = LocalDate.now().getYear();
 
 	
 	
@@ -43,6 +44,28 @@ public class getRaportsTests {
 		return context.getBean(AppController.class);
 	}
 	
+	private List <Session> getSessionsForPopulateSessionTest() {
+		
+		List<Session> result = new ArrayList<Session>();
+		
+		
+		LocalDateTime finalDate = LocalDateTime.of(CURRENT_YEAR, CURRENT_MONTH,  CURRENT_DAY - 1, 12,0);
+		
+		LocalDateTime start = LocalDateTime.of(CURRENT_YEAR, 1, 1,0,0);
+		LocalDateTime end = start.plusHours(6);
+			
+		while (end.isBefore(finalDate)) {
+			
+			Session session = Session.forDates(start, end);
+			result.add(session);
+			start = start.plusDays(1);
+			end = start.plusHours(6);
+			
+		}
+		
+		return result;
+	}
+	
 	private List <Session> getSessionsForDayRaport () {
 	
 		List <Session> list = new ArrayList<>();
@@ -51,8 +74,8 @@ public class getRaportsTests {
 			
 			Random r = new Random();
 			int firstMinute = r.nextInt(15);
-			LocalDateTime start = LocalDateTime.of(currentYear, currentMonth, currentDay - 1, i, firstMinute);
-			LocalDateTime end = LocalDateTime.of(currentYear, currentMonth, currentDay - 1, i, firstMinute + 20);
+			LocalDateTime start = LocalDateTime.of(CURRENT_YEAR, CURRENT_MONTH, CURRENT_DAY - 1, i, firstMinute);
+			LocalDateTime end = LocalDateTime.of(CURRENT_YEAR, CURRENT_MONTH, CURRENT_DAY - 1, i, firstMinute + 20);
 			Session session = Session.forDates(start, end);
 			list.add(session);
 		}
@@ -72,8 +95,8 @@ public class getRaportsTests {
 		
 		for (int i =0; i < 7; i++) {
 			
-			LocalDateTime start = LocalDateTime.of(currentYear, currentMonth, firstDayOfWeek + i, 0, 0);
-			LocalDateTime end = LocalDateTime.of(currentYear, currentMonth, firstDayOfWeek + i, 10, 00);
+			LocalDateTime start = LocalDateTime.of(CURRENT_YEAR, CURRENT_MONTH, firstDayOfWeek + i, 0, 0);
+			LocalDateTime end = LocalDateTime.of(CURRENT_YEAR, CURRENT_MONTH, firstDayOfWeek + i, 10, 00);
 			Session session = Session.forDates(start, end);
 			list.add(session);
 		}
@@ -195,15 +218,6 @@ private List<Session> getSessionsForYearRaport () {
 		
 	}
 	
-	@Test
-	public void yearReportTest2 () {
-		AppController controller = getAppController(CONFIGURATION);
-		Worker w = controller.loadWorker("gklimek");
-		controller.logIn(w);
-		SortedMap<YearMonth,Float> report = controller.getYearRaport(LocalDate.now().minusDays(1), w);
-		System.out.println(report);
-	}
-	
 	
 	@Test
 	public void printDateTest() {
@@ -215,7 +229,7 @@ private List<Session> getSessionsForYearRaport () {
 	public void populateWorkerSessionsList () {
 		AppController controller = getAppController(CONFIGURATION);
 		Worker w = controller.loadWorker("gklimek");
-		List<Session> sessions = getSessionsForDayRaport();
+		List<Session> sessions = getSessionsForPopulateSessionTest();
 		w.setListOfLogs(sessions);
 		controller.getDao().saveWorker(w);
 	}
