@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ac24dd9-2c3a-426a-a65a-9215b4f02315" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/html/welcame.html" afterPath="$PROJECT_DIR$/html/welcame.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/functions.js" afterPath="$PROJECT_DIR$/javascript/functions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/welcomePanelFunctions.js" afterPath="$PROJECT_DIR$/javascript/welcomePanelFunctions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../src/test/java/org/wwsis/worker/controller/getRaportsTests.java" afterPath="$PROJECT_DIR$/../src/test/java/org/wwsis/worker/controller/getRaportsTests.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -118,7 +115,9 @@
     <option name="width" value="1141" />
     <option name="height" value="983" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -217,12 +216,20 @@
       <workItem from="1510744914896" duration="10140000" />
       <workItem from="1510937775176" duration="3425000" />
       <workItem from="1510941660737" duration="7702000" />
-      <workItem from="1510999565473" duration="7916000" />
+      <workItem from="1510999565473" duration="8032000" />
     </task>
+    <task id="LOCAL-00001" summary="presenReport function wrriten">
+      <created>1511028119694</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1511028119694</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31557000" />
+    <option name="totallyTimeSpent" value="31673000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="251" y="57" width="1922" height="1056" extended-state="6" />
@@ -250,6 +257,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="presenReport function wrriten" />
+    <option name="LAST_COMMIT_MESSAGE" value="presenReport function wrriten" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
