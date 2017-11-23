@@ -9,7 +9,7 @@
 	<title>Aplikacja dla pracowników</title>
 </head>
 <script>
-	var maxVal = 0.001;
+	var maxVal = 60;
 	var data = {};
 
 	data["00:00"] = Math.random() * maxVal;
@@ -85,26 +85,41 @@
 		drawChart(properties, data);
 	});
 </script>
-
 <body>
 
-	<div class="header">
-		<h2>
-			Welcome
+<div class="header">
+    <span>
+        Charts
+    </span>
 
-		</h2>
-	</div>
+    <div class="chartSettings">
 
-	<div class="displayData">
+        <form id = "radioButtForReportType" a>
+            <select >
+                <option  class="radio_buttom" name="reportType" value="day" > day </option>
+                <option  class="radio_buttom" name="reportType" value="week"> week </option>
+                <option  class="radio_buttom" name="reportType" value="month"> month </option>
+                <option class="radio_buttom" name="reportType" value="year"> year </option>
+            </select>
 
-		<div id="recordsDiv">
-			<table id="records_table" border='1'>
-			</table>
-		</div>
+        </form>
 
-		<div id="BarChart">
-		</div>
-	</div>
+
+    </div>
+</div>
+
+
+
+<div class="displayData">
+
+    <div id="recordsDiv">
+        <table id="records_table" border='1'>
+        </table>
+    </div>
+
+    <div id="BarChart">
+    </div>
+</div>
 
 </body>
 
