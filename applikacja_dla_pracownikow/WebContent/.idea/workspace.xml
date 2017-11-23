@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ac24dd9-2c3a-426a-a65a-9215b4f02315" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/html/indeX.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/styles.css" afterPath="$PROJECT_DIR$/css/styles.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/html/developWelcame.html" afterPath="$PROJECT_DIR$/html/developWelcame.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/javascript/functions.js" afterPath="$PROJECT_DIR$/javascript/functions.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -50,21 +47,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="indeX.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="indeX.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/html/indeX.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="12" column="7" lean-forward="true" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+            <state relative-caret-position="697">
+              <caret line="53" column="30" lean-forward="true" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="30" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="functions.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="functions.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/javascript/functions.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="40" lean-forward="true" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
+            <state relative-caret-position="330">
+              <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -112,14 +109,14 @@
         <option value="chrome-extension://gmbgaklkmjakoegficnlkhebmhkjfich/utils.js" />
         <option value="chrome-extension://gmbgaklkmjakoegficnlkhebmhkjfich/events_microformats.js" />
         <option value="chrome-extension://gmbgaklkmjakoegficnlkhebmhkjfich/lib/jquery.min.js" />
-        <option value="chrome-extension://kbfnbcaeplbcioakkpcpgfkobkghlhen/src/js/Grammarly.js" />
         <option value="chrome-extension://cjpalhdlnbpafiamejdnhcphjbkeiagm/js/contentscript.js" />
         <option value="$PROJECT_DIR$/html/welcame.html" />
         <option value="$PROJECT_DIR$/javascript/welcomePanelFunctions.js" />
         <option value="$PROJECT_DIR$/html/developWelcame.html" />
         <option value="$PROJECT_DIR$/css/styles.css" />
-        <option value="$PROJECT_DIR$/javascript/functions.js" />
         <option value="$PROJECT_DIR$/html/indeX.html" />
+        <option value="$PROJECT_DIR$/javascript/functions.js" />
+        <option value="chrome-extension://kbfnbcaeplbcioakkpcpgfkobkghlhen/src/js/Grammarly.js" />
       </list>
     </option>
   </component>
@@ -259,7 +256,7 @@
       <workItem from="1511035690611" duration="2141000" />
       <workItem from="1511294182607" duration="2412000" />
       <workItem from="1511362267536" duration="4542000" />
-      <workItem from="1511465306819" duration="2593000" />
+      <workItem from="1511465306819" duration="3287000" />
     </task>
     <task id="LOCAL-00001" summary="presenReport function wrriten">
       <created>1511028119694</created>
@@ -272,7 +269,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43542000" />
+    <option name="totallyTimeSpent" value="44236000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="37" y="259" width="1922" height="1056" extended-state="6" />
@@ -308,7 +305,21 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="88" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/javascript/functions.js</url>
+          <line>4</line>
+          <properties />
+          <option name="timeStamp" value="89" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/javascript/functions.js</url>
+          <line>15</line>
+          <properties />
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="96" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -718,18 +729,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/javascript/functions.js">
+    <entry file="file://$PROJECT_DIR$/html/indeX.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="40" lean-forward="true" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
+        <state relative-caret-position="697">
+          <caret line="53" column="30" lean-forward="true" selection-start-line="53" selection-start-column="30" selection-end-line="53" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/html/indeX.html">
+    <entry file="file://$PROJECT_DIR$/javascript/functions.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="12" column="7" lean-forward="true" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="7" />
+        <state relative-caret-position="330">
+          <caret line="22" column="8" lean-forward="false" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
           <folding />
         </state>
       </provider>
