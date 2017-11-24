@@ -41,32 +41,39 @@
 
 <body>
 
-	<div class="header">
-		<h2>
-			Welcome
+<div class="header">
+    <span>
+        Charts
+    </span>
 
-		</h2>
+	<div class="chartSettings">
+
+		<form id = "radioButtForReportType" a>
+			<select >
+				<option  class="radio_buttom" name="reportType" value="day" > day </option>
+				<option  class="radio_buttom" name="reportType" value="week"> week </option>
+				<option  class="radio_buttom" name="reportType" value="month"> month </option>
+				<option class="radio_buttom" name="reportType" value="year"> year </option>
+			</select>
+
+		</form>
+
+
+	</div>
+</div>
+
+
+
+<div class="displayData">
+
+	<div id="recordsDiv">
+		<table id="records_table" border='1'>
+		</table>
 	</div>
 
-	<div class = "login input">
-			<form id = "radioButtForReportType">
-				<input type="radio" name="reportType" value="day" checked> day<br>
-				<input type="radio" name="reportType" value="week"> week<br>
-				<input type="radio" name="reportType" value="month"> month <br>
-				<input type="radio" name="reportType" value="year"> year <br>
-			</form>
+	<div id="BarChart">
 	</div>
-
-	<div class="displayData">
-
-		<div id="recordsDiv">
-			<table id="records_table" border='1'>
-			</table>
-		</div>
-
-		<div id="BarChart">
-		</div>
-	</div>
+</div>
 
 </body>
 
