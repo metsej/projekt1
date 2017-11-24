@@ -1,7 +1,6 @@
 package org.wwsis.worker.view.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,7 +31,8 @@ public class WebAppController {
 	private AppController controller;
 	private Map<String, InternetSession> sessionsData = new HashMap<String, InternetSession>();
 	//web addresses
-	public static final String INDEX_PAGE = "/index.jsp";
+	public static final String INDEX_PAGE = "";
+	public static final String INDEX_HTML_PATH = "/html/index.html";
 	// checking if user is logged
 	private static final String SESSION_COOKIE_NAME = "SID";
 	// loging
