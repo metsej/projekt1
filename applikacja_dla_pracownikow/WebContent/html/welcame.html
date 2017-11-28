@@ -1,0 +1,122 @@
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="../css/styles.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="../javascript/welcomePanelFunctions.js"></script>
+	<script src="../javascript/functions.js"></script>
+	<title>Aplikacja dla pracowników</title>
+</head>
+<script>
+    var maxVal = 60;
+    var data = {};
+
+    data["00:00"] = Math.random() * maxVal;
+    data["01:00"] = Math.random() * maxVal;
+    data["02:00"] = Math.random() * maxVal;
+    data["03:00"] = Math.random() * maxVal;
+    data["04:00"] = Math.random() * maxVal;
+    data["05:00"] = Math.random() * maxVal;
+    data["06:00"] = Math.random() * maxVal;
+    data["08:00"] = Math.random() * maxVal;
+    data["07:00"] = Math.random() * maxVal;
+    data["09:00"] = Math.random() * maxVal;
+    data["10:00"] = Math.random() * maxVal;
+    data["11:00"] = Math.random() * maxVal;
+    data["12:00"] = Math.random() * maxVal;
+    data["13:00"] = Math.random() * maxVal;
+    data["14:00"] = Math.random() * maxVal;
+    data["15:00"] = Math.random() * maxVal;
+    data["16:00"] = Math.random() * maxVal;
+    data["17:00"] = Math.random() * maxVal;
+    data["18:00"] = Math.random() * maxVal;
+    data["19:00"] = Math.random() * maxVal;
+    data["20:00"] = Math.random() * maxVal;
+    data["21:00"] = Math.random() * maxVal;
+    data["22:00"] = Math.random() * maxVal;
+    data["23:00"] = Math.random() * maxVal;
+
+    var data2 = getDataFromServer("day");
+
+
+    data2["00:00"] = 0;
+    data2["01:00"] = 1;
+    data2["02:00"] = 0;
+    data2["03:00"] = 1;
+    data2["04:00"] = 1;
+    data2["05:00"] = 1;
+    data2["06:00"] = 0;
+    data2["08:00"] = 1;
+    data2["07:00"] = 1;
+    data2["09:00"] = 1;
+    data2["10:00"] = 1;
+    data2["11:00"] = 1;
+    data2["12:00"] = 0;
+    data2["13:00"] = 1;
+    data2["14:00"] = 1;
+    data2["15:00"] = 0;
+    data2["16:00"] = 1;
+    data2["17:00"] = 1;
+    data2["18:00"] = 1;
+    data2["19:00"] = 0;
+    data2["20:00"] = 1;
+    data2["21:00"] = 0;
+    data2["22:00"] = 1;
+    data2["23:00"] = 0;
+
+    var properties = {};
+    properties["upperMargin"] = 40;
+    properties["lowerMargin"] = 40;
+    properties["leftMargin"] = 60;
+    properties["rightMargin"] = 60;
+    properties["elemName"] = "BarChart";
+    properties["yAxisUnit"] = "mm";
+    properties["xAxisUnit"] = "";
+    properties["distArgsChart"] = 15;
+
+    $(document).ready(function() {
+        drawDayReportTable(data);
+        drawChart(properties, data);
+    });
+
+    $(window).resize(function() {
+        drawDayReportTable(data);
+        drawChart(properties, data);
+    });
+</script>
+<body>
+
+<div class="headerChartsPanel">
+    <span>
+        Charts
+    </span>
+	<div class="headerMenu">
+
+		<ul>
+			<li onclick="drawReport('day');" >Day</li>
+			<li onclick="drawReport('week');" >Week</li>
+			<li onclick="drawReport('month');">Month</li>
+			<li onclick="drawReport('year');">Year</li>
+		</ul>
+
+
+	</div>
+</div>
+
+
+
+<div class="displayData">
+
+	<div id="recordsDiv">
+		<table id="records_table" border='1'>
+		</table>
+	</div>
+
+	<div id="BarChart">
+	</div>
+</div>
+
+</body>
+
+</html>
