@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class IndexClassicServlet
  */
-@WebServlet("/IndexServlet")
+@WebServlet("")
 public class IndexServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private WebAppController webController;

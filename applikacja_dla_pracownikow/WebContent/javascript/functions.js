@@ -23,5 +23,20 @@ function submitSignInData(){
         });
 }
 
+function refresh(){
+    $(".outer").height($(window).height() - $(".headerChartsPanel").outerHeight());
+    var imgProportion = $(".background_pic").height() /  $(".background_pic").width();
+    var windowsProportion = $(window).height() / $(window).width() ;
+    console.log(imgProportion+" vs "+windowsProportion);
+    if(imgProportion > windowsProportion){
+        $(".background_pic").css("max-width","100%");
+        $(".background_pic").css("max-height","none");
+    }else{
+        $(".background_pic").css("max-width","none");
+        $(".background_pic").css("max-height","100%");
+    }
+}
+
+
 
 

@@ -20,8 +20,6 @@
     <h1>APLICATION FOR WORKERS</h1>
 </div>
 <div class="outer">
-    <div class="middle">
-        <div class="inner">
             <div class="login">
                 <form action="/login" method="post">
                     <input id="userInput" type="text" placeholder="Login" name="user">
@@ -31,25 +29,8 @@
                 </form>
                 <button onClick="submitSignInData()">Submit</button>
             </div>
-        </div>
-    </div>
 </div>
 <script>
-
-    function refresh(){
-        $(".outer").height($(window).height() - $(".header").outerHeight());
-        var imgProportion = $(".background_pic").height() /  $(".background_pic").width();
-        var windowsProportion = $(window).height() / $(window).width() ;
-        console.log(imgProportion+" vs "+windowsProportion);
-        if(imgProportion > windowsProportion){
-            $(".background_pic").css("max-width","100%");
-            $(".background_pic").css("max-height","none");
-        }else{
-            $(".background_pic").css("max-width","none");
-            $(".background_pic").css("max-height","100%");
-        }
-    }
-
     refresh();
     $(window).resize(refresh);
 

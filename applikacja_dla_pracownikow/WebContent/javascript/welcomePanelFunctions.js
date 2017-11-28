@@ -17,6 +17,10 @@ function getDataFromServer(type) {
 
 function presentReport () {
     var typeOfReport = $("input[name = 'reportType']:checked").val();
+    drawReport(typeOfReport);
+}
+
+function drawReport(typeOfReport) {
     getDataFromServer(typeOfReport).done(function (data) {
         drawDayReportTable(data);
         drawChart(properties, data);
